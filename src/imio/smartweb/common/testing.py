@@ -11,7 +11,10 @@ from plone.api import portal as portal_api
 from plone.testing import z2
 
 import imio.smartweb.common
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
 import mock
+import unittest
 
 
 class ImioSmartwebCommonLayer(PloneSandboxLayer):
@@ -55,3 +58,10 @@ IMIO_SMARTWEB_COMMON_ACCEPTANCE_TESTING = FunctionalTesting(
     ),
     name="ImioSmartwebCommonLayer:AcceptanceTesting",
 )
+
+
+class ImioSmartwebCommonTestCase(unittest.TestCase):
+    def assertVocabularyLen(self, vocname, voc_len):
+        factory = getUtility(IVocabularyFactory, vocname)
+        vocabulary = factory()
+        self.assertEqual(len(vocabulary), voc_len)
