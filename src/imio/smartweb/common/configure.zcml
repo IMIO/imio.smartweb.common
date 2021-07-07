@@ -13,6 +13,9 @@
 
   <include file="permissions.zcml" />
   <include file="vocabularies.zcml" />
+
+  <include package=".behaviors" />
+
   <include package="collective.taxonomy" />
   <include package="imio.smartweb.locales" />
 

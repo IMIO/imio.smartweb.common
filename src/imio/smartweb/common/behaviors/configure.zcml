@@ -1,0 +1,15 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:plone="http://namespaces.plone.org/plone"
+  i18n_domain="imio.smartweb">
+
+  <include package="plone.behavior" file="meta.zcml"/>
+
+  <plone:behavior
+      name="imio.smartweb.topics"
+      title="Topics"
+      description="Add topics on content types."
+      provides=".topics.ITopics"
+      />
+
+</configure>
