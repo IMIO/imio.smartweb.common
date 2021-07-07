@@ -12,9 +12,7 @@ from zope.interface import provider
 @provider(IFormFieldProvider)
 class ITopics(model.Schema):
 
-    model.fieldset(
-        "categorization", label=_(u"Categorization"), fields=["topics"]
-    )
+    model.fieldset("categorization", label=_(u"Categorization"), fields=["topics"])
     topics = schema.List(
         title=_(u"Topics"),
         description=_(u"Topics"),
