@@ -17,5 +17,6 @@ class ITopics(model.Schema):
         title=_(u"Topics"),
         description=_(u"Topics"),
         value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.Topics"),
+        required=False,
     )
     directives.widget(topics=SelectFieldWidget)
