@@ -29,7 +29,10 @@
 imio.smartweb.common
 ====================
 
-Provides a topics field behavior with topics vocabulary select widget
+Provides :
+
+- A topics field behavior with topics vocabulary select widget
+- An Iam field behavior with "iam" vocabulary select widget
 
 
 Translations
