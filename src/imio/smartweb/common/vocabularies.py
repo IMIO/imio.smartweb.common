@@ -20,3 +20,17 @@ class TopicsVocabularyFactory:
 
 
 TopicsVocabulary = TopicsVocabularyFactory()
+
+
+class IAmVocabularyFactory:
+    def __call__(self, context=None):
+        topics = [
+            (u"student", _(u"Student")),
+            (u"elder", _(u"Elder")),
+            (u"parent", _(u"Parent")),
+        ]
+        terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in topics]
+        return SimpleVocabulary(terms)
+
+
+IAmVocabulary = IAmVocabularyFactory()

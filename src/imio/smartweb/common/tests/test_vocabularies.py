@@ -13,3 +13,6 @@ class TestVocabularies(ImioSmartwebCommonTestCase):
 
     def test_topics(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Topics", 6)
+
+    def test_iam(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.IAm", 3)

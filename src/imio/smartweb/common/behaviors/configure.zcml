@@ -12,4 +12,11 @@
       provides=".topics.ITopics"
       />
 
+  <plone:behavior
+      name="imio.smartweb.iam"
+      title="I am"
+      description="Tell me who you are."
+      provides=".iam.IAm"
+      />
+
 </configure>
