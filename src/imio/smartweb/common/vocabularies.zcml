@@ -13,4 +13,16 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+      name="imio.smartweb.vocabulary.Countries"
+      component=".vocabularies.CountryVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.Cities"
+      component=".vocabularies.CitiesVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
 </configure>

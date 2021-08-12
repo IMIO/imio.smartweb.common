@@ -50,3 +50,43 @@ class IAmVocabularyFactory:
 
 
 IAmVocabulary = IAmVocabularyFactory()
+
+
+class CountryVocabularyFactory:
+    def __call__(self, context=None):
+        normalizer = getUtility(IIDNormalizer)
+        current_language = api.portal.get_current_language()
+        locale = locales.getLocale(current_language)
+        localized_country_names = {
+            capitalized_code.lower(): translation
+            for capitalized_code, translation in locale.displayNames.territories.items()
+        }
+        terms = [
+            SimpleTerm(value=k, token=k, title=v)
+            for k, v in sorted(
+                localized_country_names.items(),
+                key=lambda kv: normalizer.normalize(kv[1]),
+            )
+            if k != "fallback"
+        ]
+        return SimpleVocabulary(terms)
+
+
+CountryVocabulary = CountryVocabularyFactory()
+
+
+class CitiesVocabularyFactory:
+    def __call__(self, context=None):
+        registry = getUtility(IRegistry)
+        json_str = registry.get("imio.directory.cities")
+        cities = json.loads(json_str)
+        terms = [
+            SimpleVocabulary.createTerm(
+                city["zip"], city["zip"], u"{0} {1}".format(city["zip"], city["city"])
+            )
+            for city in cities
+        ]
+        return SimpleVocabulary(terms)
+
+
+CitiesVocabulary = CitiesVocabularyFactory()
