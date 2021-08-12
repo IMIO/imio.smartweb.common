@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone import api
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+from zope.i18n.locales import locales
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+
+import json
 
 
 class TopicsVocabularyFactory:
