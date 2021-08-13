@@ -85,7 +85,7 @@ CountryVocabulary = CountryVocabularyFactory()
 class CitiesVocabularyFactory:
     def __call__(self, context=None):
         registry = getUtility(IRegistry)
-        json_str = registry.get("imio.directory.cities")
+        json_str = registry.get("imio.smartweb.cities")
         cities = json.loads(json_str)
         terms = [
             SimpleVocabulary.createTerm(
