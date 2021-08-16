@@ -15,7 +15,9 @@ class IAm(model.Schema):
     model.fieldset("categorization", label=_(u"Categorization"), fields=["iam"])
     iam = schema.List(
         title=_(u"I am"),
-        description=_(u"Tell me who you are..."),
+        description=_(
+            u"Important! These categories are used to create lists accessible via the navigation menu"
+        ),
         value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.IAm"),
         required=False,
     )

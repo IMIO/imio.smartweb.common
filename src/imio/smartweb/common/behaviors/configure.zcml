@@ -15,7 +15,7 @@
   <plone:behavior
       name="imio.smartweb.iam"
       title="I am"
-      description="Tell me who you are."
+      description="Add I am categories on content types."
       provides=".iam.IAm"
       />
 
