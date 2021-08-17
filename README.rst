@@ -33,6 +33,9 @@ Provides :
 
 - A topics field behavior with topics vocabulary select widget
 - An Iam field behavior with "iam" vocabulary select widget
+- Countries vocabulary
+- Cities vocabulary
+- A faceted relative path widget
 
 
 Translations
