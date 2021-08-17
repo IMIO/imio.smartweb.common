@@ -57,7 +57,6 @@ setup(
         "plone.app.dexterity",
         "plone.app.lockingbehavior",
         "plone.schema",
-        "collective.taxonomy",
         "eea.facetednavigation",
         "imio.smartweb.locales",
     ],
