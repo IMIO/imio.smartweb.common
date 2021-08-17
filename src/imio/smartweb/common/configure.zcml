@@ -5,20 +5,13 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="imio.smartweb.locales">
 
-  <!--
-    Be careful if you use general includeDependencies, it can have side effects!
-    Better import explicit packages or configurations ;)
-  -->
-  <!--<includeDependencies package="." />-->
+  <include package="imio.smartweb.locales" />
 
   <include file="permissions.zcml" />
   <include file="vocabularies.zcml" />
 
   <include package=".behaviors" />
   <include package=".faceted" />
-
-  <include package="collective.taxonomy" />
-  <include package="imio.smartweb.locales" />
 
   <genericsetup:registerProfile
       name="default"
