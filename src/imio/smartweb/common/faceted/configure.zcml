@@ -1,0 +1,10 @@
+<configure
+  xmlns:faceted="http://namespaces.zope.org/faceted"
+  i18n_domain="imio.smartweb">
+
+  <faceted:widget
+    factory=".widget.RelativePathWidget"
+    schema="eea.facetednavigation.widgets.interfaces.ISchema"
+  />
+
+</configure>
