@@ -5,6 +5,8 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="imio.smartweb.locales">
 
+  <include package="eea.facetednavigation" />
+  <include package="eea.facetednavigation" file="meta.zcml" />
   <include package="imio.smartweb.locales" />
 
   <include file="permissions.zcml" />
