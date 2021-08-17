@@ -9,15 +9,13 @@ from z3c.form import field
 
 
 class DefaultSchemata(DS):
-    """ Schemata default
-    """
+    """Schemata default"""
 
     fields = field.Fields(ISchema).select(u"title")
 
 
 class RelativePathWidget(Widget):
-    """ Filter on objects from current folder
-    """
+    """Filter on objects from current folder"""
 
     widget_type = "relative_path"
     widget_label = _("Relative path widget")
@@ -26,8 +24,7 @@ class RelativePathWidget(Widget):
     index = ViewPageTemplateFile("widget.pt")
 
     def query(self, form):
-        """ Returns only objects from current folder
-        """
+        """Returns only objects from current folder"""
         current_path = "/".join(self.context.getPhysicalPath())
         query = {"path": {"query": current_path}}
         return query
