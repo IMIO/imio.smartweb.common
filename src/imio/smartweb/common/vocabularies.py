@@ -59,7 +59,7 @@ class IAmVocabularyFactory:
 IAmVocabulary = IAmVocabularyFactory()
 
 
-class CountryVocabularyFactory:
+class CountriesVocabularyFactory:
     def __call__(self, context=None):
         normalizer = getUtility(IIDNormalizer)
         current_language = api.portal.get_current_language()
@@ -79,7 +79,7 @@ class CountryVocabularyFactory:
         return SimpleVocabulary(terms)
 
 
-CountryVocabulary = CountryVocabularyFactory()
+CountriesVocabulary = CountriesVocabularyFactory()
 
 
 class CitiesVocabularyFactory:

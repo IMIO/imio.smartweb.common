@@ -15,7 +15,7 @@
 
   <utility
       name="imio.smartweb.vocabulary.Countries"
-      component=".vocabularies.CountryVocabulary"
+      component=".vocabularies.CountriesVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
