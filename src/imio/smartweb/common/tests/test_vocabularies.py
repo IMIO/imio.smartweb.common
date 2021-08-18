@@ -16,3 +16,9 @@ class TestVocabularies(ImioSmartwebCommonTestCase):
 
     def test_iam(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.IAm", 9)
+
+    def test_countries(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Countries", 240)
+
+    def test_cities(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Cities", 898)
