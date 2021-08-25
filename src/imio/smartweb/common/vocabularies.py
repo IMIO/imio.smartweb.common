@@ -15,22 +15,22 @@ import json
 class TopicsVocabularyFactory:
     def __call__(self, context=None):
         topics = [
-            (u"culture", _(u"Culture")),
+            (u"entertainment", _(u"Entertainment")),
             (u"agriculture", _(u"Agriculture")),
+            (u"culture", _(u"Culture")),
+            (u"economics", _(u"Economics")),
             (u"education", _(u"Education")),
             (u"environment", _(u"Environment")),
-            (u"health", _(u"Health")),
-            (u"sports", _(u"Sports")),
-            (u"territory_town_planning", _(u"Territory & town planning")),
-            (u"economic_life", _(u"Economic life")),
-            (u"political_life", _(u"Political life")),
-            (u"habitat", _(u"Habitat")),
+            (u"habitat_town_planning", _(u"Habitat and town planning")),
             (u"mobility", _(u"Mobility")),
-            (u"tourism", _(u"Tourism")),
-            (u"social", _(u"Social")),
             (u"citizen_participation", _(u"Citizen participation")),
-            (u"entertainment", _(u"Entertainment")),
-            (u"safety_prevention", _(u"Safety & prevention")),
+            (u"politics", _(u"Politics")),
+            (u"health", _(u"Health")),
+            (u"safety_prevention", _(u"Safety and prevention")),
+            (u"social", _(u"Social")),
+            (u"sports", _(u"Sports")),
+            (u"territory_public_space", _(u"Territory and public space")),
+            (u"tourism", _(u"Tourism")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in topics]
         return SimpleVocabulary(terms)
@@ -42,15 +42,16 @@ TopicsVocabulary = TopicsVocabularyFactory()
 class IAmVocabularyFactory:
     def __call__(self, context=None):
         iam = [
-            (u"elder", _(u"Elder")),
-            (u"young", _(u"Young")),
             (u"merchant", _(u"Merchant")),
+            (u"job_seeker", _(u"Job seeker")),
+            (u"disabled_person", _(u"Disabled person")),
+            (u"young", _(u"Young")),
             (u"journalist", _(u"Journalist")),
             (u"newcomer", _(u"Newcomer")),
-            (u"tourist", _(u"Tourist")),
+            (u"event_planner", _(u"Event planner")),
             (u"parent", _(u"Parent")),
-            (u"disabled_person", _(u"Disabled person")),
-            (u"job_seeker", _(u"Job seeker")),
+            (u"elder", _(u"Elder")),
+            (u"tourist", _(u"Tourist")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in iam]
         return SimpleVocabulary(terms)
