@@ -17,6 +17,7 @@ class TopicsVocabularyFactory:
         topics = [
             (u"entertainment", _(u"Entertainment")),
             (u"agriculture", _(u"Agriculture")),
+            (u"citizenship", _(u"Citizenship")),
             (u"culture", _(u"Culture")),
             (u"economics", _(u"Economics")),
             (u"education", _(u"Education")),
