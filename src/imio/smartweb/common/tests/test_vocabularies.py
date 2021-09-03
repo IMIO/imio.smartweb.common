@@ -12,10 +12,10 @@ class TestVocabularies(ImioSmartwebCommonTestCase):
         self.portal = self.layer["portal"]
 
     def test_topics(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.Topics", 16)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Topics", 17)
 
     def test_iam(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.IAm", 9)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.IAm", 10)
 
     def test_countries(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Countries", 240)
