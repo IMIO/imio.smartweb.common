@@ -3,8 +3,32 @@
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     i18n:domain="imio.smartweb.common">
 
-<!-- -*- extra stuff goes here -*- -->
-   <record name="imio.smartweb.cities">
+  <records prefix="plone.resources/smartweb-common-edit"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++imio.smartweb.common/edit.js</value>
+    <value key="css">
+      <element>++plone++imio.smartweb.common/edit.less</element>
+    </value>
+  </records>
+
+  <records prefix="plone.bundles/smartweb-common-edit"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="resources">
+      <element>smartweb-common-edit</element>
+    </value>
+    <value key="enabled">True</value>
+    <value key="compile">True</value>
+    <value key="expression">python: member is not None</value>
+    <value key="merge_with">logged-in</value>
+    <value key="csscompilation">++plone++imio.smartweb.common/smartweb-common-edit-compiled.css</value>
+    <value key="jscompilation">++plone++imio.smartweb.common/smartweb-common-edit-compiled.js</value>
+    <value key="last_compilation">2021-05-18 13:00:00</value>
+    <value key="stub_js_modules">
+      <element>jquery</element>
+    </value>
+  </records>
+
+  <record name="imio.smartweb.cities">
     <field type="plone.registry.field.Text">
       <title i18n:translate="">Cities</title>
     </field>

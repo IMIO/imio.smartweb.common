@@ -32,7 +32,7 @@ class ImioSmartwebCommonLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         portal_api.get_current_language = mock.Mock(return_value="fr")
-        applyProfile(portal, "imio.smartweb.common:default")
+        applyProfile(portal, "imio.smartweb.common:testing")
 
 
 IMIO_SMARTWEB_COMMON_FIXTURE = ImioSmartwebCommonLayer()

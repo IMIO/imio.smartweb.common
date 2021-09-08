@@ -29,13 +29,17 @@
 imio.smartweb.common
 ====================
 
-Provides :
+Provides various common needs for smartweb related sites :
 
 - A topics field behavior with topics vocabulary select widget
 - An Iam field behavior with "iam" vocabulary select widget
 - Countries vocabulary
 - Cities vocabulary
 - A faceted relative path widget
+
+Custom Add / Edit forms are also provided to :
+ - Transform tabs into expandable fieldsets
+ - Hide lead image caption field (never used)
 
 
 Translations
