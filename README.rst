@@ -34,12 +34,15 @@ Provides various common needs for smartweb related sites :
 - A topics field behavior with topics vocabulary select widget
 - An Iam field behavior with "iam" vocabulary select widget
 - Countries vocabulary
-- Cities vocabulary
+- Cities (stored in registry) vocabulary
 - A faceted relative path widget
+- A breadcrumb index that stores the full object path with titles (and not ids)
+
 
 Custom Add / Edit forms are also provided to :
- - Transform tabs into expandable fieldsets
- - Hide lead image caption field (never used)
+
+- Transform tabs into expandable fieldsets
+- Hide lead image caption field (never used)
 
 
 Translations
