@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+
+  <subscriber for="plone.dexterity.interfaces.IDexterityContent
+                   zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".subscribers.added_content" />
+
+  <subscriber for="plone.dexterity.interfaces.IDexterityContent
+                   zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+              handler=".subscribers.modified_content" />
+
+</configure>

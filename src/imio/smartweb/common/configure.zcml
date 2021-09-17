@@ -5,8 +5,10 @@
   <include package="eea.facetednavigation" file="meta.zcml" />
   <include package="imio.smartweb.locales" />
 
+  <include file="indexers.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
+  <include file="subscribers.zcml" />
   <include file="vocabularies.zcml" />
 
   <include package=".behaviors" />
