@@ -37,7 +37,7 @@ class TestIndexes(unittest.TestCase):
         uuid = IUUID(folder)
         brain = api.content.find(UID=uuid)[0]
         indexes = catalog.getIndexDataForRID(brain.getRID())
-        self.assertEqual(indexes.get("breadcrumb"), "My Root Folder > My Sub Folder")
+        self.assertEqual(indexes.get("breadcrumb"), "My Root Folder » My Sub Folder")
 
         sub_folder = api.content.create(
             container=folder,
@@ -49,7 +49,7 @@ class TestIndexes(unittest.TestCase):
         indexes = catalog.getIndexDataForRID(brain.getRID())
         self.assertEqual(
             indexes.get("breadcrumb"),
-            "My Root Folder > My Sub Folder > My Sub Sub Folder",
+            "My Root Folder » My Sub Folder » My Sub Sub Folder",
         )
 
         folder.title = "My New Sub Folder"
@@ -58,7 +58,7 @@ class TestIndexes(unittest.TestCase):
         indexes = catalog.getIndexDataForRID(brain.getRID())
         self.assertEqual(
             indexes.get("breadcrumb"),
-            "My Root Folder > My New Sub Folder > My Sub Sub Folder",
+            "My Root Folder » My New Sub Folder » My Sub Sub Folder",
         )
 
         self.folder.title = "My New Root Folder"
@@ -67,5 +67,5 @@ class TestIndexes(unittest.TestCase):
         brain = api.content.find(UID=uuid)[0]
         indexes = catalog.getIndexDataForRID(brain.getRID())
         self.assertEqual(
-            indexes.get("breadcrumb"), "My New Root Folder > My Sub Sub Folder"
+            indexes.get("breadcrumb"), "My New Root Folder » My Sub Sub Folder"
         )

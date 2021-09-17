@@ -14,4 +14,4 @@ def breadcrumb(obj):
     while not IPloneSiteRoot.providedBy(parent(obj)):
         obj = parent(obj)
         titles.insert(0, obj.title)
-    return " > ".join(titles)
+    return " » ".join(titles)
