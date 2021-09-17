@@ -13,7 +13,7 @@ import transaction
 import unittest
 
 
-class FormsFunctionalTest(unittest.TestCase):
+class TestForms(unittest.TestCase):
 
     layer = IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 

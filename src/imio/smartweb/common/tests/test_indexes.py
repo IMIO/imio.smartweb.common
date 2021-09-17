@@ -12,7 +12,7 @@ from zope.lifecycleevent import modified
 import unittest
 
 
-class IndexesTest(unittest.TestCase):
+class TestIndexes(unittest.TestCase):
 
     layer = IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
 
