@@ -2,6 +2,7 @@
 
 from plone import api
 from plone.app.dexterity.behaviors.metadata import IBasic
+from zope.lifecycleevent.interfaces import IAttributes
 
 
 def reindex_breadcrumb(obj, event):
@@ -9,6 +10,9 @@ def reindex_breadcrumb(obj, event):
         return
 
     for d in event.descriptions:
+        if not IAttributes.providedBy(d):
+            # we do not have fields change description, but maybe a request
+            continue
         if d.interface is not IBasic:
             continue
         if "IBasic.title" in d.attributes:
