@@ -3,6 +3,23 @@
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     i18n:domain="imio.smartweb.common">
 
+  <record name="plone.allowed_sizes"
+          interface="Products.CMFPlone.interfaces.controlpanel.IImagingSchema"
+          field="allowed_sizes">
+    <value purge="true">
+      <element>banner 1920:600</element>
+      <element>extralarge 1320:1320</element>
+      <element>large 768:768</element>
+      <element>medium 600:600</element>
+      <element>preview 400:400</element>
+      <element>mini 200:200</element>
+      <element>thumb 128:128</element>
+      <element>tile 64:64</element>
+      <element>icon 32:32</element>
+      <element>listing 16:16</element>
+    </value>
+  </record>
+
   <records prefix="plone.resources/smartweb-common-edit"
            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
     <value key="js">++plone++imio.smartweb.common/edit.js</value>
