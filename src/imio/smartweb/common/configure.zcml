@@ -3,8 +3,10 @@
 
   <include package="eea.facetednavigation" />
   <include package="eea.facetednavigation" file="meta.zcml" />
+  <include package="plone.app.imagecropping" />
   <include package="imio.smartweb.locales" />
 
+  <include file="adapters.zcml" />
   <include file="indexers.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />

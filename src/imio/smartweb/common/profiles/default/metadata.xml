@@ -3,5 +3,6 @@
   <version>1000</version>
   <dependencies>
     <dependency>profile-eea.facetednavigation:default</dependency>
+    <dependency>profile-plone.app.imagecropping:default</dependency>
   </dependencies>
 </metadata>

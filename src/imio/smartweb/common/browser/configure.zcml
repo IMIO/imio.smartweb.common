@@ -33,5 +33,17 @@
       permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
-  
+
+  <!-- Cropping Editor view -->
+  <configure package="plone.app.imagecropping.browser">
+    <browser:page
+        class="imio.smartweb.common.browser.cropping.SmartwebCroppingEditor"
+        template="editor.pt"
+        for="plone.app.imagecropping.interfaces.IImageCroppingMarker"
+        name="croppingeditor"
+        permission="cmf.ModifyPortalContent"
+        layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+        />
+  </configure>
+
 </configure>

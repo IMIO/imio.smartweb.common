@@ -1,0 +1,10 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+
+  <adapter
+      for="plone.dexterity.content.DexterityContent"
+      provides="imio.smartweb.common.interfaces.ICropping"
+      factory=".adapters.BaseCroppingProvider"
+      />
+
+</configure>

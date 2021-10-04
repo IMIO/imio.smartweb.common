@@ -55,6 +55,7 @@ setup(
         "plone.api>=1.8.4",
         "plone.restapi",
         "plone.app.dexterity",
+        "plone.app.imagecropping",
         "plone.app.lockingbehavior",
         "plone.schema",
         "eea.facetednavigation",
