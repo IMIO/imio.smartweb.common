@@ -33,6 +33,7 @@ Provides various common needs for smartweb related sites :
 
 - A topics field behavior with topics vocabulary select widget
 - An Iam field behavior with "iam" vocabulary select widget
+- A rich description behavior, with bold & newlines
 - Countries vocabulary
 - Cities (stored in registry) vocabulary
 - A faceted relative path widget

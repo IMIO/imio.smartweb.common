@@ -7,6 +7,13 @@ from Products.CMFPlone.utils import parent
 
 
 @indexer(IDexterityContent)
+def description(obj):
+    if obj.description is None:
+        return ""
+    return obj.description.replace("**", "")
+
+
+@indexer(IDexterityContent)
 def breadcrumb(obj):
     if IPloneSiteRoot.providedBy(obj):
         return ""

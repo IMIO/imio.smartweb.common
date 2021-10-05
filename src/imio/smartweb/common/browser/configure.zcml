@@ -46,4 +46,14 @@
         />
   </configure>
 
+  <!-- Rich description -->
+  <browser:page
+      for="*"
+      name="description"
+      class=".description.RichDescription"
+      template="description.pt"
+      permission="zope.Public"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      />
+
 </configure>
