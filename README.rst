@@ -45,6 +45,8 @@ Custom Add / Edit forms are also provided to :
 - Transform tabs into expandable fieldsets
 - Hide lead image caption field (never used)
 
+A (very) simplified TinyMCE configuration is also made.
+
 
 Translations
 ------------
