@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.config import DESCRIPTION_MAX_LENGTH
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.dexterity.browser.add import DefaultAddForm
 from plone.dexterity.browser.add import DefaultAddView
@@ -17,16 +18,26 @@ class CustomAddForm(DefaultAddForm):
         if "ILeadImageBehavior.image_caption" in self.fields:
             # We don't use leadimage caption anywhere
             self.fields["ILeadImageBehavior.image_caption"].mode = HIDDEN_MODE
+        # Description field has a maximum number of chars
+        if "IBasic.description" in self.fields:
+            self.fields["IBasic.description"].field.max_length = DESCRIPTION_MAX_LENGTH
+        elif "IDublinCore.description" in self.fields:
+            self.fields[
+                "IDublinCore.description"
+            ].field.max_length = DESCRIPTION_MAX_LENGTH
 
     def updateWidgets(self):
         super(CustomAddForm, self).updateWidgets()
+        # Change Description field help text
         if "IBasic.description" in self.widgets:
             self.widgets["IBasic.description"].description = _(
-                u"Use **text** to set text in bold."
+                u"Use **text** to set text in bold. Limited to ${max} characters.",
+                mapping={u"max": DESCRIPTION_MAX_LENGTH},
             )
         elif "IDublinCore.description" in self.widgets:
             self.widgets["IDublinCore.description"].description = _(
-                u"Use **text** to set text in bold."
+                u"Use **text** to set text in bold. Limited to ${max} characters.",
+                mapping={u"max": DESCRIPTION_MAX_LENGTH},
             )
 
 
@@ -43,16 +54,26 @@ class CustomEditForm(DefaultEditForm):
         if "ILeadImageBehavior.image_caption" in self.fields:
             # We don't use leadimage caption anywhere
             self.fields["ILeadImageBehavior.image_caption"].mode = HIDDEN_MODE
+        # Description field has a maximum number of chars
+        if "IBasic.description" in self.fields:
+            self.fields["IBasic.description"].field.max_length = DESCRIPTION_MAX_LENGTH
+        elif "IDublinCore.description" in self.fields:
+            self.fields[
+                "IDublinCore.description"
+            ].field.max_length = DESCRIPTION_MAX_LENGTH
 
     def updateWidgets(self):
         super(CustomEditForm, self).updateWidgets()
+        # Change Description field help text
         if "IBasic.description" in self.widgets:
             self.widgets["IBasic.description"].description = _(
-                u"Use **text** to set text in bold."
+                u"Use **text** to set text in bold. Limited to ${max} characters.",
+                mapping={u"max": DESCRIPTION_MAX_LENGTH},
             )
         elif "IDublinCore.description" in self.widgets:
             self.widgets["IDublinCore.description"].description = _(
-                u"Use **text** to set text in bold."
+                u"Use **text** to set text in bold. Limited to ${max} characters.",
+                mapping={u"max": DESCRIPTION_MAX_LENGTH},
             )
 
 
