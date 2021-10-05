@@ -39,6 +39,7 @@ Provides various common needs for smartweb related sites :
 - A faceted relative path widget
 - A breadcrumb index that stores the full object path with titles (and not ids)
 - Cropping scales selection mechanism per content-type / field
+- Help texts (descriptions) on forms are now above the fields and not below
 
 
 Custom Add / Edit forms are also provided to :
