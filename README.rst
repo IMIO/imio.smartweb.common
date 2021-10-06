@@ -47,6 +47,13 @@ Custom Add / Edit forms are also provided to :
 - Transform tabs into expandable fieldsets
 - Hide lead image caption field (never used)
 
+
+Utils fonctions are also provided for :
+
+- vocabulary term translation
+- object geolocation (with IAddress schema)
+
+
 A (very) simplified TinyMCE configuration is also made.
 
 
