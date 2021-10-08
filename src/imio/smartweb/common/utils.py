@@ -7,6 +7,13 @@ from zope.schema.interfaces import IVocabularyFactory
 import geopy
 
 
+def get_term_from_vocabulary(vocabulary, value):
+    factory = getUtility(IVocabularyFactory, vocabulary)
+    vocabulary = factory()
+    term = vocabulary.getTerm(value)
+    return term
+
+
 def translate_vocabulary_term(vocabulary, term):
     if term is None:
         return ""
