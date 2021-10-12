@@ -40,6 +40,7 @@ Provides various common needs for smartweb related sites :
 - A breadcrumb index that stores the full object path with titles (and not ids)
 - Cropping scales selection mechanism per content-type / field
 - Help texts (descriptions) on forms are now above the fields and not below
+- `@search-filter` REST endpoint to get all terms (and titles) of metadatas from search request results
 
 
 Custom Add / Edit forms are also provided to :

@@ -5,6 +5,8 @@
     i18n:domain="plone">
 
     <property name="behaviors" purge="false">
+      <element value="imio.smartweb.iam"/>
+      <element value="imio.smartweb.topics"/>
       <element value="plone.leadimage"/>
     </property>
 
