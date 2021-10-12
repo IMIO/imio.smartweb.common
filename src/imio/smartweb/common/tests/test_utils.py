@@ -3,6 +3,7 @@
 from imio.smartweb.common.interfaces import IAddress
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 from imio.smartweb.common.utils import geocode_object
+from imio.smartweb.common.utils import get_term_from_vocabulary
 from imio.smartweb.common.utils import translate_vocabulary_term
 from plone.formwidget.geolocation.geolocation import Geolocation
 from unittest import mock
@@ -35,6 +36,16 @@ class TestUtils(unittest.TestCase):
         """Custom shared utility setup for tests"""
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
+
+    def test_get_term_from_vocabulary(self):
+        term = get_term_from_vocabulary("imio.smartweb.vocabulary.Topics", "culture")
+        self.assertEqual(term.title, "Culture")
+
+        term = get_term_from_vocabulary("imio.smartweb.vocabulary.IAm", "parent")
+        self.assertEqual(term.title, "Parent")
+
+        term = get_term_from_vocabulary("imio.smartweb.vocabulary.IAm", "non_existing")
+        self.assertEqual(term.title, "non_existing")
 
     def test_translate_vocabulary_term(self):
         self.assertEqual(
