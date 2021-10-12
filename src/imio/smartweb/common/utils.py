@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from plone import api
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -8,8 +9,9 @@ import geopy
 
 
 def get_term_from_vocabulary(vocabulary, value):
+    portal = api.portal.get()
     factory = getUtility(IVocabularyFactory, vocabulary)
-    vocabulary = factory()
+    vocabulary = factory(portal)
     try:
         term = vocabulary.getTerm(value)
     except LookupError:
@@ -20,8 +22,9 @@ def get_term_from_vocabulary(vocabulary, value):
 def translate_vocabulary_term(vocabulary, term):
     if term is None:
         return ""
+    portal = api.portal.get()
     factory = getUtility(IVocabularyFactory, vocabulary)
-    vocabulary = factory()
+    vocabulary = factory(portal)
     term = vocabulary.getTerm(term)
     return term and term.title or ""
 
