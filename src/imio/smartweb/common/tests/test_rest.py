@@ -48,6 +48,20 @@ class TestREST(unittest.TestCase):
     def test_search_filters(self):
         query = {
             "portal_type": "Document",
+            "metadata_fields": "not_existing",
+        }
+        response = self.api_session.get("/@search-filters", params=query)
+        json = response.json()
+        self.assertEqual(len(json), 1)
+        query = {
+            "portal_type": "Document",
+            "metadata_fields": "topics",
+        }
+        response = self.api_session.get("/@search-filters", params=query)
+        json = response.json()
+        self.assertEqual(len(json), 1)
+        query = {
+            "portal_type": "Document",
             "metadata_fields": ["iam", "topics"],
         }
         response = self.api_session.get("/@search-filters", params=query)
@@ -60,7 +74,6 @@ class TestREST(unittest.TestCase):
                 {"title": "Young", "token": "young"},
             ],
         )
-
         self.assertEqual(
             json["topics"],
             [

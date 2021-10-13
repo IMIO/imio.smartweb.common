@@ -45,12 +45,14 @@ class SearchFiltersHandler(SearchHandler):
             return {}
 
         metadatas = query["metadata_fields"]
+        if not isinstance(metadatas, list):
+            metadatas = [metadatas]
         filters = {metadata: set() for metadata in metadatas}
 
         brains = self.catalog.searchResults(**query)
         for brain in brains:
             for metadata in metadatas:
-                value = getattr(brain, metadata)
+                value = getattr(brain, metadata, None)
                 if not value:
                     continue
                 if isinstance(value, list) or isinstance(value, tuple):
