@@ -64,11 +64,13 @@ class TestUtils(unittest.TestCase):
         obj = GeolocatedObject()
         obj.geolocation = Geolocation(0, 0)
 
-        geocode_object(obj)
+        geocoded = geocode_object(obj)
+        self.assertFalse(geocoded)
         self.assertEqual(obj.geolocation.latitude, 0)
         self.assertEqual(obj.geolocation.longitude, 0)
 
         obj.street = "My beautiful street"
-        geocode_object(obj)
+        geocoded = geocode_object(obj)
+        self.assertTrue(geocoded)
         self.assertEqual(obj.geolocation.latitude, 1)
         self.assertEqual(obj.geolocation.longitude, 2)

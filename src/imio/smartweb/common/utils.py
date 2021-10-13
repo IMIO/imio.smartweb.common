@@ -52,4 +52,6 @@ def geocode_object(obj):
     if location:
         obj.geolocation.latitude = location.latitude
         obj.geolocation.longitude = location.longitude
-    obj.reindexObject(idxs=["longitude", "latitude"])
+        obj.reindexObject(idxs=["longitude", "latitude"])
+        return True
+    return False
