@@ -11,4 +11,9 @@
       factory=".indexers.breadcrumb"
       />
 
+  <adapter
+      name="has_leadimage"
+      factory=".indexers.has_leadimage"
+      />
+
 </configure>

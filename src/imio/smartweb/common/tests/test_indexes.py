@@ -5,10 +5,12 @@ from plone import api
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.namedfile.file import NamedBlobImage
 from plone.uuid.interfaces import IUUID
 from zope.lifecycleevent import Attributes
 from zope.lifecycleevent import modified
 
+import os
 import unittest
 
 
@@ -69,3 +71,16 @@ class TestIndexes(unittest.TestCase):
         self.assertEqual(
             indexes.get("breadcrumb"), "My New Root Folder » My Sub Sub Folder"
         )
+
+    def test_has_leadimage(self):
+        uuid = IUUID(self.folder)
+        self.assertEqual(len(api.content.find(has_leadimage=True)), 0)
+        brain = api.content.find(UID=uuid)[0]
+        self.assertEqual(brain.has_leadimage, False)
+        test_image = os.path.join(os.path.dirname(__file__), "resources/image.png")
+        with open(test_image, "rb") as fd:
+            self.folder.image = NamedBlobImage(data=fd.read(), filename=test_image)
+        self.folder.reindexObject()
+        self.assertEqual(len(api.content.find(has_leadimage=True)), 1)
+        brain = api.content.find(UID=uuid)[0]
+        self.assertEqual(brain.has_leadimage, True)

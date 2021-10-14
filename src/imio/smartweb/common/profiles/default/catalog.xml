@@ -4,6 +4,9 @@
   <index name="breadcrumb" meta_type="FieldIndex">
     <indexed_attr value="breadcrumb"/>
   </index>
+  <index name="has_leadimage" meta_type="BooleanIndex">
+    <indexed_attr value="has_leadimage"/>
+  </index>
   <index name="iam" meta_type="KeywordIndex">
     <indexed_attr value="iam"/>
   </index>
@@ -12,6 +15,7 @@
   </index>
 
   <column value="breadcrumb"/>
+  <column value="has_leadimage"/>
   <column value="iam"/>
   <column value="topics"/>
 

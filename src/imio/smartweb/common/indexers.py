@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from plone.app.contenttypes.behaviors.leadimage import ILeadImage
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.decorator import indexer
 from Products.CMFPlone.interfaces import IPloneSiteRoot
@@ -22,3 +23,10 @@ def breadcrumb(obj):
         obj = parent(obj)
         titles.insert(0, obj.title)
     return " » ".join(titles)
+
+
+@indexer(IDexterityContent)
+def has_leadimage(obj):
+    if ILeadImage.providedBy(obj) and getattr(obj, "image", False):
+        return True
+    return False

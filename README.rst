@@ -38,6 +38,7 @@ Provides various common needs for smartweb related sites :
 - cities vocabulary (values are stored in registry)
 - faceted relative path widget
 - `breadcrumb` index that stores the full object path with titles (and not ids)
+- `has_leadimage` index that stores if there is a lead_image on the object or not
 - cropping scales selection mechanism per content-type / field (with adapters)
 - help texts (descriptions) on forms above the fields and not below
 - `@search-filter` REST endpoint to get all terms (and titles) of metadatas from search request results
