@@ -33,15 +33,15 @@ Provides various common needs for smartweb related sites :
 
 - topics field behavior with topics vocabulary select widget
 - Iam field behavior with "iam" vocabulary select widget
-- rich description feature, with bold & newlines, limited to a maximum of chars (see `config.py`)
+- rich description feature, with bold & newlines, limited to a maximum of chars (see ``config.py``)
 - countries vocabulary
 - cities vocabulary (values are stored in registry)
 - faceted relative path widget
-- `breadcrumb` index that stores the full object path with titles (and not ids)
-- `has_leadimage` index that stores if there is a lead_image on the object or not
+- ``breadcrumb`` index that stores the full object path with titles (and not ids)
+- ``has_leadimage`` index that stores if there is a lead_image on the object or not
 - cropping scales selection mechanism per content-type / field (with adapters)
 - help texts (descriptions) on forms above the fields and not below
-- `@search-filter` REST endpoint to get all terms (and titles) of metadatas from search request results
+- ``@search-filter`` REST endpoint to get all terms (and titles) of metadatas from search request results
 
 
 Custom Add / Edit forms are also provided to :
@@ -53,7 +53,7 @@ Custom Add / Edit forms are also provided to :
 Utils fonctions are also provided for :
 
 - vocabulary term translation
-- object geolocation (with `IAddress` schema)
+- object geolocation (with ``IAddress`` schema)
 
 
 A (very) simplified TinyMCE configuration is also made.
