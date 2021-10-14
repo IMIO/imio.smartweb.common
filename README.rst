@@ -31,15 +31,15 @@ imio.smartweb.common
 
 Provides various common needs for smartweb related sites :
 
-- A topics field behavior with topics vocabulary select widget
-- An Iam field behavior with "iam" vocabulary select widget
-- A rich description feature, with bold & newlines, limited to a maximum of chars (see `config.py`)
-- Countries vocabulary
-- Cities (stored in registry) vocabulary
-- A faceted relative path widget
-- A breadcrumb index that stores the full object path with titles (and not ids)
-- Cropping scales selection mechanism per content-type / field
-- Help texts (descriptions) on forms are now above the fields and not below
+- topics field behavior with topics vocabulary select widget
+- Iam field behavior with "iam" vocabulary select widget
+- rich description feature, with bold & newlines, limited to a maximum of chars (see `config.py`)
+- countries vocabulary
+- cities vocabulary (values are stored in registry)
+- faceted relative path widget
+- `breadcrumb` index that stores the full object path with titles (and not ids)
+- cropping scales selection mechanism per content-type / field (with adapters)
+- help texts (descriptions) on forms above the fields and not below
 - `@search-filter` REST endpoint to get all terms (and titles) of metadatas from search request results
 
 
@@ -52,7 +52,7 @@ Custom Add / Edit forms are also provided to :
 Utils fonctions are also provided for :
 
 - vocabulary term translation
-- object geolocation (with IAddress schema)
+- object geolocation (with `IAddress` schema)
 
 
 A (very) simplified TinyMCE configuration is also made.
