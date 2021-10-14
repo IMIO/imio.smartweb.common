@@ -73,6 +73,7 @@ class TestIndexes(unittest.TestCase):
         )
 
     def test_has_leadimage(self):
+        catalog = api.portal.get_tool("portal_catalog")
         uuid = IUUID(self.folder)
         self.assertEqual(len(api.content.find(has_leadimage=True)), 0)
         brain = api.content.find(UID=uuid)[0]
@@ -84,3 +85,29 @@ class TestIndexes(unittest.TestCase):
         self.assertEqual(len(api.content.find(has_leadimage=True)), 1)
         brain = api.content.find(UID=uuid)[0]
         self.assertEqual(brain.has_leadimage, True)
+
+        collection = api.content.create(
+            container=self.portal,
+            type="Collection",
+            title="My Collection without lead image behavior",
+        )
+        collection.reindexObject()
+        brain = api.content.find(UID=collection.UID())[0]
+        self.assertEqual(brain.has_leadimage, False)
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("has_leadimage"), False)
+        self.assertEqual(len(api.content.find(has_leadimage=True)), 1)
+
+        image = api.content.create(
+            container=self.portal,
+            type="Image",
+            title="My image",
+        )
+        with open(test_image, "rb") as fd:
+            image.image = NamedBlobImage(data=fd.read(), filename=test_image)
+        image.reindexObject()
+        brain = api.content.find(UID=image.UID())[0]
+        self.assertEqual(brain.has_leadimage, True)
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("has_leadimage"), True)
+        self.assertEqual(len(api.content.find(has_leadimage=True)), 2)
