@@ -35,4 +35,4 @@ class TestCropping(unittest.TestCase):
         cropping_view = getMultiAdapter(
             (self.folder, self.request), name="croppingeditor"
         )
-        self.assertEqual(len(list(cropping_view._scales("image"))), 9)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 13)
