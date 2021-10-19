@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from plone import api
+from plone.formwidget.geolocation.geolocation import Geolocation
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -50,8 +51,9 @@ def geocode_object(obj):
     geolocator = geopy.geocoders.Nominatim(user_agent="contact@imio.be", timeout=3)
     location = geolocator.geocode(address)
     if location:
-        obj.geolocation.latitude = location.latitude
-        obj.geolocation.longitude = location.longitude
+        obj.geolocation = Geolocation(
+            latitude=location.latitude, longitude=location.longitude
+        )
         obj.reindexObject(idxs=["longitude", "latitude"])
         return True
     return False
