@@ -93,9 +93,20 @@ class TestREST(unittest.TestCase):
 
         query = {
             "portal_type": "Event",
-            "metadata_fields": ["iam", "topics", "start", "end"],
+            "metadata_fields": [
+                "iam",
+                "topics",
+                "effective",
+                "end",
+                "has_leadimage",
+                "start",
+                "UID",
+            ],
         }
         response = self.api_session.get("/@search-filters", params=query)
         json = response.json()
-        self.assertNotIn("start", json)
+        self.assertNotIn("effective", json)
         self.assertNotIn("end", json)
+        self.assertNotIn("has_leadimage", json)
+        self.assertNotIn("start", json)
+        self.assertNotIn("UID", json)

@@ -11,7 +11,13 @@ from zope.component import getMultiAdapter
 
 
 # we don't need some brains metadata to construct search filters
-EXCLUDED_METADATA = ["end", "start"]
+EXCLUDED_METADATA = [
+    "effective",
+    "end",
+    "has_leadimage",
+    "start",
+    "UID",
+]
 
 
 class SearchFiltersGet(Service):
