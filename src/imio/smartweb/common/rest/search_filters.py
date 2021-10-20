@@ -10,6 +10,10 @@ from plone.restapi.interfaces import ISerializeToJson
 from zope.component import getMultiAdapter
 
 
+# we don't need some brains metadata to construct search filters
+EXCLUDED_METADATA = ["end", "start"]
+
+
 class SearchFiltersGet(Service):
     def reply(self):
         query = self.request.form.copy()
@@ -44,12 +48,14 @@ class SearchFiltersHandler(SearchHandler):
         if "metadata_fields" not in query:
             return {}
 
+        brains = self.catalog.searchResults(**query)
+
         metadatas = query["metadata_fields"]
         if not isinstance(metadatas, list):
             metadatas = [metadatas]
-        filters = {metadata: set() for metadata in metadatas}
 
-        brains = self.catalog.searchResults(**query)
+        metadatas = list(set(metadatas) - set(EXCLUDED_METADATA))
+        filters = {metadata: set() for metadata in metadatas}
         for brain in brains:
             for metadata in metadatas:
                 value = getattr(brain, metadata, None)

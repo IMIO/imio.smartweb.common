@@ -40,6 +40,13 @@ class TestREST(unittest.TestCase):
         self.doc2.topics = ["agriculture", "entertainment"]
         api.content.transition(self.doc2, "publish")
 
+        self.event = api.content.create(
+            container=self.portal,
+            type="Event",
+            title="Event",
+        )
+        api.content.transition(self.event, "publish")
+
         transaction.commit()
 
     def tearDown(self):
@@ -53,6 +60,7 @@ class TestREST(unittest.TestCase):
         response = self.api_session.get("/@search-filters", params=query)
         json = response.json()
         self.assertEqual(len(json), 1)
+
         query = {
             "portal_type": "Document",
             "metadata_fields": "topics",
@@ -60,6 +68,7 @@ class TestREST(unittest.TestCase):
         response = self.api_session.get("/@search-filters", params=query)
         json = response.json()
         self.assertEqual(len(json), 1)
+
         query = {
             "portal_type": "Document",
             "metadata_fields": ["iam", "topics"],
@@ -81,3 +90,12 @@ class TestREST(unittest.TestCase):
                 {"title": "Entertainment", "token": "entertainment"},
             ],
         )
+
+        query = {
+            "portal_type": "Event",
+            "metadata_fields": ["iam", "topics", "start", "end"],
+        }
+        response = self.api_session.get("/@search-filters", params=query)
+        json = response.json()
+        self.assertNotIn("start", json)
+        self.assertNotIn("end", json)
