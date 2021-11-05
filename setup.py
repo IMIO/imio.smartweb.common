@@ -50,7 +50,6 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "setuptools",
-        # -*- Extra requirements: -*-
         "z3c.jbot",
         "geopy",
         "Products.GenericSetup>=1.8.2",
@@ -79,7 +78,5 @@ setup(
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
-    [console_scripts]
-    update_locale = imio.smartweb.common.locales.update:update_locale
     """,
 )
