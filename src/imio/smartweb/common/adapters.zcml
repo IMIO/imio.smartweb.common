@@ -2,7 +2,7 @@
     xmlns="http://namespaces.zope.org/zope">
 
   <adapter
-      for="plone.dexterity.content.DexterityContent"
+      for="plone.dexterity.interfaces.IDexterityContent"
       provides="imio.smartweb.common.interfaces.ICropping"
       factory=".adapters.BaseCroppingProvider"
       />
