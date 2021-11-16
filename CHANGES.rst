@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a3 (unreleased)
+1.0a3 (2021-11-16)
 ------------------
 
 - Avoid traceback if configure_faceted is called on non-configured type (ex: on
