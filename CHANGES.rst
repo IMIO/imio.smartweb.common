@@ -5,7 +5,9 @@ Changelog
 1.0a3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Avoid traceback if configure_faceted is called on non-configured type (ex: on
+  default collections at Plone install)
+  [laulaz]
 
 
 1.0a2 (2021-11-05)
