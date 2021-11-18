@@ -8,6 +8,10 @@ from zope.schema.vocabulary import SimpleTerm
 
 import geopy
 
+def get_vocabulary(voc_name):
+    factory = getUtility(IVocabularyFactory, voc_name)
+    vocabulary = factory(api.portal.get())
+    return vocabulary
 
 def get_term_from_vocabulary(vocabulary, value):
     portal = api.portal.get()

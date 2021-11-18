@@ -5,7 +5,8 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add utility to get a vocabulary
+  [boulch]
 
 
 1.0a3 (2021-11-16)
