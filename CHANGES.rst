@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a4 (unreleased)
+1.0a4 (2021-11-23)
 ------------------
 
 - Add utility to get a vocabulary
