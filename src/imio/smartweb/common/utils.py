@@ -3,6 +3,7 @@
 from plone import api
 from plone.formwidget.geolocation.geolocation import Geolocation
 from zope.component import getUtility
+from zope.i18n import translate
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 
@@ -33,7 +34,10 @@ def translate_vocabulary_term(vocabulary, term):
     factory = getUtility(IVocabularyFactory, vocabulary)
     vocabulary = factory(portal)
     term = vocabulary.getTerm(term)
-    return term and term.title or ""
+    if term is None:
+        return ""
+    current_lang = api.portal.get_current_language()[:2]
+    return translate(term.title, target_language=current_lang)
 
 
 def geocode_object(obj):

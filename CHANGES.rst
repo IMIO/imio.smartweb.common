@@ -5,7 +5,8 @@ Changelog
 1.0a5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix vocabulary term translation (missing lang)
+  [laulaz]
 
 
 1.0a4 (2021-11-23)
