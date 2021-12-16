@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a5 (unreleased)
+1.0a5 (2021-12-16)
 ------------------
 
 - Fix vocabulary term translation (missing lang)
