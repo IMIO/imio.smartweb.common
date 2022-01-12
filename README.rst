@@ -42,6 +42,7 @@ Provides various common needs for smartweb related sites :
 - cropping scales selection mechanism per content-type / field (with adapters)
 - help texts (descriptions) on forms above the fields and not below
 - ``@search-filter`` REST endpoint to get all terms (and titles) of metadatas from search request results
+- colophon viewlet override to add legal mention, accessibility info & copyright
 
 
 Custom Add / Edit forms are also provided to :

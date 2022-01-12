@@ -4,6 +4,7 @@
   <include package="eea.facetednavigation" />
   <include package="eea.facetednavigation" file="meta.zcml" />
   <include package="plone.app.imagecropping" />
+  <include package="imio.gdpr" />
   <include package="imio.smartweb.locales" />
 
   <include file="adapters.zcml" />
@@ -18,5 +19,6 @@
   <include package=".browser" />
   <include package=".faceted" />
   <include package=".rest" />
+  <include package=".viewlets" />
 
 </configure>

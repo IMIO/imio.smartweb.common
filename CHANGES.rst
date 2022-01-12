@@ -5,7 +5,9 @@ Changelog
 1.0a6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Override colophon viewlet to display legal mention, accessibility info and
+  copyright links (dependency on imio.gdpr)
+  [laulaz]
 
 
 1.0a5 (2021-12-16)

@@ -1,0 +1,29 @@
+<div id="portal-colophon"
+     i18n:domain="imio.smartweb">
+<div class="colophonWrapper">
+<ul>
+
+  <li tal:condition="view/has_gdpr">
+    <a href=""
+       tal:attributes="href string:${view/navigation_root_url}/gdpr-view"
+       i18n:translate="">Legal notice</a>
+  </li>
+
+  <li>
+    <a href=""
+       tal:attributes="href string:${view/navigation_root_url}/accessibility-info"
+       i18n:translate="">Accessibility</a>
+  </li>
+
+  <li>
+    <tal:block i18n:translate="">Site created in collaboration with</tal:block>&nbsp;<a href="https://www.imio.be" target="_blank" i18n:translate="">IMIO</a>&nbsp;<tal:block i18n:translate="">under</tal:block>
+    <a href="https://fr.wikipedia.org/wiki/Free_Software_Foundation"
+       target="_blank"
+       i18n:translate="">free license</a>
+  </li>
+
+  &copy;&nbsp;<abbr tal:content="view/year" />
+
+</ul>
+</div>
+</div>

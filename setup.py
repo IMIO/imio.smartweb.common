@@ -62,6 +62,7 @@ setup(
         "plone.formwidget.geolocation",
         "plone.schema",
         "eea.facetednavigation",
+        "imio.gdpr",
         "imio.smartweb.locales",
     ],
     extras_require={
