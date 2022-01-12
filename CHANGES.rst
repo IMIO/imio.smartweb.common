@@ -5,6 +5,9 @@ Changelog
 1.0a6 (unreleased)
 ------------------
 
+- Add cookies opt-in support for analytics and iframes
+  [laulaz]
+
 - Override colophon viewlet to display legal mention, accessibility info and
   copyright links (dependency on imio.gdpr)
   [laulaz]

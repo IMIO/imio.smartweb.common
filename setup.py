@@ -52,6 +52,8 @@ setup(
     install_requires=[
         "setuptools",
         "z3c.jbot",
+        "z3c.unconfigure",
+        "beautifulsoup4",
         "geopy",
         "Products.GenericSetup>=1.8.2",
         "plone.api>=1.8.4",
@@ -63,6 +65,8 @@ setup(
         "plone.schema",
         "eea.facetednavigation",
         "imio.gdpr",
+        "collective.privacy",
+        "iaweb.privacy",
         "imio.smartweb.locales",
     ],
     extras_require={

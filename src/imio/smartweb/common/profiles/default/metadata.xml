@@ -6,5 +6,6 @@
     <dependency>profile-eea.facetednavigation:default</dependency>
     <dependency>profile-plone.app.imagecropping:default</dependency>
     <dependency>profile-imio.gdpr:default</dependency>
+    <dependency>profile-iaweb.privacy:default</dependency>
   </dependencies>
 </metadata>

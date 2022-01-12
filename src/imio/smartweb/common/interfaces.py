@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.privacy.interfaces import ICollectivePrivacyLayer
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import schema
 from plone.app.z3cform.interfaces import IPloneFormLayer
@@ -8,7 +9,9 @@ from plone.theme.interfaces import IDefaultPloneLayer
 from zope.interface import Interface
 
 
-class IImioSmartwebCommonLayer(IDefaultPloneLayer, IPloneFormLayer):
+class IImioSmartwebCommonLayer(
+    IDefaultPloneLayer, IPloneFormLayer, ICollectivePrivacyLayer
+):
     """Marker interface that defines a browser layer."""
 
 

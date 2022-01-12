@@ -10,6 +10,7 @@
   <include file="adapters.zcml" />
   <include file="indexers.zcml" />
   <include file="permissions.zcml" />
+  <include file="privacy.zcml" />
   <include file="profiles.zcml" />
   <include file="subscribers.zcml" />
   <include file="upgrades.zcml" />

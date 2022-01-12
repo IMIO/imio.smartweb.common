@@ -26,6 +26,7 @@
 
   <records prefix="plone.resources/smartweb-common-view"
            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++imio.smartweb.common/view.js</value>
     <value key="css">
       <element>++plone++imio.smartweb.common/view.less</element>
     </value>
@@ -41,8 +42,8 @@
     <value key="expression"></value>
     <value key="merge_with">default</value>
     <value key="csscompilation">++plone++imio.smartweb.common/smartweb-common-view-compiled.css</value>
-    <value key="jscompilation"></value>
-    <value key="last_compilation">2021-10-05 13:00:00</value>
+    <value key="jscompilation">++plone++imio.smartweb.common/smartweb-common-view-compiled.js</value>
+    <value key="last_compilation">2022-01-11 15:00:00</value>
     <value key="stub_js_modules">
       <element>jquery</element>
     </value>
