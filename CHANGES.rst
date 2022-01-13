@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a6 (unreleased)
+1.0a6 (2022-01-13)
 ------------------
 
 - Add cookies opt-in support for analytics and iframes
