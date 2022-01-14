@@ -5,7 +5,8 @@ Changelog
 1.0a7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove portal messages from cookies settings overlay
+  [laulaz]
 
 
 1.0a6 (2022-01-13)
