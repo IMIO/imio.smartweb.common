@@ -5,6 +5,9 @@ Changelog
 1.0a7 (unreleased)
 ------------------
 
+- Update buildout to use Plone 6.0.0a2 released version
+  [laulaz]
+
 - Remove portal messages from cookies settings overlay
   [laulaz]
 
