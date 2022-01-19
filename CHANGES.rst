@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a7 (unreleased)
+1.0a7 (2022-01-19)
 ------------------
 
 - Update buildout to use Plone 6.0.0a2 released version
