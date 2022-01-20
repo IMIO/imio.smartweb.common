@@ -28,9 +28,8 @@
     <a href="https://fr.wikipedia.org/wiki/Free_Software_Foundation"
        target="_blank"
        i18n:translate="">free license</a>
+    &copy;&nbsp;<abbr tal:content="view/year" />
   </li>
-
-  &copy;&nbsp;<abbr tal:content="view/year" />
 
 </ul>
 </div>

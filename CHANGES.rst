@@ -5,6 +5,9 @@ Changelog
 1.0a8 (unreleased)
 ------------------
 
+- Change colophon copyright position
+  [laulaz]
+
 - Change cookies viewlet / overlay logic. We now show (simplified) overlay only
   to see detailed options about cookies because viewlet allows to Accept / Refuse
   all cookies directly
