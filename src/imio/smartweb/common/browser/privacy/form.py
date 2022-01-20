@@ -2,6 +2,7 @@
 
 from collective.privacy.browser.consent import ConsentForm
 from collective.privacy.interfaces import IConsentFormView
+from imio.smartweb.common.browser.privacy.utils import get_all_consent_reasons
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.z3cform.interfaces import IPloneFormLayer
@@ -32,6 +33,18 @@ class ConsentFormWithPolicy(ConsentForm):
     @button.buttonAndHandler(_(u"Save my choices"))
     def handleApply(self, action):
         super(ConsentFormWithPolicy, self).handleApply(self, action)
+
+    @button.buttonAndHandler(_(u"Accept all"))
+    def handleAcceptAll(self, action):
+        privacy_tool = api.portal.get_tool("portal_privacy")
+        for reason in get_all_consent_reasons(privacy_tool):
+            privacy_tool.consentToProcessing(reason.__name__)
+
+    @button.buttonAndHandler(_(u"Refuse all"))
+    def handleRefuseAll(self, action):
+        privacy_tool = api.portal.get_tool("portal_privacy")
+        for reason in get_all_consent_reasons(privacy_tool):
+            privacy_tool.objectToProcessing(reason.__name__)
 
 
 form_factory = ZopeTwoFormTemplateFactory(

@@ -1,0 +1,24 @@
+<div id="gdpr-consent-banner" i18n:domain="imio.smartweb"
+     tal:define="portal_state context/@@plone_portal_state;
+                 navigation_root_url portal_state/navigation_root_url;">
+
+    <span i18n:translate="">
+        This site uses cookies to provide you with an optimal experience
+        (playing videos, displaying maps and content from social networks in particular).
+    </span>
+
+    <form method="POST"
+          tal:attributes="action string:${navigation_root_url}/@@accept_or_refuse_all;
+                          data-json-url string:${context/absolute_url}/@@consent-json">
+        <input name="came_from" type="hidden" value="" tal:attributes="value request/ACTUAL_URL">
+        <div class="gdpr-actions">
+            <input type="submit" name="consent" value="Accept all" i18n:attributes="value"/>
+            <a href=""
+               class="pat-plone-modal"
+               data-pat-plone-modal='{"prependContent": ""}'
+               tal:attributes="href string:${navigation_root_url}/@@consent"
+               i18n:translate="">Read more and manage settings</a>
+            <input type="submit" name="refuse" value="Refuse all" i18n:attributes="value"/>
+        </div>
+    </form>
+</div>

@@ -11,22 +11,20 @@
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
 
+  <browser:page
+      for="*"
+      name="accept_or_refuse_all"
+      class=".views.PrivacyView"
+      attribute="accept_or_refuse_all"
+      permission="zope2.View"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      />
+
   <!-- Customize consent form -->
   <browser:page
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       name="consent"
       class=".form.ConsentFormWithPolicy"
-      permission="zope2.View"
-      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
-      />
-
-  <!-- Override collective.privacy banner viewlet to activate modal -->
-  <browser:viewlet
-      for="*"
-      name="collective.privacy.banner"
-      manager="plone.app.layout.viewlets.interfaces.IBelowContent"
-      class="collective.privacy.browser.consent.ConsentBannerViewlet"
-      template="consent_banner.pt"
       permission="zope2.View"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
