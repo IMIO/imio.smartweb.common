@@ -5,6 +5,9 @@ Changelog
 1.0a8 (unreleased)
 ------------------
 
+- Add Cookies preferences link in colophon
+  [laulaz]
+
 - Change some cookies-related texts
   [laulaz]
 

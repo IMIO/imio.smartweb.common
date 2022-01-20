@@ -16,6 +16,14 @@
   </li>
 
   <li>
+    <a href=""
+       class="pat-plone-modal"
+       data-pat-plone-modal='{"prependContent": ""}'
+       tal:attributes="href string:${view/navigation_root_url}/@@consent"
+       i18n:translate="">Cookies preferences</a>
+  </li>
+
+  <li>
     <tal:block i18n:translate="">Site created in collaboration with</tal:block>&nbsp;<a href="https://www.imio.be" target="_blank" i18n:translate="">IMIO</a>&nbsp;<tal:block i18n:translate="">under</tal:block>
     <a href="https://fr.wikipedia.org/wiki/Free_Software_Foundation"
        target="_blank"
