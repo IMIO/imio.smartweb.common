@@ -69,5 +69,5 @@ class TestPrivacy(unittest.TestCase):
         browser.open("{}/@@consent".format(self.portal.absolute_url()))
         content = browser.contents
         self.assertIn(
-            "Choose to opt in or out of various pieces of functionality.", content
+            "Choose to opt in or out of cookies use.", content
         )

@@ -13,19 +13,23 @@ import os
 
 
 class ConsentFormWithPolicy(ConsentForm):
+
+    label = _(u"Cookies choice")
+    id = "cookies-form"
+
     def update(self):
         super(ConsentFormWithPolicy, self).update()
         root = api.portal.get_navigation_root(self.context)
         current_lang = api.portal.get_current_language()[:2]
         policy_url = u"{}/@@cookies-view".format(root.absolute_url())
         description = _(
-            u"Choose to opt in or out of various pieces of functionality.<br/>"
-            u'If you want, you can <a href="${policy_url}">read our cookie policy</a>.',
+            u"Choose to opt in or out of cookies use.<br/>"
+            u'Our <a href="${policy_url}">cookies policy</a> can help you choose.',
             mapping={u"policy_url": policy_url},
         )
         self.description = translate(description, target_language=current_lang)
 
-    @button.buttonAndHandler(_(u"Save"))
+    @button.buttonAndHandler(_(u"Save my choices"))
     def handleApply(self, action):
         super(ConsentFormWithPolicy, self).handleApply(self, action)
 

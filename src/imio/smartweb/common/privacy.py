@@ -70,7 +70,7 @@ class EmbedTransform(object):
         consent_url = u"{}/@@consent".format(root.absolute_url())
         message = _(
             u"This feature requires cookies acceptation.<br/>"
-            u'Please <a class="pat-plone-modal" href="${consent_url}">review your cookies preferences</a>.',
+            u'<a class="pat-plone-modal" href="${consent_url}">Review your cookies preferences</a>.',
             mapping={u"consent_url": consent_url},
         )
         self.message = translate(message, target_language=current_lang)

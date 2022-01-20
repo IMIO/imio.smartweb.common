@@ -5,6 +5,9 @@ Changelog
 1.0a8 (unreleased)
 ------------------
 
+- Change some cookies-related texts
+  [laulaz]
+
 - Fix iframes transform with existing classes or when there are several iframes
   [laulaz]
 
