@@ -17,11 +17,11 @@ def replace_iframe(soup, message):
     Change <iframe> attributes to make it work only if cookies have been accepted
     The iframe attributes are put back through JS (to avoid server caching)
     """
-    privacy_tag = soup.new_tag("div")
-    privacy_tag.append(BeautifulSoup(message, "html.parser"))
-    privacy_tag["class"] = "gdpr-iframe-message"
     tags = soup.findAll("iframe")
     for tag in tags:
+        privacy_tag = soup.new_tag("div")
+        privacy_tag.append(BeautifulSoup(message, "html.parser"))
+        privacy_tag["class"] = "gdpr-iframe-message"
         tag["gdpr-src"] = tag["src"]
         tag["src"] = ""
         if tag.get("width"):
@@ -29,7 +29,10 @@ def replace_iframe(soup, message):
         if tag.get("height"):
             tag["gdpr-height"] = tag["height"]
         tag["width"] = tag["height"] = "0"
-        tag["class"] = "gdpr-iframe"
+        if tag.get("class"):
+            tag["class"].append("gdpr-iframe")
+        else:
+            tag["class"] = ["gdpr-iframe"]
         tag.insert_after(privacy_tag)
 
 

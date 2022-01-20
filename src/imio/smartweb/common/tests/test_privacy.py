@@ -46,6 +46,14 @@ class TestPrivacy(unittest.TestCase):
         self.assertEqual(privacy_handler.transformBytes(html, "utf-8"), result)
         self.assertEqual(privacy_handler.transformIterable([html], "utf-8"), [result])
 
+        html = '<iframe class="myclass" src="http://host.com" width="2" height="4">'
+        result = privacy_handler.transformUnicode(html, "utf-8")
+        self.assertIn('class="myclass gdpr-iframe"', result)
+
+        html = '<iframe src="http://host.com"><iframe src="http://host2.com">'
+        result = privacy_handler.transformUnicode(html, "utf-8")
+        self.assertEqual(result.count("This feature requires cookies acceptation"), 2)
+
     def test_views(self):
         view = queryMultiAdapter((self.portal, self.request), name="allow_iframes")
         self.assertEqual(view(), "false")

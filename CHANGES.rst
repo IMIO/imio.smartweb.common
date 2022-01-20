@@ -5,7 +5,8 @@ Changelog
 1.0a8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix iframes transform with existing classes or when there are several iframes
+  [laulaz]
 
 
 1.0a7 (2022-01-19)
