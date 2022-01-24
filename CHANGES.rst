@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a8 (unreleased)
+1.0a8 (2022-01-24)
 ------------------
 
 - Change colophon copyright position
