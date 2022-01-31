@@ -12,11 +12,11 @@ from zope.interface import provider
 @provider(IFormFieldProvider)
 class ITopics(model.Schema):
 
-    model.fieldset("categorization", label=_(u"Categorization"), fields=["topics"])
+    model.fieldset("categorization", label=_("Categorization"), fields=["topics"])
     topics = schema.List(
-        title=_(u"Topics"),
+        title=_("Topics"),
         description=_(
-            u"Important! Topics are used to filter search results and create lists"
+            "Important! Topics are used to filter search results and create lists"
         ),
         value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.Topics"),
         required=False,

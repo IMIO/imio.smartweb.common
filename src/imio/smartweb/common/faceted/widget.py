@@ -11,7 +11,7 @@ from z3c.form import field
 class DefaultSchemata(DS):
     """Schemata default"""
 
-    fields = field.Fields(ISchema).select(u"title")
+    fields = field.Fields(ISchema).select("title")
 
 
 class RelativePathWidget(Widget):

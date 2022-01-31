@@ -31,13 +31,13 @@ class CustomAddForm(DefaultAddForm):
         # Change Description field help text
         if "IBasic.description" in self.widgets:
             self.widgets["IBasic.description"].description = _(
-                u"Use **text** to set text in bold. Limited to ${max} characters.",
-                mapping={u"max": DESCRIPTION_MAX_LENGTH},
+                "Use **text** to set text in bold. Limited to ${max} characters.",
+                mapping={"max": DESCRIPTION_MAX_LENGTH},
             )
         elif "IDublinCore.description" in self.widgets:
             self.widgets["IDublinCore.description"].description = _(
-                u"Use **text** to set text in bold. Limited to ${max} characters.",
-                mapping={u"max": DESCRIPTION_MAX_LENGTH},
+                "Use **text** to set text in bold. Limited to ${max} characters.",
+                mapping={"max": DESCRIPTION_MAX_LENGTH},
             )
 
 
@@ -67,13 +67,13 @@ class CustomEditForm(DefaultEditForm):
         # Change Description field help text
         if "IBasic.description" in self.widgets:
             self.widgets["IBasic.description"].description = _(
-                u"Use **text** to set text in bold. Limited to ${max} characters.",
-                mapping={u"max": DESCRIPTION_MAX_LENGTH},
+                "Use **text** to set text in bold. Limited to ${max} characters.",
+                mapping={"max": DESCRIPTION_MAX_LENGTH},
             )
         elif "IDublinCore.description" in self.widgets:
             self.widgets["IDublinCore.description"].description = _(
-                u"Use **text** to set text in bold. Limited to ${max} characters.",
-                mapping={u"max": DESCRIPTION_MAX_LENGTH},
+                "Use **text** to set text in bold. Limited to ${max} characters.",
+                mapping={"max": DESCRIPTION_MAX_LENGTH},
             )
 
 

@@ -24,16 +24,16 @@ class IAddress(model.Schema):
 
     model.fieldset(
         "address",
-        label=_(u"Address"),
+        label=_("Address"),
         fields=["street", "number", "complement", "zipcode", "city", "country"],
     )
-    street = schema.TextLine(title=_(u"Street"), required=False)
-    number = schema.TextLine(title=_(u"Number"), required=False)
-    complement = schema.TextLine(title=_(u"Complement"), required=False)
-    zipcode = schema.Int(title=_(u"Zipcode"), required=False)
-    city = schema.TextLine(title=_(u"City"), required=False)
+    street = schema.TextLine(title=_("Street"), required=False)
+    number = schema.TextLine(title=_("Number"), required=False)
+    complement = schema.TextLine(title=_("Complement"), required=False)
+    zipcode = schema.Int(title=_("Zipcode"), required=False)
+    city = schema.TextLine(title=_("City"), required=False)
     country = schema.Choice(
-        title=_(u"Country"),
+        title=_("Country"),
         source="imio.smartweb.vocabulary.Countries",
         required=False,
     )

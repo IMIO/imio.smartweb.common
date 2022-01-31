@@ -15,23 +15,23 @@ import json
 class TopicsVocabularyFactory:
     def __call__(self, context=None):
         topics = [
-            (u"entertainment", _(u"Entertainment")),
-            (u"agriculture", _(u"Agriculture")),
-            (u"citizenship", _(u"Citizenship")),
-            (u"culture", _(u"Culture")),
-            (u"economics", _(u"Economics")),
-            (u"education", _(u"Education")),
-            (u"environment", _(u"Environment")),
-            (u"habitat_town_planning", _(u"Habitat and town planning")),
-            (u"mobility", _(u"Mobility")),
-            (u"citizen_participation", _(u"Citizen participation")),
-            (u"politics", _(u"Politics")),
-            (u"health", _(u"Health")),
-            (u"safety_prevention", _(u"Safety and prevention")),
-            (u"social", _(u"Social")),
-            (u"sports", _(u"Sports")),
-            (u"territory_public_space", _(u"Territory and public space")),
-            (u"tourism", _(u"Tourism")),
+            ("entertainment", _("Entertainment")),
+            ("agriculture", _("Agriculture")),
+            ("citizenship", _("Citizenship")),
+            ("culture", _("Culture")),
+            ("economics", _("Economics")),
+            ("education", _("Education")),
+            ("environment", _("Environment")),
+            ("habitat_town_planning", _("Habitat and town planning")),
+            ("mobility", _("Mobility")),
+            ("citizen_participation", _("Citizen participation")),
+            ("politics", _("Politics")),
+            ("health", _("Health")),
+            ("safety_prevention", _("Safety and prevention")),
+            ("social", _("Social")),
+            ("sports", _("Sports")),
+            ("territory_public_space", _("Territory and public space")),
+            ("tourism", _("Tourism")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in topics]
         return SimpleVocabulary(terms)
@@ -43,16 +43,16 @@ TopicsVocabulary = TopicsVocabularyFactory()
 class IAmVocabularyFactory:
     def __call__(self, context=None):
         iam = [
-            (u"merchant", _(u"Merchant")),
-            (u"job_seeker", _(u"Job seeker")),
-            (u"disabled_person", _(u"Disabled person")),
-            (u"young", _(u"Young")),
-            (u"journalist", _(u"Journalist")),
-            (u"newcomer", _(u"Newcomer")),
-            (u"event_planner", _(u"Event planner")),
-            (u"parent", _(u"Parent")),
-            (u"elder", _(u"Elder")),
-            (u"tourist", _(u"Tourist")),
+            ("merchant", _("Merchant")),
+            ("job_seeker", _("Job seeker")),
+            ("disabled_person", _("Disabled person")),
+            ("young", _("Young")),
+            ("journalist", _("Journalist")),
+            ("newcomer", _("Newcomer")),
+            ("event_planner", _("Event planner")),
+            ("parent", _("Parent")),
+            ("elder", _("Elder")),
+            ("tourist", _("Tourist")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in iam]
         return SimpleVocabulary(terms)
@@ -91,7 +91,7 @@ class CitiesVocabularyFactory:
         cities = json.loads(json_str)
         terms = [
             SimpleVocabulary.createTerm(
-                city["zip"], city["zip"], u"{0} {1}".format(city["zip"], city["city"])
+                city["zip"], city["zip"], "{0} {1}".format(city["zip"], city["city"])
             )
             for city in cities
         ]
