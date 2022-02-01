@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from collective.privacy.browser.consent import ConsentForm
-from collective.privacy.interfaces import IConsentFormView
 from imio.smartweb.common.browser.privacy.utils import get_all_consent_reasons
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
-from plone.app.z3cform.interfaces import IPloneFormLayer
-from plone.z3cform.templates import ZopeTwoFormTemplateFactory
 from z3c.form import button
 from zope.i18n import translate
-
-import os
 
 
 class ConsentFormWithPolicy(ConsentForm):
@@ -45,10 +40,3 @@ class ConsentFormWithPolicy(ConsentForm):
         privacy_tool = api.portal.get_tool("portal_privacy")
         for reason in get_all_consent_reasons(privacy_tool):
             privacy_tool.objectToProcessing(reason.__name__)
-
-
-form_factory = ZopeTwoFormTemplateFactory(
-    os.path.join(os.path.dirname(__file__), "form.pt"),
-    form=IConsentFormView,
-    request=IPloneFormLayer,
-)

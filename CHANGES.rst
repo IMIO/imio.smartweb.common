@@ -5,7 +5,9 @@ Changelog
 1.0a9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove unneeded override: it has been included in plone.app.z3c.form
+  See https://github.com/plone/plone.app.z3cform/issues/138
+  [laulaz]
 
 
 1.0a8 (2022-01-24)

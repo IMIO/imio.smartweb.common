@@ -29,7 +29,4 @@
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
 
-  <!-- Use our custom form template to allow html description -->
-  <adapter factory=".form.form_factory" />
-
 </configure>
