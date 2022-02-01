@@ -5,6 +5,9 @@ Changelog
 1.0a9 (unreleased)
 ------------------
 
+- Update buildout to use Plone 6.0.0a3 packages versions
+  [boulch]
+
 - Remove unneeded override: it has been included in plone.app.z3c.form
   See https://github.com/plone/plone.app.z3cform/issues/138
   [laulaz]
