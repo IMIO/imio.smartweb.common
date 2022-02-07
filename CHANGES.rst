@@ -5,7 +5,8 @@ Changelog
 1.0a10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Hide ical import related actions
+  [laulaz]
 
 
 1.0a9 (2022-02-01)

@@ -48,4 +48,13 @@
       profile="imio.smartweb.common:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Reload actions to hide ical related actions"
+      description=""
+      source="1004"
+      destination="1005"
+      handler=".upgrades.reload_actions"
+      profile="imio.smartweb.common:default"
+      />
+
 </configure>
