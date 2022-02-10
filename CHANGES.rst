@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a10 (unreleased)
+1.0a10 (2022-02-10)
 -------------------
 
 - Hide ical import related actions
