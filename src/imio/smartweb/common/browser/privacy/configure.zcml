@@ -7,7 +7,7 @@
       name="allow_iframes"
       class=".views.PrivacyView"
       attribute="allow_iframes"
-      permission="zope2.View"
+      permission="zope.Public"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
 
@@ -16,7 +16,7 @@
       name="accept_or_refuse_all"
       class=".views.PrivacyView"
       attribute="accept_or_refuse_all"
-      permission="zope2.View"
+      permission="zope.Public"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
 
@@ -25,7 +25,7 @@
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       name="consent"
       class=".form.ConsentFormWithPolicy"
-      permission="zope2.View"
+      permission="zope.Public"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
 

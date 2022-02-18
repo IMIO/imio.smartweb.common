@@ -5,7 +5,8 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Change privacy views permissions to zope.Public
+  [laulaz]
 
 
 1.0a10 (2022-02-10)
