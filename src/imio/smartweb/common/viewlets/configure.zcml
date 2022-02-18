@@ -18,6 +18,14 @@
   </unconfigure>
 
   <browser:viewlet
+      name="plone.analytics"
+      manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      template="analytics.pt"
+      permission="zope.Public"
+      />
+
+  <browser:viewlet
       name="smartweb.privacy_consent"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"

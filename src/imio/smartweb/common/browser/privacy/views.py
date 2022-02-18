@@ -2,13 +2,27 @@
 
 from imio.smartweb.common.browser.privacy.utils import get_all_consent_reasons
 from plone import api
+from plone.registry.interfaces import IRegistry
+from Products.CMFPlone.interfaces import ISiteSchema
 from Products.Five import BrowserView
+from zope.component import getUtility
 
 import json
 
 
 class PrivacyView(BrowserView):
     """ """
+
+    def get_analytics(self):
+        portal_privacy = api.portal.get_tool("portal_privacy")
+        if not portal_privacy.processingIsAllowed("basic_analytics"):
+            return ""
+        registry = getUtility(IRegistry)
+        site_settings = registry.forInterface(ISiteSchema, prefix="plone", check=False)
+        try:
+            return site_settings.webstats_js or ""
+        except AttributeError:
+            return ""
 
     def allow_iframes(self):
         self.request.response.setHeader("Content-type", "application/json")

@@ -5,6 +5,9 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
+- Load Analytics via JS call to avoid non-privacy aware caching
+  [laulaz]
+
 - Change privacy views permissions to zope.Public
   [laulaz]
 

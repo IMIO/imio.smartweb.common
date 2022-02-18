@@ -4,6 +4,14 @@
 
   <browser:page
       for="*"
+      name="get_analytics"
+      class=".views.PrivacyView"
+      attribute="get_analytics"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
       name="allow_iframes"
       class=".views.PrivacyView"
       attribute="allow_iframes"

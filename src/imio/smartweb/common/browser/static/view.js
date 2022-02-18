@@ -14,6 +14,15 @@ jQuery(document).ready(function ($) {
 
   var handleCookiesFeatures = function() {
 
+    // Load analytics JS if allowed
+    $.ajax({
+      type: "GET",
+      url: "@@get_analytics",
+      headers: {"Cache-Control": "no-cache"},
+    }).done(function(html) {
+        $('div#plone-analytics').html(html);
+    });
+
     // See if we need to un-hide blocked iframes
     if ($('.gdpr-iframe').length > 0) {
       $.ajax({
