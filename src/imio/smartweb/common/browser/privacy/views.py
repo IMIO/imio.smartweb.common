@@ -2,6 +2,7 @@
 
 from imio.smartweb.common.browser.privacy.utils import get_all_consent_reasons
 from plone import api
+from plone.api.exc import CannotGetPortalError
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces import ISiteSchema
 from Products.Five import BrowserView
@@ -14,7 +15,10 @@ class PrivacyView(BrowserView):
     """ """
 
     def get_analytics(self):
-        portal_privacy = api.portal.get_tool("portal_privacy")
+        try:
+            portal_privacy = api.portal.get_tool("portal_privacy")
+        except CannotGetPortalError:
+            return ""
         if not portal_privacy.processingIsAllowed("basic_analytics"):
             return ""
         registry = getUtility(IRegistry)

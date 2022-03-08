@@ -5,7 +5,8 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Avoid traceback if @@get_analytics is called outside Plone site
+  [laulaz]
 
 
 1.0a11 (2022-02-21)
