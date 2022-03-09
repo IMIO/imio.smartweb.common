@@ -5,7 +5,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Allow readers, editors and reviewers to see inactive (expired) contents
+  [laulaz]
 
 
 1.0 (2022-03-08)

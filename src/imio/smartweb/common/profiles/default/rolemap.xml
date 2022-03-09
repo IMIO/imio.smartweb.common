@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
 <rolemap>
   <permissions>
-  <!-- -*- extra stuff goes here -*- -->
-
+    <permission name="Access inactive portal content" acquire="True">
+      <role name="Editor" />
+      <role name="Reader" />
+      <role name="Reviewer" />
+      <role name="Site Administrator" />
+      <role name="Manager" />
+    </permission>
   </permissions>
 </rolemap>

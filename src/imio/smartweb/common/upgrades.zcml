@@ -57,4 +57,13 @@
       profile="imio.smartweb.common:default"
       />
 
+  <genericsetup:upgradeDepends
+      title="Reload rolemap to assign 'Access inactive portal content' permission"
+      description=""
+      source="1005"
+      destination="1006"
+      profile="imio.smartweb.common:default"
+      import_steps="rolemap"
+      />
+
 </configure>
