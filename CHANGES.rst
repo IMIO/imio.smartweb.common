@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.1 (unreleased)
+1.0.1 (2022-03-16)
 ------------------
 
 - Allow readers, editors and reviewers to see inactive (expired) contents
