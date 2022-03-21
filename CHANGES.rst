@@ -5,7 +5,8 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add Subject keywords to SearchableText index
+  [laulaz]
 
 
 1.0.1 (2022-03-16)

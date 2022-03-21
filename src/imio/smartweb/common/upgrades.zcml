@@ -66,4 +66,13 @@
       import_steps="rolemap"
       />
 
+  <genericsetup:upgradeStep
+      title="Reindex SearchableText index to add Subjects"
+      description=""
+      source="1006"
+      destination="1007"
+      handler=".upgrades.reindex_searchable_text"
+      profile="imio.smartweb.common:default"
+      />
+
 </configure>

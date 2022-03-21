@@ -29,6 +29,18 @@ class TestIndexes(unittest.TestCase):
             title="My Root Folder",
         )
 
+    def test_subjects_in_searchable_text(self):
+        catalog = api.portal.get_tool("portal_catalog")
+        uuid = IUUID(self.folder)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertNotIn("foo", indexes.get("SearchableText"))
+        self.folder.setSubject(["foo"])
+        self.folder.reindexObject(idxs=["SearchableText"])
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertIn("foo", indexes.get("SearchableText"))
+
     def test_breadcrumb(self):
         catalog = api.portal.get_tool("portal_catalog")
         folder = api.content.create(
