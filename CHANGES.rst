@@ -5,6 +5,9 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
+- Fix privacy views JS calls (sometimes called on Zope root instead of Plone root)
+  [laulaz]
+
 - Add Subject keywords to SearchableText index
   [laulaz]
 

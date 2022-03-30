@@ -1,5 +1,7 @@
 jQuery(document).ready(function ($) {
 
+  var portal_url = $("body").data("portal-url");
+
   // Remove cookies banner if already opted-in/out
   var url = $('#gdpr-consent-banner form').data('json-url');
   $.ajax({
@@ -17,7 +19,7 @@ jQuery(document).ready(function ($) {
     // Load analytics JS if allowed
     $.ajax({
       type: "GET",
-      url: "@@get_analytics",
+      url: portal_url + "/@@get_analytics",
       headers: {"Cache-Control": "no-cache"},
     }).done(function(html) {
         $('div#plone-analytics').html(html);
@@ -27,7 +29,7 @@ jQuery(document).ready(function ($) {
     if ($('.gdpr-iframe').length > 0) {
       $.ajax({
         type: "GET",
-        url: "@@allow_iframes",
+        url: portal_url + "/@@allow_iframes",
         headers: {"Cache-Control": "no-cache"},
       }).done(function(data) {
           if (data == true) {
