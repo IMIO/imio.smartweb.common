@@ -28,6 +28,13 @@ class CustomAddForm(DefaultAddForm):
 
     def updateWidgets(self):
         super(CustomAddForm, self).updateWidgets()
+        if "ILeadImageBehavior.image" in self.widgets:
+            desc = _(
+                "Please note that it is important to upload an image without "
+                "text for design and accessibility reasons. "
+                "The image will not display in its entirety and the text may be cut off."
+            )
+            self.widgets["ILeadImageBehavior.image"].description = desc
         # Change Description field help text
         if "IBasic.description" in self.widgets:
             self.widgets["IBasic.description"].description = _(

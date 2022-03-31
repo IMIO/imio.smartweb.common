@@ -5,6 +5,9 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
+- Add help text on lead image fields
+  [boulch]
+
 - Fix privacy views JS calls (sometimes called on Zope root instead of Plone root)
   [laulaz]
 
