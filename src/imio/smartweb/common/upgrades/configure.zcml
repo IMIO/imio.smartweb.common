@@ -3,6 +3,15 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="imio.smartweb">
 
+
+  <genericsetup:registerProfile
+      name="upgrade_1007_to_1008"
+      title="Upgrade core from 1007 to 1008"
+      directory="profiles/1007_to_1008"
+      description="Add local manager role and sharing permissions rolemap"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -74,5 +83,16 @@
       handler=".upgrades.reindex_searchable_text"
       profile="imio.smartweb.common:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1007"
+      destination="1008"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Add local manager role and sharing permissions rolemap"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1007_to_1008"
+        import_steps="rolemap"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

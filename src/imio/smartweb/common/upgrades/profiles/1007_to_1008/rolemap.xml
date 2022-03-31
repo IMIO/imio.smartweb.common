@@ -6,14 +6,6 @@
   </roles>
 
   <permissions>
-    <permission name="Access inactive portal content" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Editor" />
-      <role name="Reader" />
-      <role name="Reviewer" />
-    </permission>
-
     <permission name="Sharing page: Delegate roles" acquire="False">
       <role name="Manager" />
       <role name="Site Administrator" />

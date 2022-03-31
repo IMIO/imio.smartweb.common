@@ -5,6 +5,9 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
+- Add local manager role and sharing permissions rolemap
+  [boulch]
+
 - Add help text on lead image fields
   [boulch]
 

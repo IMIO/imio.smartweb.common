@@ -15,6 +15,10 @@ class IImioSmartwebCommonLayer(
     """Marker interface that defines a browser layer."""
 
 
+class ILocalManagerAware(Interface):
+    """Marker interface that allows a local management."""
+
+
 class ICropping(Interface):
     def get_scales(fieldname, request=None):
         """Return the available cropping scales for a field on an object."""

@@ -14,13 +14,14 @@
   <include file="privacy.zcml" />
   <include file="profiles.zcml" />
   <include file="subscribers.zcml" />
-  <include file="upgrades.zcml" />
   <include file="vocabularies.zcml" />
 
   <include package=".behaviors" />
   <include package=".browser" />
   <include package=".faceted" />
   <include package=".rest" />
+  <include package=".sharing" />
+  <include package=".upgrades" />
   <include package=".viewlets" />
 
 </configure>
