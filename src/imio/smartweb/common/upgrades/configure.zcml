@@ -6,7 +6,7 @@
 
   <genericsetup:registerProfile
       name="upgrade_1007_to_1008"
-      title="Upgrade core from 1007 to 1008"
+      title="Upgrade common from 1007 to 1008"
       directory="profiles/1007_to_1008"
       description="Add local manager role and sharing permissions rolemap"
       provides="Products.GenericSetup.interfaces.EXTENSION"
