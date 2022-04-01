@@ -10,7 +10,14 @@ class HiddenProfiles(object):
     def getNonInstallableProfiles(self):
         """Hide uninstall profile from site-creation and quickinstaller."""
         return [
+            "imio.smartweb.common:testing",
             "imio.smartweb.common:uninstall",
+        ]
+
+    def getNonInstallableProducts(self):
+        """Hide unwanted products from site-creation and quickinstaller."""
+        return [
+            "imio.smartweb.common.upgrades",
         ]
 
 
