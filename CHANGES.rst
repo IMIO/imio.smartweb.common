@@ -5,7 +5,8 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Hide faceted actions
+  [boulch]
 
 
 1.0.2 (2022-04-25)

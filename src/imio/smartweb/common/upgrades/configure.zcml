@@ -12,6 +12,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1008_to_1009"
+      title="Upgrade common from 1008 to 1009"
+      directory="profiles/1008_to_1009"
+      description="Hide faceted actions"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -92,6 +100,17 @@
         title="Add local manager role and sharing permissions rolemap"
         import_profile="imio.smartweb.common.upgrades:upgrade_1007_to_1008"
         import_steps="rolemap"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1008"
+      destination="1009"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Hide faceted actions"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1008_to_1009"
+        import_steps="actions"
         />
   </genericsetup:upgradeSteps>
 
