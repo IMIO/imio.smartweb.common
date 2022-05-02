@@ -5,7 +5,8 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add help text on lead image field also on edit forms
+  [laulaz]
 
 
 1.0.3 (2022-05-02)
