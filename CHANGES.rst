@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.4 (unreleased)
+1.0.4 (2022-05-03)
 ------------------
 
 - Limit uploaded files sizes to 20Mo with JS (without reaching the server)
