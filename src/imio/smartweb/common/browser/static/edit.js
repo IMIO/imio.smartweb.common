@@ -1,5 +1,16 @@
 jQuery(document).ready(function ($) {
 
+  // Limit uploaded files sizes to 20Mo (without reaching the server)
+
+  $("input[type='file']").on("change", function () {
+    if(this.files[0].size > 20*1024*1024) {
+      // TODO: translate this message
+      alert("Le poids de votre image/fichier dépasse les 20Mo autorisés. Veuillez alléger votre fichier.");
+      $(this).val(null);
+    }
+  });
+
+
   // Toggle on add / edit forms fieldsets
 
   // 1. hide default fieldset legend (ckass : expanded)

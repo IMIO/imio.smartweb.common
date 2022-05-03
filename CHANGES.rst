@@ -5,6 +5,9 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
+- Limit uploaded files sizes to 20Mo with JS (without reaching the server)
+  [laulaz]
+
 - Add help text on lead image field also on edit forms
   [laulaz]
 
