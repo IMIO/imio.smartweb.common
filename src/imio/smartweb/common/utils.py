@@ -8,6 +8,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 
 import geopy
+import re
 
 
 def get_vocabulary(voc_name):
@@ -67,3 +68,11 @@ def geocode_object(obj):
         obj.reindexObject(idxs=["longitude", "latitude"])
         return True
     return False
+
+
+def rich_description(description):
+    # **strong**
+    description = re.sub(r"\*\*([^\*\*]*)\*\*", r"<strong>\1</strong>", description)
+    # <br/>
+    description = "<br/>".join(description.split("\r\n"))
+    return description

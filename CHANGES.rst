@@ -5,7 +5,9 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Refactor rich description to retrieve html on a any description
+  (from context or from other ways)
+  [boulch]
 
 
 1.0.4 (2022-05-03)

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.utils import rich_description
 from Products.CMFPlone.utils import base_hasattr
 from Products.Five.browser import BrowserView
-
-import re
 
 
 class RichDescription(BrowserView):
@@ -12,8 +11,5 @@ class RichDescription(BrowserView):
         description = ""
         if base_hasattr(self.context, "description"):
             description = self.context.description or ""
-        # **strong**
-        description = re.sub(r"\*\*([^\*\*]*)\*\*", r"<strong>\1</strong>", description)
-        # <br/>
-        description = "<br/>".join(description.split("\r\n"))
+        description = rich_description(description)
         return description
