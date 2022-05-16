@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.5 (unreleased)
+1.0.5 (2022-05-16)
 ------------------
 
 - Refactor rich description to retrieve html on a any description
