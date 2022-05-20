@@ -5,7 +5,8 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add ban_physicalpath method (taken from policy)
+  [boulch, laulaz]
 
 
 1.0.5 (2022-05-16)
