@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.6 (unreleased)
+1.0.6 (2022-06-07)
 ------------------
 
 - Add ban_physicalpath method (taken from policy)
