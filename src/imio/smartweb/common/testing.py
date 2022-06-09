@@ -8,6 +8,7 @@ from plone.app.testing import (
     PloneSandboxLayer,
 )
 from plone.api import portal as portal_api
+from plone import api
 from plone.testing import z2
 
 import imio.smartweb.common
@@ -32,6 +33,7 @@ class ImioSmartwebCommonLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         portal_api.get_current_language = mock.Mock(return_value="fr")
+        api.user.create(email="test@imio.be", username="test")
         applyProfile(portal, "imio.smartweb.common:testing")
 
 

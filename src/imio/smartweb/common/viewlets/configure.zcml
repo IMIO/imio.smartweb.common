@@ -39,7 +39,6 @@
       manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       class=".colophon.ColophonViewlet"
-      template="colophon.pt"
       permission="zope.Public"
       />
 

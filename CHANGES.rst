@@ -5,7 +5,8 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add connection link in colophon
+  [laulaz]
 
 
 1.0.6 (2022-06-07)

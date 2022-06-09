@@ -23,6 +23,12 @@
        i18n:translate="">Cookies preferences</a>
   </li>
 
+  <li tal:condition="view/is_anonymous">
+    <a href=""
+       tal:attributes="href string:${view/navigation_root_url}/login"
+       i18n:translate="">Agent connection</a>
+  </li>
+
   <li>
     <tal:block i18n:translate="">Site created in collaboration with</tal:block>&nbsp;<a href="https://www.imio.be" target="_blank" i18n:translate="">IMIO</a>&nbsp;<tal:block i18n:translate="">under</tal:block>
     <a href="https://fr.wikipedia.org/wiki/Free_Software_Foundation"
