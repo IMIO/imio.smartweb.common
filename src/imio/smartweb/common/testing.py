@@ -7,14 +7,12 @@ from plone.app.testing import (
     IntegrationTesting,
     PloneSandboxLayer,
 )
-from plone.api import portal as portal_api
 from plone import api
 from plone.testing import z2
 
 import imio.smartweb.common
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
-import mock
 import unittest
 
 
@@ -32,7 +30,6 @@ class ImioSmartwebCommonLayer(PloneSandboxLayer):
         self.loadZCML(package=imio.smartweb.common)
 
     def setUpPloneSite(self, portal):
-        portal_api.get_current_language = mock.Mock(return_value="fr")
         api.user.create(email="test@imio.be", username="test")
         applyProfile(portal, "imio.smartweb.common:testing")
 
