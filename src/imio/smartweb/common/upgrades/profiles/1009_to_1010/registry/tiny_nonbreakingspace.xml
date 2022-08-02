@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+  <record name="plone.plugins"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value purge="false">
+      <element>nonbreaking</element>
+    </value>
+  </record>
+
+  <record name="plone.menu"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value>
+    {
+      "edit": {
+          "title": "Edit",
+          "items": "undo redo | cut copy paste | searchreplace selectall"
+      },
+      "insert": {
+          "title": "Insert",
+          "items": "nonbreaking"
+      },
+      "view": {
+          "title": "View",
+          "items": "visualblocks preview fullscreen"
+      },
+      "table": {
+          "title": "Table",
+          "items": "inserttable deletetable | cell row column"
+      }
+    }
+    </value>
+  </record>
+
+</registry>

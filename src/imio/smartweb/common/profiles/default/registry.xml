@@ -91,6 +91,10 @@
           "title": "Edit",
           "items": "undo redo | cut copy paste | searchreplace selectall"
       },
+      "insert": {
+          "title": "Insert",
+          "items": "nonbreaking"
+      },
       "view": {
           "title": "View",
           "items": "visualblocks preview fullscreen"
@@ -151,6 +155,7 @@
       <element>autosave</element>
       <element>fullscreen</element>
       <element>lists</element>
+      <element>nonbreaking</element>
       <element>paste</element>
       <element>preview</element>
       <element>searchreplace</element>

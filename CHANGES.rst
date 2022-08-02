@@ -5,7 +5,8 @@ Changelog
 1.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- MWEB-54 : Update TinyMCE : Add non breaking space option
+  [boulch]
 
 
 1.0.7 (2022-06-13)
