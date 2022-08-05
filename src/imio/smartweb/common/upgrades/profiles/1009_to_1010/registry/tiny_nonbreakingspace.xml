@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+  <record name="plone.plugins"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value purge="false">
+      <element>nonbreaking</element>
+    </value>
+  </record>
+
+  <record name="plone.toolbar"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen</value>
+  </record>
+
+</registry>

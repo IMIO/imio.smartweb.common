@@ -20,6 +20,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1009_to_1010"
+      title="Upgrade common from 1009 to 1010"
+      directory="profiles/1009_to_1010"
+      description="Add non breaking space option to tiny (registry)"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -111,6 +119,16 @@
         title="Hide faceted actions"
         import_profile="imio.smartweb.common.upgrades:upgrade_1008_to_1009"
         import_steps="actions"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1009"
+      destination="1010"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Add non breaking space option to tiny (registry)"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1009_to_1010"
         />
   </genericsetup:upgradeSteps>
 

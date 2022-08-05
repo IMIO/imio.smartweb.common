@@ -151,6 +151,7 @@
       <element>autosave</element>
       <element>fullscreen</element>
       <element>lists</element>
+      <element>nonbreaking</element>
       <element>paste</element>
       <element>preview</element>
       <element>searchreplace</element>
@@ -163,7 +164,7 @@
 
   <record name="plone.toolbar"
           interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
-    <value>undo redo | styleselect | bold italic superscript | bullist numlist | plonelink unlink | fullscreen</value>
+    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen</value>
   </record>
 
 
