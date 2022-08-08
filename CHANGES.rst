@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.8 (unreleased)
+1.0.8 (2022-08-08)
 ------------------
 
 - MWEB-54 : Update TinyMCE : Add non breaking space option
