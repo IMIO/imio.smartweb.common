@@ -1,7 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope">
 
-  <include package="collective.dexteritytextindexer" />
   <include package="eea.facetednavigation" />
   <include package="eea.facetednavigation" file="meta.zcml" />
   <include package="plone.app.imagecropping" />

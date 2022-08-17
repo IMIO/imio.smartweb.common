@@ -5,7 +5,8 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Migrate to Plone 6.0.0b1 : remove dexteritytextindexer
+  [laulaz]
 
 
 1.0.10 (2022-11-22)
