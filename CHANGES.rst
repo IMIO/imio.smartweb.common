@@ -5,7 +5,8 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
-- Migrate to Plone 6.0.0b1 : remove dexteritytextindexer
+- Migrate to Plone 6.0.0b1 : remove dexteritytextindexer, use new simplified
+  resources registry
   [laulaz]
 
 

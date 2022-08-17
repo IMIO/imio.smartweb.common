@@ -28,6 +28,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1010_to_1011"
+      title="Upgrade common from 1010 to 1011"
+      directory="profiles/1010_to_1011"
+      description="Migrate bundles / resources to simplified resources registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -129,6 +137,16 @@
     <genericsetup:upgradeDepends
         title="Add non breaking space option to tiny (registry)"
         import_profile="imio.smartweb.common.upgrades:upgrade_1009_to_1010"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1010"
+      destination="1011"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Migrate bundles / resources to simplified resources registry"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1010_to_1011"
         />
   </genericsetup:upgradeSteps>
 
