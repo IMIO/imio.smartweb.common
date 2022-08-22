@@ -13,12 +13,14 @@
 
   <records prefix="plone.bundles/smartweb-common-view"
            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="depends">plone</value>
     <value key="load_async">False</value>
     <value key="load_defer">False</value>
   </records>
 
   <records prefix="plone.bundles/smartweb-common-edit"
            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="depends">plone</value>
     <value key="load_async">False</value>
     <value key="load_defer">False</value>
   </records>
