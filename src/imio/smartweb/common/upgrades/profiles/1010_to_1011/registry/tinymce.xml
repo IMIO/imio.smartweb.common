@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+  <record name="plone.menu"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value>
+    {
+      "edit": {
+          "title": "Edit",
+          "items": "undo redo | cut copy paste | searchreplace selectall"
+      },
+      "view": {
+          "title": "View",
+          "items": "visualblocks preview fullscreen"
+      },
+      "table": {
+          "title": "Table",
+          "items": "inserttable deletetable | cell row column"
+      }
+    }
+    </value>
+  </record>
+
+  <record name="plone.menubar"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value purge="true">
+      <element>format</element>
+    </value>
+  </record>
+
+  <record name="plone.other_settings"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value>
+    {
+      "paste_as_text": true,
+      "style_formats": [
+         {
+            "block": "p",
+            "title": "Paragraphe"
+         },
+         {
+            "block": "h2",
+            "title": "Titre 2"
+         },
+         {
+            "block": "h3",
+            "title": "Titre 3"
+         },
+         {
+            "block": "h4",
+            "title": "Titre 4"
+         },
+         {
+            "block": "mark",
+            "title": "Mise en évidence"
+         },
+         {
+            "block": "blockquote",
+            "title": "Citation"
+         }
+      ]
+    }
+    </value>
+  </record>
+
+  <record name="plone.plugins"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value purge="true">
+      <element>autosave</element>
+      <element>fullscreen</element>
+      <element>lists</element>
+      <element>nonbreaking</element>
+      <element>paste</element>
+      <element>preview</element>
+      <element>searchreplace</element>
+      <element>tabfocus</element>
+      <element>table</element>
+      <element>visualblocks</element>
+      <element>wordcount</element>
+    </value>
+  </record>
+
+  <record name="plone.toolbar"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen</value>
+  </record>
+
+</registry>

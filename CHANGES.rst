@@ -6,7 +6,7 @@ Changelog
 -------------------
 
 - Migrate to Plone 6.0.0b1 : remove dexteritytextindexer, use new simplified
-  resources registry
+  resources registry, fix TinyMCE configuration and images scales
   [laulaz]
 
 
