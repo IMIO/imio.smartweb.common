@@ -5,7 +5,9 @@ Changelog
 1.0.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Allow to translate vocabulary terms titles in search-filters endpoint
+  This is needed for multilingual authentic sources
+  [laulaz]
 
 
 1.0.8 (2022-08-08)
