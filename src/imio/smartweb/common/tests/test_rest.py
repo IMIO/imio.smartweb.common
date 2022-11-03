@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.rest.utils import get_restapi_query_lang
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_ACCEPTANCE_TESTING
 from plone import api
 from plone.app.testing import setRoles
@@ -51,6 +52,13 @@ class TestREST(unittest.TestCase):
 
     def tearDown(self):
         self.api_session.close()
+
+    def test_restapi_query_lang(self):
+        self.assertEqual(get_restapi_query_lang(), "fr")
+        self.request.form["translated_in_nl"] = True
+        self.assertEqual(get_restapi_query_lang(), "nl")
+        self.request.form["translated_in_en"] = True
+        self.assertEqual(get_restapi_query_lang(), "fr")
 
     def test_search_filters(self):
         query = {

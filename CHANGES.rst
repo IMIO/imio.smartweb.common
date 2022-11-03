@@ -5,6 +5,10 @@ Changelog
 1.0.9 (unreleased)
 ------------------
 
+- Add helper method to get language from smartweb REST requests
+  This is needed for multilingual authentic sources
+  [laulaz]
+
 - Allow to translate vocabulary terms titles in search-filters endpoint
   This is needed for multilingual authentic sources
   [laulaz]
