@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.9 (unreleased)
+1.0.9 (2022-11-15)
 ------------------
 
 - Add helper method to get language from smartweb REST requests
