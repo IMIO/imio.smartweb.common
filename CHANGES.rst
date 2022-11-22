@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.10 (unreleased)
+1.0.10 (2022-11-22)
 -------------------
 
 - Ignore batch related query parameters for `search-filters` endpoint
