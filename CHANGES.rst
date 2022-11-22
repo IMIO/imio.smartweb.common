@@ -5,7 +5,8 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Ignore batch related query parameters for `search-filters` endpoint
+  [laulaz]
 
 
 1.0.9 (2022-11-15)

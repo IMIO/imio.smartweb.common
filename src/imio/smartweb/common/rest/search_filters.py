@@ -35,11 +35,15 @@ class SearchFiltersHandler(SearchHandler):
     faceted searches.
     """
 
+    ignored_params = ["fullobjects", "b_size", "b_start"]
+
     def search(self, query=None):
         if query is None:
             query = {}
-        if "fullobjects" in query:
-            del query["fullobjects"]
+
+        for param in self.ignored_params:
+            if param in query:
+                del query[param]
 
         use_site_search_settings = False
         if "use_site_search_settings" in query:
