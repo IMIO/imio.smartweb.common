@@ -36,6 +36,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1011_to_1012"
+      title="Upgrade common from 1011 to 1012"
+      directory="profiles/1011_to_1012"
+      description="Remove faceted deprecated bundles"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -147,6 +155,16 @@
     <genericsetup:upgradeDepends
         title="Fix resources registry and TinyMCE / scales configuration after Plone upgrade"
         import_profile="imio.smartweb.common.upgrades:upgrade_1010_to_1011"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1011"
+      destination="1012"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Remove faceted deprecated bundles"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1011_to_1012"
         />
   </genericsetup:upgradeSteps>
 
