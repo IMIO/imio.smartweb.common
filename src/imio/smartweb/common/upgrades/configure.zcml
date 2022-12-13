@@ -168,4 +168,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1012"
+      destination="1013"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Uninstall collective.js.jqueryui"
+        import_profile="collective.js.jqueryui:uninstall"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

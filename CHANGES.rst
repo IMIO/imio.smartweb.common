@@ -5,6 +5,9 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
+- Uninstall collective.js.jqueryui
+  [boulch]
+
 - Remove faceted deprecated bundles
   [boulch]
 
