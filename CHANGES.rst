@@ -11,9 +11,10 @@ Changelog
 - Remove faceted deprecated bundles
   [boulch]
 
-- Migrate to Plone 6.0.0b1 : remove dexteritytextindexer, use new simplified
-  resources registry, fix TinyMCE configuration and images scales
-  [laulaz]
+- Migrate to Plone 6 : remove dexteritytextindexer, use new simplified
+  resources registry, fix TinyMCE configuration and images scales,
+  manual minimized js
+  [laulaz, boulch]
 
 
 1.0.10 (2022-11-22)
