@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.0.11 (unreleased)
--------------------
+1.1 (2022-12-20)
+----------------
 
 - Add monkeypatch to fix TTW resource calling
   See https://github.com/plone/Products.CMFPlone/issues/3705
