@@ -5,6 +5,10 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
+- Add monkeypatch to fix TTW resource calling
+  See https://github.com/plone/Products.CMFPlone/issues/3705
+  [laulaz]
+
 - Uninstall collective.js.jqueryui
   [boulch]
 
