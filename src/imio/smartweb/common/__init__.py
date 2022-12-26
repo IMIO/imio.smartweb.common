@@ -5,6 +5,7 @@ from plone.app.dexterity.behaviors.metadata import ICategorization
 from plone.app.dexterity.textindexer.utils import searchable
 from plone.resource.file import FilesystemFile
 from Products.CMFPlone.resources import utils
+from Products.CMFPlone.resources import webresource
 from Products.CMFPlone.resources.utils import get_override_directory
 from Products.CMFPlone.resources.utils import logger
 from zExceptions import NotFound
@@ -67,3 +68,4 @@ def patched_get_resource(context, path):
 
 
 utils.get_resource = patched_get_resource
+webresource.get_resource = patched_get_resource

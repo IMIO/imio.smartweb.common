@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Improve monkeypatch to fix TTW resource calling
+  [laulaz]
+
 - Update buildout to get Plone 6.0.0 final
   [laulaz]
 
