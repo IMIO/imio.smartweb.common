@@ -44,6 +44,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1013_to_1014"
+      title="Upgrade common from 1013 to 1014"
+      directory="profiles/1013_to_1014"
+      description="Fix TinyMCE menu bar and format menu"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -175,6 +183,20 @@
     <genericsetup:upgradeDepends
         title="Uninstall collective.js.jqueryui"
         import_profile="collective.js.jqueryui:uninstall"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1013"
+      destination="1014"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeStep
+        title="Upgrade plonetheme.barceloneta registry"
+        handler=".upgrades.upgrade_barceloneta"
+        />
+    <genericsetup:upgradeDepends
+        title="Fix TinyMCE menu bar and format menu"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1013_to_1014"
         />
   </genericsetup:upgradeSteps>
 

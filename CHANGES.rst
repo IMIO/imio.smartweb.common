@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Fix TinyMCE menu bar and format menu
+  [laulaz]
+
 - Update `widget.pt` override from `plone.app.z3cform.templates`
   [laulaz]
 

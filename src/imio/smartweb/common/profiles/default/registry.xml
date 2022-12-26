@@ -75,10 +75,20 @@
     </value>
   </record>
 
+
+  <record name="plone.content_css"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+    <value purge="true">
+      <element>++theme++barceloneta/tinymce/tinymce-ui-content.css</element>
+    </value>
+  </record>
+
   <record name="plone.menubar"
           interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
     <value purge="true">
-      <element>format</element>
+      <element>edit</element>
+      <element>view</element>
+      <element>table</element>
     </value>
   </record>
 

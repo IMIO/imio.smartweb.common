@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+  <records interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+           prefix="plone">
+
+    <value key="content_css" purge="true">
+      <element>++theme++barceloneta/tinymce/tinymce-ui-content.css</element>
+    </value>
+    
+    <value key="menubar" purge="true">
+      <element>edit</element>
+      <element>view</element>
+      <element>table</element>
+    </value>
+
+  </records>
+
+</registry>
