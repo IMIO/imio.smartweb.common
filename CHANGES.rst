@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Use bootstrap dropdown-toggle for fieldsets collapse icon on edit forms
+  [laulaz]
+
 - Fix TinyMCE menu bar and format menu
   [laulaz]
 

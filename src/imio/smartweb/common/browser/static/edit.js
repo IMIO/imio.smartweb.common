@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
 
   // 2. hide all fieldsets content except first (class : collapsed)
   $("form.tabbed-form-with-toggle fieldset:not(:first) legend").siblings().hide();
-  $("form.tabbed-form-with-toggle fieldset:not(:first) legend").addClass("collapsed");
+  $("form.tabbed-form-with-toggle fieldset:not(:first) legend").addClass("dropdown-toggle collapsed");
 
   // 3. add toggle on all fieldsets legends & toggle expanded / collapsed classes
   $("form.tabbed-form-with-toggle fieldset:not(:first) legend").click(function(){
