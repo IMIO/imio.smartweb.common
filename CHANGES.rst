@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Update `widget.pt` override from `plone.app.z3cform.templates`
+  [laulaz]
+
 - Improve monkeypatch to fix TTW resource calling
   [laulaz]
 
