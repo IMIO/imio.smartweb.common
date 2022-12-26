@@ -5,7 +5,8 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update buildout to get Plone 6.0.0 final
+  [laulaz]
 
 
 1.1 (2022-12-20)
