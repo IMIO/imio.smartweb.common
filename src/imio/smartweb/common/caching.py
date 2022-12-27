@@ -17,6 +17,8 @@ def ban_physicalpath(request, physical_path):
     len_portal_path = len(portal.getPhysicalPath())
     path = "/".join(physical_path[len_portal_path:])
     for caching_server in caching_servers:
+        if not caching_server:
+            continue
         if path:
             ban_url = f"http://{caching_server}/{path}"
         else:
