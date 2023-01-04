@@ -7,3 +7,8 @@ VOCABULARIES_MAPPING = {
     "iam": "imio.smartweb.vocabulary.IAm",
     "topics": "imio.smartweb.vocabulary.Topics",
 }
+
+# Used for vocabularies that allow explicitly choosen lang translations
+TRANSLATED_VOCABULARIES = [
+    "imio.smartweb.vocabulary.Countries",
+]

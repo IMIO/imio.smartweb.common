@@ -5,7 +5,6 @@ from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 from imio.smartweb.common.utils import geocode_object
 from imio.smartweb.common.utils import get_term_from_vocabulary
 from imio.smartweb.common.utils import translate_vocabulary_term
-from plone.api import portal as portal_api
 from plone.formwidget.geolocation.geolocation import Geolocation
 from unittest import mock
 from unittest.mock import patch
@@ -50,10 +49,21 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(term.title, "non_existing")
 
     def test_translate_vocabulary_term(self):
-        portal_api.get_current_language = mock.Mock(return_value="fr")
         self.assertEqual(
             translate_vocabulary_term("imio.smartweb.vocabulary.Countries", None),
             "",
+        )
+        self.assertEqual(
+            translate_vocabulary_term("imio.smartweb.vocabulary.Countries", "be"),
+            "Belgium",
+        )
+        self.assertEqual(
+            translate_vocabulary_term("imio.smartweb.vocabulary.Countries", "be", "fr"),
+            "Belgique",
+        )
+        self.assertEqual(
+            translate_vocabulary_term("imio.smartweb.vocabulary.Countries", "be", "nl"),
+            "België",
         )
         with patch("plone.api.portal.get_current_language", return_value="fr"):
             self.assertEqual(

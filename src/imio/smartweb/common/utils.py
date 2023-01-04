@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.config import TRANSLATED_VOCABULARIES
 from plone import api
 from plone.formwidget.geolocation.geolocation import Geolocation
 from zope.component import getUtility
@@ -28,17 +29,21 @@ def get_term_from_vocabulary(vocabulary, value):
     return term
 
 
-def translate_vocabulary_term(vocabulary, term):
+def translate_vocabulary_term(vocabulary, term, lang=None):
     if term is None:
         return ""
     portal = api.portal.get()
     factory = getUtility(IVocabularyFactory, vocabulary)
-    vocabulary = factory(portal)
+    if vocabulary in TRANSLATED_VOCABULARIES:
+        vocabulary = factory(portal, lang=lang)
+    else:
+        vocabulary = factory(portal)
     term = vocabulary.getTerm(term)
     if term is None:
         return ""
-    current_lang = api.portal.get_current_language()[:2]
-    return translate(term.title, target_language=current_lang)
+    if lang is None:
+        lang = api.portal.get_current_language()[:2]
+    return translate(term.title, target_language=lang)
 
 
 def geocode_object(obj):

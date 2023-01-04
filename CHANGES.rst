@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Allow to choose language for vocabulary term translation
+  [laulaz]
+
 - Use bootstrap dropdown-toggle for fieldsets collapse icon on edit forms
   [laulaz]
 

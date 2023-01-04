@@ -62,10 +62,11 @@ IAmVocabulary = IAmVocabularyFactory()
 
 
 class CountriesVocabularyFactory:
-    def __call__(self, context=None):
+    def __call__(self, context=None, lang=None):
         normalizer = getUtility(IIDNormalizer)
-        current_language = api.portal.get_current_language()
-        locale = locales.getLocale(current_language)
+        if lang is None:
+            lang = api.portal.get_current_language()
+        locale = locales.getLocale(lang)
         localized_country_names = {
             capitalized_code.lower(): translation
             for capitalized_code, translation in locale.displayNames.territories.items()
