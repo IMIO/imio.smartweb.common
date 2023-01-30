@@ -8,6 +8,7 @@ jQuery(document).ready(function ($) {
     type: "GET",
     url: url,
     headers: {"Cache-Control": "no-cache"},
+    cache: false,
   }).done(function(data) {
     if (data.length == 0) $('#gdpr-consent-banner').remove();
     else $('#gdpr-consent-banner').show();
@@ -21,6 +22,7 @@ jQuery(document).ready(function ($) {
       type: "GET",
       url: portal_url + "/@@get_analytics",
       headers: {"Cache-Control": "no-cache"},
+      cache: false,
     }).done(function(html) {
         $('div#plone-analytics').html(html);
     });
@@ -31,6 +33,7 @@ jQuery(document).ready(function ($) {
         type: "GET",
         url: portal_url + "/@@allow_iframes",
         headers: {"Cache-Control": "no-cache"},
+        cache: false,
       }).done(function(data) {
           if (data == true) {
             $('.gdpr-iframe-message').hide();

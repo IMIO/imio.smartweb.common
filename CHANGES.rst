@@ -5,7 +5,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Ensure Ajax requests are always uncached
+  [laulaz]
 
 
 1.1.1 (2023-01-12)
