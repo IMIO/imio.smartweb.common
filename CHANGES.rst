@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.2 (unreleased)
+1.1.2 (2023-01-30)
 ------------------
 
 - Call `@@consent-json` view on navigation root (instead of context)
