@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Call `@@consent-json` view on navigation root (instead of context)
+  [laulaz]
+
 - Ensure Ajax requests are always uncached
   [laulaz]
 
