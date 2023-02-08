@@ -12,7 +12,6 @@ import unittest
 
 
 class TestREST(unittest.TestCase):
-
     layer = IMIO_SMARTWEB_COMMON_ACCEPTANCE_TESTING
 
     def setUp(self):

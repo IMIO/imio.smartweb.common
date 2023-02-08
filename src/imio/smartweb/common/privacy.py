@@ -39,7 +39,6 @@ def replace_iframe(soup, message):
 @implementer(ITransform)
 @adapter(Interface, Interface)
 class EmbedTransform(object):
-
     order = 1000000
 
     def __init__(self, published, request):

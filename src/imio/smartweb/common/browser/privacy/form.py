@@ -9,7 +9,6 @@ from zope.i18n import translate
 
 
 class ConsentFormWithPolicy(ConsentForm):
-
     label = _("Cookies choice")
     id = "cookies-form"
 

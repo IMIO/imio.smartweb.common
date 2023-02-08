@@ -11,7 +11,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IAm(model.Schema):
-
     model.fieldset("categorization", label=_("Categorization"), fields=["iam"])
     iam = schema.List(
         title=_("I am"),

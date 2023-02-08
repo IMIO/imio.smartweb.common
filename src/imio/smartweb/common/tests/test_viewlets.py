@@ -8,7 +8,6 @@ from plone.app.testing import logout
 
 
 class TestViewlets(ImioSmartwebCommonTestCase):
-
     layer = IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 
     def setUp(self):

@@ -7,7 +7,6 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class ColophonViewlet(common.ViewletBase):
-
     index = ViewPageTemplateFile("colophon.pt")
 
     def update(self):

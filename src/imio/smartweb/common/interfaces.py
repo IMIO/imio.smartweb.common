@@ -25,7 +25,6 @@ class ICropping(Interface):
 
 
 class IAddress(model.Schema):
-
     model.fieldset(
         "address",
         label=_("Address"),

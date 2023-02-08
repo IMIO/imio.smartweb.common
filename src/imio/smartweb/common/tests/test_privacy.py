@@ -14,7 +14,6 @@ import unittest
 
 
 class TestPrivacy(unittest.TestCase):
-
     layer = IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 
     def setUp(self):

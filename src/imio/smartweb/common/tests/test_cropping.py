@@ -11,7 +11,6 @@ import unittest
 
 
 class TestCropping(unittest.TestCase):
-
     layer = IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 
     def setUp(self):

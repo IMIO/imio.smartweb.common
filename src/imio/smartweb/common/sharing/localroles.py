@@ -9,7 +9,6 @@ from zope.interface import implementer
 
 @implementer(ISharingPageRole)
 class LocalManagerRole(object):
-
     title = _("Can manage locally")
     required_permission = permissions.DelegateLocalManagerRole
     required_interface = ILocalManagerAware

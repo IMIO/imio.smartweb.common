@@ -5,7 +5,6 @@ from imio.smartweb.common.testing import ImioSmartwebCommonTestCase
 
 
 class TestVocabularies(ImioSmartwebCommonTestCase):
-
     layer = IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
 
     def setUp(self):

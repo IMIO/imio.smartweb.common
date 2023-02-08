@@ -12,7 +12,6 @@ import unittest
 
 
 class TestDescription(unittest.TestCase):
-
     layer = IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
 
     def setUp(self):
