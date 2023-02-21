@@ -5,7 +5,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3852 : Fix atom/syndication registry keys
+  [boulch]
 
 
 1.1.2 (2023-01-30)

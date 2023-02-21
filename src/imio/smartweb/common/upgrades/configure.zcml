@@ -52,6 +52,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1014_to_1015"
+      title="Upgrade common from 1014 to 1015"
+      directory="profiles/1014_to_1015"
+      description="Fix atom/syndication registry keys"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -199,5 +207,16 @@
         import_profile="imio.smartweb.common.upgrades:upgrade_1013_to_1014"
         />
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1014"
+      destination="1015"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Fix atom/syndication registry keys"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1014_to_1015"
+        />
+  </genericsetup:upgradeSteps>
+
 
 </configure>
