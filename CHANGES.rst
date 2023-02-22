@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.3 (unreleased)
+1.1.3 (2023-02-22)
 ------------------
 
 - WEB-3852 : Fix atom/syndication registry keys
