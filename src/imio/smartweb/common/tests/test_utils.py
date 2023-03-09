@@ -4,13 +4,22 @@ from imio.smartweb.common.interfaces import IAddress
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 from imio.smartweb.common.utils import geocode_object
 from imio.smartweb.common.utils import get_term_from_vocabulary
+from imio.smartweb.common.utils import get_uncroppable_scales_infos
+from imio.smartweb.common.utils import show_warning_for_scales
 from imio.smartweb.common.utils import translate_vocabulary_term
+from plone import api
+from plone.app.testing import logout
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.formwidget.geolocation.geolocation import Geolocation
+from plone.namedfile.file import NamedBlobImage
+from Products.statusmessages.interfaces import IStatusMessage
 from unittest import mock
 from unittest.mock import patch
 from zope.interface import implementer
 
 import geopy
+import os
 import unittest
 
 
@@ -36,6 +45,7 @@ class TestUtils(unittest.TestCase):
         """Custom shared utility setup for tests"""
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
     def test_get_term_from_vocabulary(self):
         term = get_term_from_vocabulary("imio.smartweb.vocabulary.Topics", "culture")
@@ -87,3 +97,110 @@ class TestUtils(unittest.TestCase):
         self.assertTrue(geocoded)
         self.assertEqual(obj.geolocation.latitude, 1)
         self.assertEqual(obj.geolocation.longitude, 2)
+
+    def test_get_uncroppable_scales_infos(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="Folder",
+            title="Folder",
+            id="folder",
+        )
+        show_warning_for_scales(folder, self.request)
+        messages = IStatusMessage(self.request)
+        show = messages.show()
+        self.assertEqual(len(show), 0)
+
+        test_image = os.path.join(
+            os.path.dirname(__file__), "resources/image_1800x700.png"
+        )
+        with open(test_image, "rb") as fd:
+            folder.image = NamedBlobImage(data=fd.read(), filename=test_image)
+
+        sizes = {"size1": (1000, 500), "size2": (65536, 500)}
+        scales = []
+        result = get_uncroppable_scales_infos(folder.image, sizes, scales)
+        self.assertEqual(result, {})
+
+        sizes = {"size1": (1000, 500), "size2": (65536, 500)}
+        scales = ["size1", "size2"]
+        result = get_uncroppable_scales_infos(folder.image, sizes, scales)
+        self.assertEqual(result, {})
+
+        sizes = {"size1": (1900, 500), "size2": (65536, 500)}
+        scales = ["size1", "size2"]
+        result = get_uncroppable_scales_infos(folder.image, sizes, scales)
+        self.assertEqual(len(result["scales"]), 1)
+        self.assertEqual(result["min_width"], "1900")
+        self.assertEqual(result["min_height"], "500")
+        self.assertEqual(result["width"], "1800")
+        self.assertEqual(result["height"], "700")
+
+        sizes = {"size1": (1900, 400), "size2": (1700, 600), "size3": (65536, 800)}
+        scales = ["size1", "size2", "size3"]
+        result = get_uncroppable_scales_infos(folder.image, sizes, scales)
+        self.assertEqual(len(result["scales"]), 2)
+        self.assertEqual(result["min_width"], "1900")
+        self.assertEqual(result["min_height"], "800")
+
+    def test_show_warning_for_scales(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="Folder",
+            title="Folder",
+            id="folder",
+        )
+        show_warning_for_scales(folder, self.request)
+        messages = IStatusMessage(self.request)
+        show = messages.show()
+        self.assertEqual(len(show), 0)
+
+        test_image = os.path.join(os.path.dirname(__file__), "resources/image.png")
+        with open(test_image, "rb") as fd:
+            folder.image = NamedBlobImage(data=fd.read(), filename=test_image)
+        show_warning_for_scales(folder, self.request)
+        messages = IStatusMessage(self.request)
+        show = messages.show()
+        self.assertEqual(len(show), 1)
+        self.assertEqual(
+            show[0].message,
+            'The image uploaded in the "Lead Image" field may be degraded because '
+            "it does not meet the required minimum dimensions of 1320px width by 768px height "
+            "(uploaded image size: 215px width by 56px height). "
+            "You can see the detail via the Cropping menu.",
+        )
+
+        test_image = os.path.join(
+            os.path.dirname(__file__), "resources/image_1800x700.png"
+        )
+        with open(test_image, "rb") as fd:
+            folder.image = NamedBlobImage(data=fd.read(), filename=test_image)
+        show_warning_for_scales(folder, self.request)
+        messages = IStatusMessage(self.request)
+        show = messages.show()
+        self.assertEqual(len(show), 1)
+        self.assertEqual(
+            show[0].message,
+            'The image uploaded in the "Lead Image" field may be degraded because '
+            "it does not meet the required minimum dimensions of 1320px width by 768px height "
+            "(uploaded image size: 1800px width by 700px height). "
+            "You can see the detail via the Cropping menu.",
+        )
+
+        test_image = os.path.join(
+            os.path.dirname(__file__), "resources/image_1400x800.png"
+        )
+        with open(test_image, "rb") as fd:
+            folder.image = NamedBlobImage(data=fd.read(), filename=test_image)
+        show_warning_for_scales(folder, self.request)
+        messages = IStatusMessage(self.request)
+        show = messages.show()
+        self.assertEqual(len(show), 0)
+
+        test_image = os.path.join(os.path.dirname(__file__), "resources/image.png")
+        with open(test_image, "rb") as fd:
+            folder.image = NamedBlobImage(data=fd.read(), filename=test_image)
+        logout()
+        show_warning_for_scales(folder, self.request)
+        messages = IStatusMessage(self.request)
+        show = messages.show()
+        self.assertEqual(len(show), 0)

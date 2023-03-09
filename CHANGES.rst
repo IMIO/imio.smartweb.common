@@ -5,6 +5,11 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
+- Allow to add portal messages when content images are too small for cropping.
+  This can be done dynamically on a view call with a single line of code:
+  `show_warning_for_scales(self.context, self.request)`
+  [laulaz]
+
 - Migrate to Plone 6.0.2
   [boulch]
 
