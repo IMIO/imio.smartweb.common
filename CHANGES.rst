@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.5 (unreleased)
+1.1.5 (2023-03-14)
 ------------------
 
 - WEB-3862 : Patch (Remove select2) eea.facetednavigation jquery
