@@ -60,6 +60,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1015_to_1016"
+      title="Upgrade common from 1015 to 1016"
+      directory="profiles/1015_to_1016"
+      description="Patch (Remove select2) eea.facetednavigation jquery"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -218,5 +226,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1015"
+      destination="1016"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Patch (Remove select2) eea.facetednavigation jquery"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1015_to_1016"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

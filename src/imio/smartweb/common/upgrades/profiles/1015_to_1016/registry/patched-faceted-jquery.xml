@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+  <records prefix="plone.bundles/faceted.jquery"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="jscompilation">++plone++imio.smartweb.common/patched.web3862.eea.faceted-jquery.min.js</value>
+  </records>
+</registry>

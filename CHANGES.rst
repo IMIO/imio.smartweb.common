@@ -5,7 +5,8 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3862 : Patch (Remove select2) eea.facetednavigation jquery
+  [laulaz, boulch]
 
 
 1.1.4 (2023-03-13)
