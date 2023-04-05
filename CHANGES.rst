@@ -5,7 +5,8 @@ Changelog
 1.1.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3859 : Add cache for some vocabularies that are rarely changed
+  [boulch]
 
 
 1.1.5 (2023-03-14)

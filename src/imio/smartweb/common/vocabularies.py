@@ -3,7 +3,9 @@
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
+from time import time
 from zope.component import getUtility
 from zope.i18n.locales import locales
 from zope.schema.vocabulary import SimpleTerm
@@ -13,6 +15,7 @@ import json
 
 
 class TopicsVocabularyFactory:
+    @ram.cache(lambda *args: time() // (24 * 60 * 60))
     def __call__(self, context=None):
         topics = [
             ("entertainment", _("Entertainment")),
@@ -41,6 +44,7 @@ TopicsVocabulary = TopicsVocabularyFactory()
 
 
 class IAmVocabularyFactory:
+    @ram.cache(lambda *args: time() // (24 * 60 * 60))
     def __call__(self, context=None):
         iam = [
             ("merchant", _("Merchant")),
@@ -62,6 +66,7 @@ IAmVocabulary = IAmVocabularyFactory()
 
 
 class CountriesVocabularyFactory:
+    @ram.cache(lambda *args: time() // (24 * 60 * 60))
     def __call__(self, context=None, lang=None):
         normalizer = getUtility(IIDNormalizer)
         if lang is None:
@@ -86,6 +91,7 @@ CountriesVocabulary = CountriesVocabularyFactory()
 
 
 class CitiesVocabularyFactory:
+    @ram.cache(lambda *args: time() // (24 * 60 * 60))
     def __call__(self, context=None):
         registry = getUtility(IRegistry)
         json_str = registry.get("imio.smartweb.cities")
