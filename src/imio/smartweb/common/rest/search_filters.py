@@ -3,11 +3,11 @@
 from imio.smartweb.common.config import VOCABULARIES_MAPPING
 from imio.smartweb.common.utils import get_term_from_vocabulary
 from operator import itemgetter
+from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.search.handler import SearchHandler
 from plone.restapi.search.utils import unflatten_dotted_dict
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.services import Service
-from plone.restapi.interfaces import ISerializeToJson
 from zope.component import getMultiAdapter
 
 
