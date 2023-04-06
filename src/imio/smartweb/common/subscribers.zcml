@@ -9,4 +9,12 @@
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
               handler=".subscribers.modified_content" />
 
+  <subscriber for="plone.dexterity.interfaces.IDexterityContent
+                   plone.app.imagecropping.interfaces.ICroppingInfoChangedEvent"
+              handler=".subscribers.modified_cropping" />
+
+  <subscriber for="plone.dexterity.interfaces.IDexterityContent
+                   plone.app.imagecropping.interfaces.ICroppingInfoRemovedEvent"
+              handler=".subscribers.modified_cropping" />
+
 </configure>

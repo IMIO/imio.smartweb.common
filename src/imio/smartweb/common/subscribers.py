@@ -4,6 +4,8 @@ from plone import api
 from plone.app.dexterity.behaviors.metadata import IBasic
 from zope.lifecycleevent.interfaces import IAttributes
 
+import DateTime
+
 
 def reindex_breadcrumb(obj, event):
     if not hasattr(event, "descriptions") or not event.descriptions:
@@ -29,3 +31,9 @@ def added_content(obj, event):
 
 def modified_content(obj, event):
     reindex_breadcrumb(obj, event)
+
+
+def modified_cropping(obj, event):
+    now = DateTime.DateTime()
+    obj.setModificationDate(now)
+    obj.reindexObject(idxs=["modified"])

@@ -3,10 +3,14 @@
 from imio.smartweb.common.interfaces import ICropping
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 from plone import api
+from plone.app.imagecropping.events import CroppingInfoChangedEvent
+from plone.app.imagecropping.events import CroppingInfoRemovedEvent
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from zope.component import getMultiAdapter
+from zope.event import notify
 
+import time
 import unittest
 
 
@@ -35,3 +39,20 @@ class TestCropping(unittest.TestCase):
             (self.folder, self.request), name="croppingeditor"
         )
         self.assertEqual(len(list(cropping_view._scales("image"))), 11)
+
+    def test_modified_cropping(self):
+        brain = api.content.find(UID=self.folder.UID())[0]
+        dt_before = brain.ModificationDate
+        time.sleep(1)
+        notify(CroppingInfoChangedEvent(self.folder))
+        brain = api.content.find(UID=self.folder.UID())[0]
+        dt_after = brain.ModificationDate
+        self.assertNotEqual(dt_before, dt_after)
+
+        brain = api.content.find(UID=self.folder.UID())[0]
+        dt_before = brain.ModificationDate
+        time.sleep(1)
+        notify(CroppingInfoRemovedEvent(self.folder))
+        brain = api.content.find(UID=self.folder.UID())[0]
+        dt_after = brain.ModificationDate
+        self.assertNotEqual(dt_before, dt_after)
