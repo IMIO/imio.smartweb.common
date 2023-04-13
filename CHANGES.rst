@@ -5,6 +5,9 @@ Changelog
 1.1.6 (unreleased)
 ------------------
 
+- Don't use image_scales metadata anymore (Fix faceted)
+  [boulch, laulaz]
+
 - Update object modification date if cropping was removed/updated
   [boulch, laulaz]
 

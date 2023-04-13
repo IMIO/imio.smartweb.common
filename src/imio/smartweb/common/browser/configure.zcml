@@ -65,4 +65,13 @@
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
 
+  <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="image_scale"
+      class=".scaling.NavigationRootScaling"
+      permission="zope2.View"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      allowed_attributes="scale tag"
+      />
+
 </configure>
