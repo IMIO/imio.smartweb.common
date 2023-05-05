@@ -68,6 +68,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1016_to_1017"
+      title="Upgrade common from 1016 to 1017"
+      directory="profiles/1016_to_1017"
+      description="Change banner scale to have infinite height"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -233,6 +241,16 @@
     <genericsetup:upgradeDepends
         title="Patch (Remove select2) eea.facetednavigation jquery"
         import_profile="imio.smartweb.common.upgrades:upgrade_1015_to_1016"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1016"
+      destination="1017"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Change banner scale to have infinite height"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1016_to_1017"
         />
   </genericsetup:upgradeSteps>
 

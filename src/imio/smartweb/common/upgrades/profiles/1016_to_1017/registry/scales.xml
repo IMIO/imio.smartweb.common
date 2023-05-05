@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+  <record name="plone.allowed_sizes"
+          interface="Products.CMFPlone.interfaces.controlpanel.IImagingSchema"
+          field="allowed_sizes">
+    <value purge="true">
+      <element>banner 1920:65536</element>
+      <element>affiche 1320:440</element>
+      <element>extralarge 1320:1320</element>
+      <element>large 768:768</element>
+      <element>slide 750:500</element>
+      <element>medium 600:600</element>
+      <element>preview 400:400</element>
+      <element>vignette 390:260</element>
+      <element>mini 200:200</element>
+      <element>liste 150:100</element>
+      <element>thumb 128:128</element>
+      <element>tile 64:64</element>
+      <element>icon 32:32</element>
+      <element>listing 16:16</element>
+    </value>
+  </record>
+
+</registry>

@@ -7,7 +7,7 @@
           interface="Products.CMFPlone.interfaces.controlpanel.IImagingSchema"
           field="allowed_sizes">
     <value purge="true">
-      <element>banner 1920:600</element>
+      <element>banner 1920:65536</element>
       <element>affiche 1320:440</element>
       <element>extralarge 1320:1320</element>
       <element>large 768:768</element>

@@ -5,6 +5,9 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
+- Change banner scale to have infinite height
+  [laulaz]
+
 - Migrate to Plone 6.0.4
   [boulch]
 
