@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.7 (unreleased)
+1.1.7 (2023-05-22)
 ------------------
 
 - Change banner scale to have infinite height
