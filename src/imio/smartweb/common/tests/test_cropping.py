@@ -34,6 +34,16 @@ class TestCropping(unittest.TestCase):
         self.assertIsNotNone(adapter)
         self.assertNotIn("banner", adapter.get_scales("image", self.request))
 
+        image = api.content.create(
+            container=self.folder,
+            type="Image",
+            title="My image",
+            id="my-image",
+        )
+        adapter = ICropping(image, alternate=None)
+        self.assertIsNotNone(adapter)
+        self.assertEqual([], adapter.get_scales("image", self.request))
+
     def test_cropping_view(self):
         cropping_view = getMultiAdapter(
             (self.folder, self.request), name="croppingeditor"

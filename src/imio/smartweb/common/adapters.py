@@ -9,6 +9,10 @@ class BaseCroppingProvider(object):
         self.context = context
 
     def get_scales(self, fieldname, request=None):
+        if self.context.portal_type == "Image":
+            # imio.smartweb.core override get_scales.
+            # so this is only available for authentic sources
+            return []
         allowed_sizes = getUtility(IAvailableSizes)()
         scales = list(allowed_sizes.keys())
         if fieldname == "image":

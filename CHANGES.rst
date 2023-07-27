@@ -5,7 +5,8 @@ Changelog
 1.1.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3955 : Authentic sources : Crop view on Image type should not return scales
+  [boulch]
 
 
 1.1.7 (2023-05-22)
