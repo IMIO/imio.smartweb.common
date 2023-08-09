@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.8 (unreleased)
+1.1.8 (2023-08-09)
 ------------------
 
 - WEB-3960 : Clean unhautorized xml chars out of text when added or modified contents
