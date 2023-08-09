@@ -16,6 +16,7 @@ from zope.schema.vocabulary import SimpleTerm
 
 import geopy
 import re
+import unicodedata
 
 
 def get_vocabulary(voc_name):
@@ -147,3 +148,12 @@ def show_warning_for_scales(obj, request):
                 request=request,
                 type="warning",
             )
+
+
+def clean_invisible_char(value):
+    # surpassing all control characters
+    # checking for starting with C
+    if value is None:
+        return value
+    res = "".join(char for char in value if unicodedata.category(char)[0] != "C")
+    return res

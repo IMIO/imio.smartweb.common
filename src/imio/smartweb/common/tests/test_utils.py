@@ -7,6 +7,7 @@ from imio.smartweb.common.utils import get_term_from_vocabulary
 from imio.smartweb.common.utils import get_uncroppable_scales_infos
 from imio.smartweb.common.utils import show_warning_for_scales
 from imio.smartweb.common.utils import translate_vocabulary_term
+from imio.smartweb.common.utils import clean_invisible_char
 from plone import api
 from plone.app.testing import logout
 from plone.app.testing import setRoles
@@ -204,3 +205,11 @@ class TestUtils(unittest.TestCase):
         messages = IStatusMessage(self.request)
         show = messages.show()
         self.assertEqual(len(show), 0)
+
+    def test_clean_invisible_char(self):
+        txt = "<p>Kam\x02oulox</p>"
+        clean_txt = clean_invisible_char(txt)
+        self.assertEqual(clean_txt, "<p>Kamoulox</p>")
+
+        clean_txt = clean_invisible_char(None)
+        self.assertIsNone(clean_txt)

@@ -5,6 +5,10 @@ Changelog
 1.1.8 (unreleased)
 ------------------
 
+- WEB-3960 : Clean unhautorized xml chars out of text when added or modified contents
+  Temporary patch. Waiting for this fix : https://github.com/plone/plone.app.z3cform/pull/167
+  [boulch]
+
 - WEB-3955 : Authentic sources : Crop view on Image type should not return scales
   [boulch]
 

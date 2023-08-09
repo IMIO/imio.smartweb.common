@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.utils import clean_invisible_char
 from plone import api
 from plone.app.dexterity.behaviors.metadata import IBasic
+from plone.app.textfield.value import IRichTextValue
+from plone.app.textfield.value import RichTextValue
+from plone.dexterity.utils import iterSchemata
 from zope.lifecycleevent.interfaces import IAttributes
+from zope.schema import getFields
 
 import DateTime
 
@@ -26,10 +31,22 @@ def reindex_breadcrumb(obj, event):
 
 
 def added_content(obj, event):
+    for schema in iterSchemata(obj):
+        for name, field in getFields(schema).items():
+            value = getattr(obj, name)
+            if IRichTextValue.providedBy(value):
+                str = clean_invisible_char(value.raw)
+                setattr(obj, name, RichTextValue(str))
     reindex_breadcrumb(obj, event)
 
 
 def modified_content(obj, event):
+    for schema in iterSchemata(obj):
+        for name, field in getFields(schema).items():
+            value = getattr(obj, name)
+            if IRichTextValue.providedBy(value):
+                str = clean_invisible_char(value.raw)
+                setattr(obj, name, RichTextValue(str))
     reindex_breadcrumb(obj, event)
 
 
