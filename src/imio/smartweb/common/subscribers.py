@@ -43,7 +43,9 @@ def added_content(obj, event):
 def modified_content(obj, event):
     for schema in iterSchemata(obj):
         for name, field in getFields(schema).items():
-            value = getattr(obj, name)
+            value = getattr(obj, name, None)
+            if value is None:
+                continue
             if IRichTextValue.providedBy(value):
                 str = clean_invisible_char(value.raw)
                 setattr(obj, name, RichTextValue(str))

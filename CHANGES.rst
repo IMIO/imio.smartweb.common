@@ -5,7 +5,8 @@ Changelog
 1.1.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix AttributeError in case of instance behaviors attributes that are not on all objects
+  [boulch]
 
 
 1.1.8 (2023-08-09)
