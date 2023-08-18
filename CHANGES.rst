@@ -12,6 +12,9 @@ Changelog
 1.1.8 (2023-08-09)
 ------------------
 
+- WEB-3974 : Add new registry key (imio.smartweb.common.log) to activate logging in smartweb / auth sources products
+  [boulch]
+
 - WEB-3960 : Clean unhautorized xml chars out of text when added or modified contents
   Temporary patch. Waiting for this fix : https://github.com/plone/plone.app.z3cform/pull/167
   [boulch]

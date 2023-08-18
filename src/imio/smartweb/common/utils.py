@@ -157,3 +157,7 @@ def clean_invisible_char(value):
         return value
     res = "".join(char for char in value if unicodedata.category(char)[0] != "C")
     return res
+
+
+def is_log_active():
+    return api.portal.get_registry_record("imio.smartweb.common.log", default=False)
