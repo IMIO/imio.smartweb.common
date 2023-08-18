@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="imio.smartweb.common.log">
+      <field type="plone.registry.field.Bool">
+        <title>Logger mode activated</title>
+        <description>Activate logging in smartweb / authentic sources products</description>
+        <required>False</required>
+      </field>
+      <value>False</value>
+    </record>
+
+</registry>

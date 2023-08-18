@@ -76,6 +76,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1017_to_1018"
+      title="Upgrade common from 1017 to 1018"
+      directory="profiles/1017_to_1018"
+      description="Add new registry key to activate logging smartweb / authentic sources products"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -251,6 +259,16 @@
     <genericsetup:upgradeDepends
         title="Change banner scale to have infinite height"
         import_profile="imio.smartweb.common.upgrades:upgrade_1016_to_1017"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1017"
+      destination="1018"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Add new registry key to activate logging in smartweb / authentic sources products"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1017_to_1018"
         />
   </genericsetup:upgradeSteps>
 

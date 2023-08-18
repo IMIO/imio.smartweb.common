@@ -5,6 +5,9 @@ Changelog
 1.1.9 (unreleased)
 ------------------
 
+- WEB-3974 : Add new registry key (imio.smartweb.common.log) to activate logging in smartweb / auth sources products
+  [boulch]
+
 - Fix AttributeError in case of instance behaviors attributes that are not on all objects
   [boulch]
 
