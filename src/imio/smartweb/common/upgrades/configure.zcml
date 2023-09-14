@@ -84,6 +84,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1018_to_1019"
+      title="Upgrade common from 1018 to 1019"
+      directory="profiles/1018_to_1019"
+      description="Refactoring scales : Define new scales available for two display modes : landscape and portrait"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -271,5 +279,23 @@
         import_profile="imio.smartweb.common.upgrades:upgrade_1017_to_1018"
         />
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1018"
+      destination="1019"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Refactoring scales : Define new scales available for two display modes : landscape and portrait"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1018_to_1019"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+      title="Remove deprecated cropping annotations on all objects"
+      source="1019"
+      destination="1020"
+      handler=".upgrades.remove_deprecated_cropping_annotations"
+      profile="imio.smartweb.common:default"
+      />
 
 </configure>
