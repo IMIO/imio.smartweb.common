@@ -55,6 +55,14 @@
         />
   </configure>
 
+  <!-- Cropping factory -->
+  <unconfigure>
+    <adapter factory="plone.app.imagecropping.dx.CroppingImageScalingFactory" />
+  </unconfigure>
+
+  <adapter factory=".cropping.SmartwebCroppingImageScalingFactory" />
+
+
   <!-- Rich description -->
   <browser:page
       for="*"
