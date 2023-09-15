@@ -37,7 +37,8 @@ def remove_deprecated_cropping_annotations(context):
     scales_to_delete = [
         "affiche",
         "extralarge",
-        "large" "slide",
+        "large",
+        "slide",
         "medium",
         "preview",
         "vignette",
