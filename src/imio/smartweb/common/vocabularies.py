@@ -100,3 +100,17 @@ class CitiesVocabularyFactory:
 
 
 CitiesVocabulary = CitiesVocabularyFactory()
+
+
+class ScalesVocabularyFactory:
+    def __call__(self, context=None):
+        topics = [
+            ("affiche", _("Affiche")),
+            ("vignette", _("Vignette")),
+            ("liste", _("Liste")),
+        ]
+        terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in topics]
+        return SimpleVocabulary(terms)
+
+
+ScalesVocabulary = ScalesVocabularyFactory()
