@@ -34,18 +34,7 @@ def upgrade_barceloneta(context):
 
 def remove_deprecated_cropping_annotations(context):
     brains = api.content.find(object_provides=IImageCroppingMarker)
-    scales_to_delete = [
-        "affiche",
-        "extralarge",
-        "large",
-        "slide",
-        "medium",
-        "preview",
-        "vignette",
-        "mini",
-        "liste",
-        "thumb",
-    ]
+    scales_to_delete = ["affiche", "extralarge", "slide", "medium", "vignette", "liste"]
     for brain in brains:
         obj = brain.getObject()
         annotations = IAnnotations(obj)
