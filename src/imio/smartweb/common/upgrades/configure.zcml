@@ -84,6 +84,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1018_to_1019"
+      title="Upgrade common from 1018 to 1019"
+      directory="profiles/1018_to_1019"
+      description="Unpatch (restore original) eea.facetednavigation jquery"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -269,6 +277,16 @@
     <genericsetup:upgradeDepends
         title="Add new registry key to activate logging in smartweb / authentic sources products"
         import_profile="imio.smartweb.common.upgrades:upgrade_1017_to_1018"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1018"
+      destination="1019"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Unpatch (restore original) eea.facetednavigation jquery"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1018_to_1019"
         />
   </genericsetup:upgradeSteps>
 
