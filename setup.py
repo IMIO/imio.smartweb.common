@@ -68,6 +68,7 @@ setup(
         "collective.privacy",
         "iaweb.privacy",
         "imio.smartweb.locales",
+        "more-itertools",
     ],
     extras_require={
         "test": [
