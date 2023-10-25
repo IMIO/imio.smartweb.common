@@ -15,7 +15,5 @@ class BaseCroppingProvider(object):
             return []
         allowed_sizes = getUtility(IAvailableSizes)()
         scales = list(allowed_sizes.keys())
-        if fieldname == "image":
-            # scales used for lead image field
-            scales.remove("banner")
+        scales.remove("banner")
         return scales

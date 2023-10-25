@@ -4,6 +4,7 @@ from imio.smartweb.common.config import TRANSLATED_VOCABULARIES
 from imio.smartweb.common.interfaces import ICropping
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.app.imagecropping.storage import Storage
 from plone.dexterity.utils import iterSchemata
 from plone.formwidget.geolocation.geolocation import Geolocation
 from plone.namedfile.field import NamedBlobImage
@@ -148,6 +149,12 @@ def show_warning_for_scales(obj, request):
                 request=request,
                 type="warning",
             )
+
+
+def remove_cropping(obj, field_name, scales):
+    storage = Storage(obj)
+    for scale in scales:
+        storage.remove(field_name, scale)
 
 
 def clean_invisible_char(value):
