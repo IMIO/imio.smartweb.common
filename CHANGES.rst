@@ -5,6 +5,9 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
+- SUP-33128 : Fix eea.facetednavigation : Hide items with 0 results
+  [boulch, laz]
+
 - Refactor less and js compilation + Add compilations files
   [boulch]
 
