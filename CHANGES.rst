@@ -5,7 +5,8 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Refactor less and js compilation + Add compilations files
+  [boulch]
 
 
 1.2 (2023-10-25)
