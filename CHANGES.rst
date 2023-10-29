@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.1 (unreleased)
+1.2.1 (2023-10-29)
 ------------------
 
 - SUP-33128 : Fix eea.facetednavigation : Hide items with 0 results
