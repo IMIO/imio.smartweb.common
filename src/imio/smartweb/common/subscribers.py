@@ -36,7 +36,13 @@ def added_content(obj, event):
             value = getattr(obj, name)
             if IRichTextValue.providedBy(value):
                 str = clean_invisible_char(value.raw)
-                setattr(obj, name, RichTextValue(str))
+                new_value = RichTextValue(
+                    str,
+                    mimeType=value.mimeType,
+                    outputMimeType=value.outputMimeType,
+                    encoding=value.encoding,
+                )
+                setattr(obj, name, new_value)
     reindex_breadcrumb(obj, event)
 
 
@@ -48,7 +54,13 @@ def modified_content(obj, event):
                 continue
             if IRichTextValue.providedBy(value):
                 str = clean_invisible_char(value.raw)
-                setattr(obj, name, RichTextValue(str))
+                new_value = RichTextValue(
+                    str,
+                    mimeType=value.mimeType,
+                    outputMimeType=value.outputMimeType,
+                    encoding=value.encoding,
+                )
+                setattr(obj, name, new_value)
     reindex_breadcrumb(obj, event)
 
 

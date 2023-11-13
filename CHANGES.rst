@@ -5,7 +5,8 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4003 : Fix missing TextField mimetypes
+  [laulaz]
 
 
 1.2.1 (2023-10-29)

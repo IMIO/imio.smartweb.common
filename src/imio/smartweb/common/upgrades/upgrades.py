@@ -3,7 +3,11 @@
 from plone import api
 from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.imagecropping.interfaces import IImageCroppingMarker
+from plone.app.textfield.value import IRichTextValue
+from plone.app.textfield.value import RichTextValue
+from plone.dexterity.utils import iterSchemata
 from zope.annotation.interfaces import IAnnotations
+from zope.schema import getFields
 
 import logging
 
@@ -54,3 +58,33 @@ def remove_deprecated_cropping_annotations(context):
             logger.info(
                 f'Remove deprecated scales : {",".join(deleted_scales)} cropping annotation on {obj.absolute_url()}'
             )
+
+
+def restore_textfields_mimetypes(context):
+    with api.env.adopt_user(username="admin"):
+        brains = api.content.find(
+            portal_type=[
+                "imio.events.Event",
+                "imio.news.NewsItem",
+                "imio.smartweb.CirkwiView",
+                "imio.smartweb.DirectoryView",
+                "imio.smartweb.SectionText",
+            ]
+        )
+        for brain in brains:
+            obj = brain.getObject()
+            for schema in iterSchemata(obj):
+                for name, field in getFields(schema).items():
+                    value = getattr(obj, name)
+                    if not IRichTextValue.providedBy(value):
+                        continue
+                    new_value = RichTextValue(
+                        value.raw,
+                        mimeType="text/html",
+                        outputMimeType="text/x-html-safe",
+                        encoding="utf-8",
+                    )
+                    setattr(obj, name, new_value)
+                    logger.info(
+                        f"Fixed WYSIWYG field mimetypes on {obj.absolute_url()}"
+                    )
