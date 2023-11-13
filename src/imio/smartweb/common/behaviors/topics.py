@@ -18,6 +18,7 @@ class ITopics(model.Schema):
             "Important! Topics are used to filter search results and create lists"
         ),
         value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.Topics"),
+        default=[],
         required=False,
     )
     directives.widget(topics=SelectFieldWidget)

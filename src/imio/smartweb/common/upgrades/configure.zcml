@@ -306,4 +306,12 @@
       profile="imio.smartweb.common:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Fix missing values for lists"
+      source="1021"
+      destination="1022"
+      handler=".upgrades.fix_missing_values_for_lists"
+      profile="imio.smartweb.common:default"
+      />
+
 </configure>

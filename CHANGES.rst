@@ -5,6 +5,10 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
+- Fix missing values for facilities lists (causing `None` in REST views filters)
+  See https://github.com/collective/collective.solr/issues/366
+  [laulaz]
+
 - Fix last upgrade steps: when run from command line, we need to adopt admin
   user to find private objects
   [laulaz]

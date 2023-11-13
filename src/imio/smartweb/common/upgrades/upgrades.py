@@ -96,3 +96,36 @@ def restore_textfields_mimetypes(context):
                     logger.info(
                         f"Fixed WYSIWYG field mimetypes on {obj.absolute_url()}"
                     )
+
+
+def fix_missing_values_for_lists(context):
+    catalog = api.portal.get_tool("portal_catalog")
+    with api.env.adopt_user(username="admin"):
+        brains = api.content.find(
+            portal_type=[
+                "File",
+                "imio.directory.Contact",
+                "imio.events.Event",
+                "imio.news.NewsItem",
+                "imio.smartweb.CirkwiView",
+                "imio.smartweb.DirectoryView",
+                "imio.smartweb.EventsView",
+                "imio.smartweb.NewsView",
+                "imio.smartweb.Page",
+                "imio.smartweb.PortalPage",
+                "imio.smartweb.Procedure",
+                "imio.smartweb.SectionExternalContent",
+                "imio.smartweb.SectionGallery",
+                "imio.smartweb.SectionVideo",
+            ]
+        )
+        for brain in brains:
+            obj = brain.getObject()
+            if hasattr(obj, "topics") and obj.topics is None:
+                obj.topics = []
+                catalog.catalog_object(obj, idxs=["topics"])
+                logger.info(f"Fixed None list for Topics on {obj.absolute_url()}")
+            if hasattr(obj, "iam") and obj.iam is None:
+                obj.iam = []
+                catalog.catalog_object(obj, idxs=["iam"])
+                logger.info(f"Fixed None list for Iam on {obj.absolute_url()}")
