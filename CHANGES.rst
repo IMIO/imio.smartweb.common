@@ -5,6 +5,10 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
+- Fix last upgrade steps: when run from command line, we need to adopt admin
+  user to find private objects
+  [laulaz]
+
 - WEB-4003 : Fix missing TextField mimetypes
   [laulaz]
 
