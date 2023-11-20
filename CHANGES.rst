@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.2 (unreleased)
+1.2.2 (2023-11-20)
 ------------------
 
 - Fix missing values for facilities lists (causing `None` in REST views filters)
