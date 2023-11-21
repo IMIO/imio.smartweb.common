@@ -5,6 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
+- Improve image compression quality
+  [laulaz]
+
 - Change portrait scales dimensions
   [laulaz]
 

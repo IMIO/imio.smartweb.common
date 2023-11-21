@@ -24,6 +24,12 @@
     </value>
   </record>
 
+  <record name="plone.quality"
+          interface="plone.base.interfaces.controlpanel.IImagingSchema"
+          field="quality">
+    <value>92</value>
+  </record>
+
   <records prefix="plone.bundles/smartweb-common-view"
            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
     <value key="enabled">True</value>
