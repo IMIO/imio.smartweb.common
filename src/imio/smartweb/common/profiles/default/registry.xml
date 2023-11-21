@@ -11,9 +11,9 @@
       <element>paysage_affiche 750:448</element>
       <element>paysage_vignette 430:257</element>
       <element>paysage_liste 167:100</element>
-      <element>portrait_affiche 750:1060</element>
-      <element>portrait_vignette 430:608</element>
-      <element>portrait_liste 222:296</element>
+      <element>portrait_affiche 448:633</element>
+      <element>portrait_vignette 448:633</element>
+      <element>portrait_liste 222:313</element>
       <element>large 768:768</element>
       <element>preview 400:400</element>
       <element>mini 200:200</element>

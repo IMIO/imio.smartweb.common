@@ -92,6 +92,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1022_to_1023"
+      title="Upgrade common from 1022 to 1023"
+      directory="profiles/1022_to_1023"
+      description="Change portrait scales dimensions"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -313,5 +321,15 @@
       handler=".upgrades.fix_missing_values_for_lists"
       profile="imio.smartweb.common:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1022"
+      destination="1023"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Change portrait scales dimensions"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1022_to_1023"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

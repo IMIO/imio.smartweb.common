@@ -5,7 +5,8 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change portrait scales dimensions
+  [laulaz]
 
 
 1.2.2 (2023-11-20)
