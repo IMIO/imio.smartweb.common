@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.3 (unreleased)
+1.2.3 (2023-11-21)
 ------------------
 
 - Improve image compression quality
