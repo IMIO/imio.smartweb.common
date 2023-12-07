@@ -5,7 +5,8 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3783 : Rebuild url with request.form datas (usefull with react views)
+  [boulch]
 
 
 1.2.3 (2023-11-21)

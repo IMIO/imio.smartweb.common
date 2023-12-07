@@ -10,7 +10,7 @@
     <form method="POST"
           tal:attributes="action string:${navigation_root_url}/@@accept_or_refuse_all;
                           data-json-url string:${navigation_root_url}/@@consent-json">
-        <input name="came_from" type="hidden" value="" tal:attributes="value request/ACTUAL_URL">
+        <input name="came_from" type="hidden" value="" tal:attributes="value view/rebuild_url">
         <div class="gdpr-actions">
             <input type="submit" name="consent" value="Accept all" i18n:attributes="value"/>
             <a href=""

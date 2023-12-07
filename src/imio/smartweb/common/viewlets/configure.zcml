@@ -30,6 +30,7 @@
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       template="privacy.pt"
+      class=".privacy.PrivacyViewlet"
       permission="zope.Public"
       />
 
