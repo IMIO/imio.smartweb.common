@@ -350,4 +350,12 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Set effective date equal to created_date for File and Image"
+      source="1024"
+      destination="1025"
+      handler=".upgrades.set_effective_date_equal_to_created_date"
+      profile="imio.smartweb.common:default"
+      />
+
 </configure>

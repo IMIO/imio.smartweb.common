@@ -5,7 +5,8 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4029 : File and Image content types don't have WF so we set effective date equal to created date
+  [boulch]
 
 
 1.2.4 (2023-12-07)

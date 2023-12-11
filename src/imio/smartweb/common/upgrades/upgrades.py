@@ -129,3 +129,20 @@ def fix_missing_values_for_lists(context):
                 obj.iam = []
                 catalog.catalog_object(obj, idxs=["iam"])
                 logger.info(f"Fixed None list for Iam on {obj.absolute_url()}")
+
+
+def set_effective_date_equal_to_created_date(context):
+    """Image and File content types have no workflow
+    So, effective date was 1969/12/31 00:00:00 GMT+1"""
+
+    with api.env.adopt_user(username="admin"):
+        brains = api.content.find(
+            portal_type=[
+                "File",
+                "Image",
+            ]
+        )
+        for brain in brains:
+            obj = brain.getObject()
+            obj.setEffectiveDate(obj.created())
+            obj.reindexObject(idxs=["effective"])

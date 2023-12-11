@@ -2,6 +2,8 @@
 
 from imio.smartweb.common.utils import clean_invisible_char
 from plone import api
+from plone.app.contenttypes.interfaces import IFile
+from plone.app.contenttypes.interfaces import IImage
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.textfield.value import IRichTextValue
 from plone.app.textfield.value import RichTextValue
@@ -32,6 +34,8 @@ def reindex_breadcrumb(obj, event):
 
 def added_content(obj, event):
     for schema in iterSchemata(obj):
+        if (IFile).providedBy(obj) or (IImage).providedBy(obj):
+            obj.setEffectiveDate(obj.created())
         for name, field in getFields(schema).items():
             value = getattr(obj, name)
             if IRichTextValue.providedBy(value):
