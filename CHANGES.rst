@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.5 (unreleased)
+1.2.5 (2024-01-05)
 ------------------
 
 - WEB-4007 : Get ContactProperties out of imio.smartweb.core to also use it in imio.directory.core
