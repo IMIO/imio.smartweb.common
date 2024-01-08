@@ -19,7 +19,7 @@ class SmartwebCroppingEditor(CroppingEditor):
             fieldname, scale_id, target_size, true_size
         )
         title = scale["title"]
-        if "portrait" in title or "paysage" in title:
+        if "portrait" in title or "paysage" in title or "carre" in title:
             # remove orientation part from scale title
             title = title.split("_")[0]
         scale["title"] = title.title()
@@ -52,7 +52,7 @@ class SmartwebCroppingImageScalingFactory(CroppingImageScalingFactory):
         storage = Storage(self.context)
         self.box = storage.read(fieldname, scale)
 
-        if "portrait" in scale or "paysage" in scale:
+        if "portrait" in scale or "paysage" in scale or "carre" in scale:
             orientation = scale.split("_")[0]
             # take cropping box from "affiche" scale
             self.box = storage.read(fieldname, f"{orientation}_affiche")

@@ -108,6 +108,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1025_to_1026"
+      title="Upgrade common from 1025 to 1026"
+      directory="profiles/1025_to_1026"
+      description="Add 'carre' scales dimensions"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -357,5 +365,15 @@
       handler=".upgrades.set_effective_date_equal_to_created_date"
       profile="imio.smartweb.common:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1025"
+      destination="1026"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Add 'carre' scales dimensions"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1025_to_1026"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

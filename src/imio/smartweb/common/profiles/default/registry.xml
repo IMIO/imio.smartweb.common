@@ -8,6 +8,9 @@
           field="allowed_sizes">
     <value purge="true">
       <element>banner 1920:65536</element>
+      <element>carre_affiche 750:750</element>
+      <element>carre_vignette 430:430</element>
+      <element>carre_liste 167:167</element>
       <element>paysage_affiche 750:448</element>
       <element>paysage_vignette 430:257</element>
       <element>paysage_liste 167:100</element>

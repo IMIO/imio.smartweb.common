@@ -84,7 +84,7 @@ class TestCropping(unittest.TestCase):
         cropping_view = getMultiAdapter(
             (self.folder, self.request), name="croppingeditor"
         )
-        self.assertEqual(len(list(cropping_view._scales("image"))), 11)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 14)
         size = [100, 100]
         scale_info = cropping_view._scale_info("image", "scale", size, size)
         self.assertEqual(scale_info["title"], "Scale")
@@ -92,6 +92,8 @@ class TestCropping(unittest.TestCase):
         self.assertEqual(scale_info["title"], "Portrait")
         scale_info = cropping_view._scale_info("image", "paysage_scale", size, size)
         self.assertEqual(scale_info["title"], "Paysage")
+        scale_info = cropping_view._scale_info("image", "carre_scale", size, size)
+        self.assertEqual(scale_info["title"], "Carre")
         scale_info = cropping_view._scale_info("image", "unexpected_scale", size, size)
         self.assertEqual(scale_info["title"], "Unexpected_Scale")
 
