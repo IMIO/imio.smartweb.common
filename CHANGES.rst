@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.6 (unreleased)
+1.2.6 (2024-01-09)
 ------------------
 
 - WEB-4041 : Add new "carre" scale
