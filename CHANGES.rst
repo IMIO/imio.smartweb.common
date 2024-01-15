@@ -5,6 +5,9 @@ Changelog
 1.2.7 (unreleased)
 ------------------
 
+- WEB-4046 : Add "Skip to content" link for a11y
+  [laulaz]
+
 - WEB-4048 : Put focus on cookies accept button for a11y
   [laulaz]
 
