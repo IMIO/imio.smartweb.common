@@ -5,7 +5,8 @@ Changelog
 1.2.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4048 : Put focus on cookies accept button for a11y
+  [laulaz]
 
 
 1.2.6 (2024-01-09)
