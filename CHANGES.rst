@@ -5,6 +5,9 @@ Changelog
 1.2.7 (unreleased)
 ------------------
 
+- WEB-4046 : Add css for "Skip to content
+  [thomlamb]
+
 - WEB-4046 : Add "Skip to content" link for a11y
   [laulaz]
 
