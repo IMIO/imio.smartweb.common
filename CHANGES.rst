@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.7 (unreleased)
+1.2.7 (2024-01-16)
 ------------------
 
 - WEB-4046 : Add css for "Skip to content
