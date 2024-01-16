@@ -5,7 +5,14 @@ Changelog
 1.2.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4046 : Add css for "Skip to content
+  [thomlamb]
+
+- WEB-4046 : Add "Skip to content" link for a11y
+  [laulaz]
+
+- WEB-4048 : Put focus on cookies accept button for a11y
+  [laulaz]
 
 
 1.2.6 (2024-01-09)

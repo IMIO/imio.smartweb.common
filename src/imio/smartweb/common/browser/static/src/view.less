@@ -1,7 +1,35 @@
+// Skip to content related CSS
+.show-on-focus {
+    display: inline-block;
+    position: absolute !important;
+    top: 10px;
+    left: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2.9px rgba(0, 0, 0, 0.028), 0px 0px 8.1px rgba(0, 0, 0, 0.04), 0px 0px 19.6px rgba(0, 0, 0, 0.052), 0px 0px 65px rgba(0, 0, 0, 0.08);
+    font-weight: 500;
+
+    &:not(:focus) {
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+    }
+
+    &:focus {
+        background-color: #FFFFFF;
+        padding: 1rem;
+        z-index: 999;
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 // Fields description position between title and input.
 form .form-text {
-  margin-top: -0.4em;
-  margin-bottom: 0.30em;
+    margin-top: -0.4em;
+    margin-bottom: 0.30em;
 }
 
 // Privacy related CSS
@@ -19,10 +47,10 @@ form .form-text {
     left: 0;
     padding: 5px;
     background: orange;
-    display:none;
+    display: none;
 }
 
 // Fix eea.facetednavigation : Hide items with 0 results
 .faceted-select-widget.faceted-zero-count-hidden .faceted-select-item-disabled {
-  display: none;
+    display: none;
 }

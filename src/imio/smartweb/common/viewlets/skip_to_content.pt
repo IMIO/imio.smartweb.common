@@ -1,0 +1,5 @@
+<a class="show-on-focus"
+   tal:define="url view/current_page_url"
+   tal:attributes="href string:${url}#content"
+   i18n:domain="smartweb"
+   i18n:translate="">Skip to content</a>
