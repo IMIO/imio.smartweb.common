@@ -5,8 +5,8 @@ Changelog
 1.2.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix skip content sr-only
+  [thomlamb]
 
 1.2.7 (2024-01-16)
 ------------------
