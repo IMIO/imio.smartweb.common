@@ -5,7 +5,8 @@ Changelog
 1.2.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4064 : Disable SolR atomic updates
+  [remdub]
 
 
 1.2.8 (2024-02-02)

@@ -376,4 +376,18 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1026"
+      destination="1027"
+      profile="imio.smartweb.common:default">
+        <genericsetup:upgradeStep
+            title="Disable solr atomic updates"
+            handler=".upgrades.disable_solr_atomic_updates"
+            />
+        <genericsetup:upgradeStep
+            title="Reindex SolR"
+            handler=".upgrades.reindex_solr"
+            />
+    </genericsetup:upgradeSteps>
+
 </configure>

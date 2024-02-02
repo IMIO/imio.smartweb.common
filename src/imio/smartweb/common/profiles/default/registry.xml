@@ -1080,4 +1080,8 @@
     <value>False</value>
   </record>
 
+  <records interface="collective.solr.interfaces.ISolrSchema" prefix="collective.solr">
+    <value key="atomic_updates">False</value>
+  </record>
+
 </registry>
