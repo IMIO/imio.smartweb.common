@@ -147,11 +147,13 @@ def set_effective_date_equal_to_created_date(context):
             obj.setEffectiveDate(obj.created())
             obj.reindexObject(idxs=["effective"])
 
+
 def reindex_solr(context):
     portal = api.portal.get()
     maintenance = portal.unrestrictedTraverse("@@solr-maintenance")
     maintenance.clear()
     maintenance.reindex()
+
 
 def disable_solr_atomic_updates(context):
     api.portal.set_registry_record("collective.solr.atomic_updates", False)
