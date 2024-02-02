@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.8 (unreleased)
+1.2.8 (2024-02-02)
 ------------------
 
 - Fix skip content sr-only
