@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.9 (unreleased)
+1.2.9 (2024-02-08)
 ------------------
 
 - WEB-4064 : Reindex SolR because of changes in schema
