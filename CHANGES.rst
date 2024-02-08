@@ -5,7 +5,8 @@ Changelog
 1.2.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4064 : Reindex SolR because of changes in schema
+  [remdub]
 
 
 1.2.8 (2024-02-02)

@@ -376,4 +376,12 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Reindex SolR"
+      source="1026"
+      destination="1027"
+      handler=".upgrades.reindex_solr"
+      profile="imio.smartweb.common:default"
+      />
+
 </configure>

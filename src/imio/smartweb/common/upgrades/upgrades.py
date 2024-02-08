@@ -146,3 +146,10 @@ def set_effective_date_equal_to_created_date(context):
             obj = brain.getObject()
             obj.setEffectiveDate(obj.created())
             obj.reindexObject(idxs=["effective"])
+
+
+def reindex_solr(context):
+    portal = api.portal.get()
+    maintenance = portal.unrestrictedTraverse("@@solr-maintenance")
+    maintenance.clear()
+    maintenance.reindex()
