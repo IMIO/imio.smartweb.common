@@ -5,7 +5,8 @@ Changelog
 1.2.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4088 : Implement some odwb utils and generic classes
+  [boulch]
 
 
 1.2.9 (2024-02-08)
