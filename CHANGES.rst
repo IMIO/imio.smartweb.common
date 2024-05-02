@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.10 (unreleased)
+1.2.10 (2024-05-02)
 -------------------
 
 - WEB-4101 : Change Topics field widget to keep value ordering
