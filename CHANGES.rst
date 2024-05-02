@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.11 (unreleased)
+1.2.11 (2024-05-02)
 -------------------
 
 - WEB-4101 : Fix vocabulary terms translation (for Topics only - for the moment)
