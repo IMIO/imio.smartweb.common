@@ -5,6 +5,9 @@ Changelog
 1.2.10 (unreleased)
 -------------------
 
+- WEB-4101 : Change Topics field widget to keep value ordering
+  [laulaz]
+
 - WEB-4088 : Implement some odwb utils and generic classes
   [boulch]
 
