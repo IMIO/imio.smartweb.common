@@ -5,7 +5,9 @@ Changelog
 1.2.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4101 : Fix vocabulary terms translation (for Topics only - for the moment)
+  when used with `AjaxSelectFieldWidget`
+  [laulaz]
 
 
 1.2.10 (2024-05-02)

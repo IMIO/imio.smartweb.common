@@ -5,6 +5,7 @@ from plone import api
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
+from zope.i18n import translate
 from zope.i18n.locales import locales
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -14,6 +15,7 @@ import json
 
 class TopicsVocabularyFactory:
     def __call__(self, context=None):
+        lang = api.portal.get_current_language()[:2]
         topics = [
             ("entertainment", _("Entertainment")),
             ("agriculture", _("Agriculture")),
@@ -33,7 +35,14 @@ class TopicsVocabularyFactory:
             ("territory_public_space", _("Territory and public space")),
             ("tourism", _("Tourism")),
         ]
-        terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in topics]
+        terms = [
+            SimpleTerm(
+                value=t[0],
+                token=t[0],
+                title=translate(t[1], target_language=lang),
+            )
+            for t in topics
+        ]
         return SimpleVocabulary(terms)
 
 
