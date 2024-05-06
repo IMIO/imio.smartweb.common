@@ -5,7 +5,8 @@ Changelog
 1.2.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4102 : Add second skip to footer
+  [thomlamb]
 
 
 1.2.11 (2024-05-02)
