@@ -54,10 +54,6 @@
     <value key="load_defer">False</value>
   </records>
 
-  <records prefix="plone.bundles/faceted.jquery"
-           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
-    <value key="jscompilation">++plone++imio.smartweb.common/patched.web3862.eea.faceted-jquery.min.js</value>
-  </records>
 
   <!-- TinyMCE custom configuration -->
 

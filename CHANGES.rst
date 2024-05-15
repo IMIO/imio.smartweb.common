@@ -5,7 +5,8 @@ Changelog
 1.2.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3862 : Unpatch (restore original) eea.facetednavigation jquery
+  [laulaz]
 
 
 1.2.12 (2024-05-06)
