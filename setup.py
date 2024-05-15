@@ -16,7 +16,7 @@ long_description = "\n\n".join(
 
 setup(
     name="imio.smartweb.common",
-    version="1.1.10.dev0",
+    version="1.2.13.dev0",
     description="Common utilities, vocabularies, taxonomies for imio.smartweb & co products",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -68,6 +68,7 @@ setup(
         "collective.privacy",
         "iaweb.privacy",
         "imio.smartweb.locales",
+        "more-itertools",
     ],
     extras_require={
         "test": [
@@ -78,6 +79,7 @@ setup(
             "plone.testing>=5.0.0",
             "plone.app.robotframework[debug]",
             "plone.restapi[test]",
+            "freezegun",
             "mock",
         ],
     },

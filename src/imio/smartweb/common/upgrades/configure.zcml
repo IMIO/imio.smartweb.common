@@ -88,6 +88,38 @@
       name="upgrade_1018_to_1019"
       title="Upgrade common from 1018 to 1019"
       directory="profiles/1018_to_1019"
+      description="Refactoring scales : Define new scales available for two display modes : landscape and portrait"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1022_to_1023"
+      title="Upgrade common from 1022 to 1023"
+      directory="profiles/1022_to_1023"
+      description="Change portrait scales dimensions"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1023_to_1024"
+      title="Upgrade common from 1023 to 1024"
+      directory="profiles/1023_to_1024"
+      description="Improve image compression quality"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1025_to_1026"
+      title="Upgrade common from 1025 to 1026"
+      directory="profiles/1025_to_1026"
+      description="Add 'carre' scales dimensions"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1027_to_1028"
+      title="Upgrade common from 1027 to 1028"
+      directory="profiles/1027_to_1028"
       description="Unpatch (restore original) eea.facetednavigation jquery"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
@@ -285,8 +317,88 @@
       destination="1019"
       profile="imio.smartweb.common:default">
     <genericsetup:upgradeDepends
-        title="Unpatch (restore original) eea.facetednavigation jquery"
+        title="Refactoring scales : Define new scales available for two display modes : landscape and portrait"
         import_profile="imio.smartweb.common.upgrades:upgrade_1018_to_1019"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+      title="Remove deprecated cropping annotations on all objects"
+      source="1019"
+      destination="1020"
+      handler=".upgrades.remove_deprecated_cropping_annotations"
+      profile="imio.smartweb.common:default"
+      />
+
+  <genericsetup:upgradeStep
+      title="Restore missing textfields mimetypes"
+      source="1020"
+      destination="1021"
+      handler=".upgrades.restore_textfields_mimetypes"
+      profile="imio.smartweb.common:default"
+      />
+
+  <genericsetup:upgradeStep
+      title="Fix missing values for lists"
+      source="1021"
+      destination="1022"
+      handler=".upgrades.fix_missing_values_for_lists"
+      profile="imio.smartweb.common:default"
+      />
+
+  <genericsetup:upgradeSteps
+      source="1022"
+      destination="1023"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Change portrait scales dimensions"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1022_to_1023"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1023"
+      destination="1024"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Improve image compression quality"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1023_to_1024"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+      title="Set effective date equal to created_date for File and Image"
+      source="1024"
+      destination="1025"
+      handler=".upgrades.set_effective_date_equal_to_created_date"
+      profile="imio.smartweb.common:default"
+      />
+
+  <genericsetup:upgradeSteps
+      source="1025"
+      destination="1026"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Add 'carre' scales dimensions"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1025_to_1026"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+      title="Reindex SolR"
+      source="1026"
+      destination="1027"
+      handler=".upgrades.reindex_solr"
+      profile="imio.smartweb.common:default"
+      />
+
+  <genericsetup:upgradeSteps
+      source="1027"
+      destination="1028"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Unpatch (restore original) eea.facetednavigation jquery"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1027_to_1028"
         />
   </genericsetup:upgradeSteps>
 

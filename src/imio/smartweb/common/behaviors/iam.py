@@ -18,6 +18,7 @@ class IAm(model.Schema):
             "Important! These categories are used to create lists accessible via the navigation menu"
         ),
         value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.IAm"),
+        default=[],
         required=False,
     )
     directives.widget(iam=SelectFieldWidget)

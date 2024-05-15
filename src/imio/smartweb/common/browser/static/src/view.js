@@ -1,3 +1,4 @@
+import './view.less'
 jQuery(document).ready(function ($) {
 
   var portal_url = $("body").data("portal-url");
@@ -11,7 +12,11 @@ jQuery(document).ready(function ($) {
     cache: false,
   }).done(function(data) {
     if (data.length == 0) $('#gdpr-consent-banner').remove();
-    else $('#gdpr-consent-banner').show();
+    else {
+        $('#gdpr-consent-banner').show();
+        // Focus on 'Accept all' submit button for a11y
+        $('#gdpr-consent-banner').find("input[type='submit']:first").focus();
+    }
   });
 
 

@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_parent
 from imio.smartweb.common.config import TRANSLATED_VOCABULARIES
 from imio.smartweb.common.interfaces import ICropping
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.app.imagecropping.storage import Storage
 from plone.dexterity.utils import iterSchemata
 from plone.formwidget.geolocation.geolocation import Geolocation
 from plone.namedfile.field import NamedBlobImage
 from plone.namedfile.interfaces import IAvailableSizes
+from urllib.parse import urlparse
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.schema import getFields
@@ -150,6 +153,12 @@ def show_warning_for_scales(obj, request):
             )
 
 
+def remove_cropping(obj, field_name, scales):
+    storage = Storage(obj)
+    for scale in scales:
+        storage.remove(field_name, scale)
+
+
 def clean_invisible_char(value):
     # surpassing all control characters
     # checking for starting with C
@@ -161,3 +170,30 @@ def clean_invisible_char(value):
 
 def is_log_active():
     return api.portal.get_registry_record("imio.smartweb.common.log", default=False)
+
+
+# todo: create staging/prod env var. instead of using parsed_url
+def is_staging_or_local():
+    portal = api.portal.get()
+    portal_url = portal.absolute_url()
+    parsed_url = urlparse(portal_url)
+    scheme = parsed_url.scheme
+    netloc = parsed_url.netloc
+    elem = ["localhost", "127.0.0.1", "nohost"]
+    pattern = "|".join(map(re.escape, elem))
+    if scheme == "http" and re.search(pattern, netloc):
+        return True
+    elif scheme == "https" and "staging" in netloc:
+        return True
+    else:
+        return False
+
+
+def get_parent_of_type(context, content_type):
+    # Traverse up the hierarchy until we find an object with the specified content type
+    parent = context
+    while parent is not None:
+        if getattr(parent, "portal_type", None) == content_type:
+            return parent
+        parent = aq_parent(parent)
+    return None

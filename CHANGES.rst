@@ -2,11 +2,133 @@ Changelog
 =========
 
 
-1.1.10 (unreleased)
+1.2.13 (unreleased)
 -------------------
 
 - WEB-3862 : Unpatch (restore original) eea.facetednavigation jquery
   [laulaz]
+
+
+1.2.12 (2024-05-06)
+-------------------
+
+- WEB-4102 : Add second skip to footer
+  [thomlamb]
+
+
+1.2.11 (2024-05-02)
+-------------------
+
+- WEB-4101 : Fix vocabulary terms translation (for Topics only - for the moment)
+  when used with `AjaxSelectFieldWidget`
+  [laulaz]
+
+
+1.2.10 (2024-05-02)
+-------------------
+
+- WEB-4101 : Change Topics field widget to keep value ordering
+  [laulaz]
+
+- WEB-4088 : Implement some odwb utils and generic classes
+  [boulch]
+
+
+1.2.9 (2024-02-08)
+------------------
+
+- WEB-4064 : Reindex SolR because of changes in schema
+  [remdub]
+
+
+1.2.8 (2024-02-02)
+------------------
+
+- Fix skip content sr-only
+  [thomlamb]
+
+1.2.7 (2024-01-16)
+------------------
+
+- WEB-4046 : Add css for "Skip to content
+  [thomlamb]
+
+- WEB-4046 : Add "Skip to content" link for a11y
+  [laulaz]
+
+- WEB-4048 : Put focus on cookies accept button for a11y
+  [laulaz]
+
+
+1.2.6 (2024-01-09)
+------------------
+
+- WEB-4041 : Add new "carre" scale
+  [boulch]
+
+
+1.2.5 (2024-01-05)
+------------------
+
+- WEB-4007 : Get ContactProperties out of imio.smartweb.core to also use it in imio.directory.core
+  and simplifying formated schedule displaying in REACT directory view
+  [boulch]
+
+- WEB-4029 : File and Image content types don't have WF so we set effective date equal to created date
+  [boulch]
+
+
+1.2.4 (2023-12-07)
+------------------
+
+- WEB-3783 : Rebuild url with request.form datas (usefull with react views)
+  [boulch]
+
+
+1.2.3 (2023-11-21)
+------------------
+
+- Improve image compression quality
+  [laulaz]
+
+- Change portrait scales dimensions
+  [laulaz]
+
+
+1.2.2 (2023-11-20)
+------------------
+
+- Fix missing values for facilities lists (causing `None` in REST views filters)
+  See https://github.com/collective/collective.solr/issues/366
+  [laulaz]
+
+- Fix last upgrade steps: when run from command line, we need to adopt admin
+  user to find private objects
+  [laulaz]
+
+- WEB-4003 : Fix missing TextField mimetypes
+  [laulaz]
+
+
+1.2.1 (2023-10-29)
+------------------
+
+- SUP-33128 : Fix eea.facetednavigation : Hide items with 0 results
+  [boulch, laz]
+
+- Refactor less and js compilation + Add compilations files
+  [boulch]
+
+
+1.2 (2023-10-25)
+----------------
+
+- WEB-3985 : New portrait / paysage scales & logic.
+  We have re-defined the scales & sizes used in smartweb.
+  We let the user crop only 2 big portrait / paysage scales and make the calculation behind the scenes for all
+  other smaller scales.
+  We also fixed the cropping information clearing on images changes.
+  [boulch, laulaz]
 
 
 1.1.9 (2023-08-28)

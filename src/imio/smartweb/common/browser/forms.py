@@ -22,9 +22,9 @@ class CustomAddForm(DefaultAddForm):
         if "IBasic.description" in self.fields:
             self.fields["IBasic.description"].field.max_length = DESCRIPTION_MAX_LENGTH
         elif "IDublinCore.description" in self.fields:
-            self.fields[
-                "IDublinCore.description"
-            ].field.max_length = DESCRIPTION_MAX_LENGTH
+            self.fields["IDublinCore.description"].field.max_length = (
+                DESCRIPTION_MAX_LENGTH
+            )
 
     def updateWidgets(self):
         super(CustomAddForm, self).updateWidgets()
@@ -65,9 +65,9 @@ class CustomEditForm(DefaultEditForm):
         if "IBasic.description" in self.fields:
             self.fields["IBasic.description"].field.max_length = DESCRIPTION_MAX_LENGTH
         elif "IDublinCore.description" in self.fields:
-            self.fields[
-                "IDublinCore.description"
-            ].field.max_length = DESCRIPTION_MAX_LENGTH
+            self.fields["IDublinCore.description"].field.max_length = (
+                DESCRIPTION_MAX_LENGTH
+            )
 
     def updateWidgets(self):
         super(CustomEditForm, self).updateWidgets()

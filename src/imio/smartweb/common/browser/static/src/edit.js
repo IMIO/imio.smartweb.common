@@ -1,3 +1,4 @@
+import './edit.less'
 jQuery(document).ready(function ($) {
 
   // Limit uploaded files sizes to 20Mo (without reaching the server)

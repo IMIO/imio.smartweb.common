@@ -2,13 +2,15 @@
 
 from imio.smartweb.common.interfaces import IAddress
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
+from imio.smartweb.common.utils import clean_invisible_char
 from imio.smartweb.common.utils import geocode_object
 from imio.smartweb.common.utils import get_term_from_vocabulary
 from imio.smartweb.common.utils import get_uncroppable_scales_infos
+from imio.smartweb.common.utils import remove_cropping
 from imio.smartweb.common.utils import show_warning_for_scales
 from imio.smartweb.common.utils import translate_vocabulary_term
-from imio.smartweb.common.utils import clean_invisible_char
 from plone import api
+from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -17,6 +19,7 @@ from plone.namedfile.file import NamedBlobImage
 from Products.statusmessages.interfaces import IStatusMessage
 from unittest import mock
 from unittest.mock import patch
+from zope.annotation.interfaces import IAnnotations
 from zope.interface import implementer
 
 import geopy
@@ -205,6 +208,24 @@ class TestUtils(unittest.TestCase):
         messages = IStatusMessage(self.request)
         show = messages.show()
         self.assertEqual(len(show), 0)
+
+    def test_remove_cropping(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="Folder",
+            title="Folder",
+            id="folder",
+        )
+        test_image = os.path.join(os.path.dirname(__file__), "resources/image.png")
+        with open(test_image, "rb") as fd:
+            folder.image = NamedBlobImage(data=fd.read(), filename=test_image)
+        view = folder.restrictedTraverse("@@crop-image")
+        view._crop(fieldname="image", scale="portrait_affiche", box=(1, 1, 200, 200))
+        annotation = IAnnotations(folder).get(PAI_STORAGE_KEY)
+        self.assertEqual(annotation, {"image_portrait_affiche": (1, 1, 200, 200)})
+
+        remove_cropping(folder, "image", ["portrait_affiche"])
+        self.assertEqual(annotation, {})
 
     def test_clean_invisible_char(self):
         txt = "<p>Kam\x02oulox</p>"

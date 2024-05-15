@@ -1,0 +1,68 @@
+// Skip to content related CSS
+.show-on-focus {
+    display: inline-block;
+    position: absolute !important;
+    top: 10px;
+    left: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2.9px rgba(0, 0, 0, 0.028), 0px 0px 8.1px rgba(0, 0, 0, 0.04), 0px 0px 19.6px rgba(0, 0, 0, 0.052), 0px 0px 65px rgba(0, 0, 0, 0.08);
+    font-weight: 500;
+    color: #000 !important;
+    &:not(:focus) {
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+
+    &:focus {
+        background-color: #FFFFFF!important;
+        padding: 1rem;
+        z-index: 999;
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+#smartweb-footer {
+    position: relative;
+    .show-on-focus {
+        color: #000!important;
+    }
+}
+
+// Fields description position between title and input.
+form .form-text {
+    margin-top: -0.4em;
+    margin-bottom: 0.30em;
+}
+
+// Privacy related CSS
+#cookies-form label span.required,
+#cookies-form .form-text p,
+#cookies-form #form-widgets-all_basic_cookies {
+    display: none;
+}
+
+#gdpr-consent-banner {
+    z-index: 999999;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    background: orange;
+    display: none;
+}
+
+// Fix eea.facetednavigation : Hide items with 0 results
+.faceted-select-widget.faceted-zero-count-hidden .faceted-select-item-disabled {
+    display: none;
+}

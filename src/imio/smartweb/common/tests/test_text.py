@@ -34,6 +34,8 @@ class TestText(unittest.TestCase):
         document.text = text
         modified(document)
         self.assertEqual(document.text.raw, "<p>Kamoulox</p>")
+        self.assertEqual(document.text.mimeType, "text/html")
+        self.assertEqual(document.text.outputMimeType, "text/html")
 
         document = api.content.create(
             container=self.folder,

@@ -8,20 +8,19 @@
           field="allowed_sizes">
     <value purge="true">
       <element>banner 1920:65536</element>
-      <element>carre_affiche 750:750</element>
-      <element>carre_vignette 430:430</element>
-      <element>carre_liste 167:167</element>
-      <element>paysage_affiche 1320:750</element>
+      <element>paysage_affiche 750:448</element>
       <element>paysage_vignette 430:257</element>
       <element>paysage_liste 167:100</element>
-      <element>portrait_affiche 650:768</element>
-      <element>portrait_vignette 430:608</element>
-      <element>portrait_liste 222:296</element>
-      <element>responsive 65536:600</element>
+      <element>portrait_affiche 448:633</element>
+      <element>portrait_vignette 448:633</element>
+      <element>portrait_liste 222:313</element>
+      <element>large 768:768</element>
       <element>preview 400:400</element>
       <element>mini 200:200</element>
       <element>thumb 128:128</element>
       <element>tile 64:64</element>
+      <element>icon 32:32</element>
+      <element>listing 16:16</element>
     </value>
   </record>
 

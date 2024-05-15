@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.rest.odwb import OdwbService
 from imio.smartweb.common.rest.utils import get_restapi_query_lang
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_ACCEPTANCE_TESTING
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.restapi.testing import RelativeSession
+from unittest.mock import patch
 
 import transaction
 import unittest
@@ -117,3 +119,14 @@ class TestREST(unittest.TestCase):
         self.assertNotIn("has_leadimage", json)
         self.assertNotIn("start", json)
         self.assertNotIn("UID", json)
+
+    @patch("imio.smartweb.common.utils.api.portal.get")
+    def test_odwb_service_environnement(self, mock_get):
+        mock_portal = mock_get.return_value
+        mock_portal.absolute_url.return_value = "http://localhost:8080"
+        endpoint = OdwbService()
+        self.assertEqual(endpoint.available(), False)
+
+        mock_portal.absolute_url.return_value = "https://www.production.be"
+        endpoint = OdwbService()
+        self.assertEqual(endpoint.available(), True)

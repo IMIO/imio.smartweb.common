@@ -8,20 +8,29 @@
           field="allowed_sizes">
     <value purge="true">
       <element>banner 1920:65536</element>
-      <element>affiche 1320:440</element>
-      <element>extralarge 1320:1320</element>
+      <element>carre_affiche 750:750</element>
+      <element>carre_vignette 430:430</element>
+      <element>carre_liste 167:167</element>
+      <element>paysage_affiche 750:448</element>
+      <element>paysage_vignette 430:257</element>
+      <element>paysage_liste 167:100</element>
+      <element>portrait_affiche 448:633</element>
+      <element>portrait_vignette 448:633</element>
+      <element>portrait_liste 222:313</element>
       <element>large 768:768</element>
-      <element>slide 750:500</element>
-      <element>medium 600:600</element>
       <element>preview 400:400</element>
-      <element>vignette 390:260</element>
       <element>mini 200:200</element>
-      <element>liste 150:100</element>
       <element>thumb 128:128</element>
       <element>tile 64:64</element>
       <element>icon 32:32</element>
       <element>listing 16:16</element>
     </value>
+  </record>
+
+  <record name="plone.quality"
+          interface="plone.base.interfaces.controlpanel.IImagingSchema"
+          field="quality">
+    <value>92</value>
   </record>
 
   <records prefix="plone.bundles/smartweb-common-view"
