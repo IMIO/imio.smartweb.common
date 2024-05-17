@@ -5,6 +5,9 @@ Changelog
 1.2.13 (unreleased)
 -------------------
 
+- WEB-3864 : Ensure that a taxonomy term that is deleted is not used anywhere
+  [boulch]
+
 - WEB-3862 : Unpatch (restore original) eea.facetednavigation jquery
   [laulaz]
 

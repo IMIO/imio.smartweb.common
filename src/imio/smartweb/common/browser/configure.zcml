@@ -82,4 +82,12 @@
       allowed_attributes="scale tag"
       />
 
+  <browser:page
+      name="taxonomy-import"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".collective_taxonomy_controlpanel.ImportJson"
+      permission="collective.taxonomy.ManageTaxonomies"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      />
+
 </configure>

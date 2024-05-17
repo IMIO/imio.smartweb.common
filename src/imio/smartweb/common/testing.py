@@ -26,7 +26,7 @@ class ImioSmartwebCommonLayer(PloneSandboxLayer):
         import plone.restapi
 
         self.loadZCML(package=plone.restapi)
-        self.loadZCML(package=imio.smartweb.common)
+        self.loadZCML(package=imio.smartweb.common, name="testing.zcml")
 
     def setUpPloneSite(self, portal):
         api.user.create(email="test@imio.be", username="test")

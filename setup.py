@@ -66,6 +66,7 @@ setup(
         "eea.facetednavigation",
         "imio.gdpr",
         "collective.privacy",
+        "collective.taxonomy",
         "iaweb.privacy",
         "imio.smartweb.locales",
         "more-itertools",
