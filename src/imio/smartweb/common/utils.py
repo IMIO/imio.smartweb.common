@@ -179,7 +179,7 @@ def is_staging_or_local():
     parsed_url = urlparse(portal_url)
     scheme = parsed_url.scheme
     netloc = parsed_url.netloc
-    elem = ["localhost", "127.0.0.1", "nohost"]
+    elem = ["localhost", "127.0.0.1"]
     pattern = "|".join(map(re.escape, elem))
     if scheme == "http" and re.search(pattern, netloc):
         return True
