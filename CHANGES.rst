@@ -5,6 +5,9 @@ Changelog
 1.2.13 (unreleased)
 -------------------
 
+- Ensure translation of vocabularies when used with `AjaxSelectFieldWidget`
+  [laulaz]
+
 - Remove useless `container_uid` from `search-filters` results
   [laulaz]
 
