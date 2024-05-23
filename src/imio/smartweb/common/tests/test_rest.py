@@ -31,6 +31,10 @@ class TestREST(unittest.TestCase):
             title="Doc 1",
         )
         self.doc1.topics = ["agriculture"]
+        self.doc1.local_category = "Titre FR"
+        self.doc1.local_category_nl = "NL title"
+        self.doc1.local_category_de = "DE title"
+        self.doc1.local_category_en = "EN title"
         api.content.transition(self.doc1, "publish")
 
         self.doc2 = api.content.create(
@@ -101,10 +105,30 @@ class TestREST(unittest.TestCase):
         )
 
         query = {
+            "portal_type": "Document",
+            "metadata_fields": "local_category",
+        }
+        response = self.api_session.get("/@search-filters", params=query)
+        json = response.json()
+        self.assertEqual(
+            json["local_category"],
+            [{"title": "Titre FR", "token": "Titre FR"}],
+        )
+        query["translated_in_nl"] = 1
+        response = self.api_session.get("/@search-filters", params=query)
+        json = response.json()
+        self.assertEqual(
+            json["local_category"],
+            [{"title": "NL title", "token": "Titre FR"}],
+        )
+        del query["translated_in_nl"]
+
+        query = {
             "portal_type": "Event",
             "metadata_fields": [
                 "iam",
                 "topics",
+                "container_uid",
                 "effective",
                 "end",
                 "has_leadimage",
@@ -114,6 +138,7 @@ class TestREST(unittest.TestCase):
         }
         response = self.api_session.get("/@search-filters", params=query)
         json = response.json()
+        self.assertNotIn("container_uid", json)
         self.assertNotIn("effective", json)
         self.assertNotIn("end", json)
         self.assertNotIn("has_leadimage", json)

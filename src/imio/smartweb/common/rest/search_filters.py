@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.common.config import VOCABULARIES_MAPPING
+from imio.smartweb.common.rest.utils import get_restapi_query_lang
 from imio.smartweb.common.utils import get_term_from_vocabulary
 from operator import itemgetter
 from plone.restapi.search.handler import SearchHandler
@@ -66,6 +67,9 @@ class SearchFiltersHandler(SearchHandler):
         if not isinstance(metadatas, list):
             metadatas = [metadatas]
 
+        lang = get_restapi_query_lang(query)
+        local_categories_trans = {}
+
         metadatas = list(set(metadatas) - set(EXCLUDED_METADATA))
         filters = {metadata: set() for metadata in metadatas}
         for brain in brains:
@@ -73,11 +77,14 @@ class SearchFiltersHandler(SearchHandler):
                 value = getattr(brain, metadata, None)
                 if not value:
                     continue
-                if isinstance(value, list) or isinstance(value, tuple):
-                    for v in value:
-                        filters[metadata].add(v)
-                else:
-                    filters[metadata].add(value)
+                if not isinstance(value, (list, tuple)):
+                    value = [value]
+                for v in value:
+                    filters[metadata].add(v)
+                    if metadata == "local_category":
+                        local_categories_trans[v] = getattr(
+                            brain, f"{metadata}_{lang}", v
+                        )
 
         results = {}
         for metadata, values in filters.items():
@@ -92,8 +99,12 @@ class SearchFiltersHandler(SearchHandler):
                     term = serializer()
                     term["title"] = json_compatible(title)  # needed for translations
                     results[metadata].append(term)
-                    results[metadata].sort(key=itemgetter("title"))
+            elif metadata == "local_category":
+                results[metadata] = [
+                    {"token": v, "title": local_categories_trans[v]} for v in values
+                ]
             else:
-                results[metadata] = [{"token": v, "title": v} for v in sorted(values)]
+                results[metadata] = [{"token": v, "title": v} for v in values]
+            results[metadata].sort(key=itemgetter("title"))
 
         return results
