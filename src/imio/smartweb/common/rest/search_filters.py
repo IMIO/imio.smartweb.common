@@ -13,6 +13,7 @@ from zope.component import getMultiAdapter
 
 # we don't need some brains metadata to construct search filters
 EXCLUDED_METADATA = [
+    "container_uid",
     "effective",
     "end",
     "has_leadimage",

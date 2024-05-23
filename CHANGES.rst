@@ -5,6 +5,9 @@ Changelog
 1.2.13 (unreleased)
 -------------------
 
+- Remove useless `container_uid` from `search-filters` results
+  [laulaz]
+
 - WEB-3864 : Ensure that a taxonomy term that is deleted is not used anywhere
   [boulch]
 
