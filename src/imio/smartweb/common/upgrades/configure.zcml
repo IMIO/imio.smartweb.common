@@ -132,6 +132,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1029_to_1030"
+      title="Upgrade common from 1029 to 1030"
+      directory="profiles/1029_to_1030"
+      description="Remove obsolete patterns bundle / fix previous 1027_to_1028 upgrade"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -417,6 +425,16 @@
     <genericsetup:upgradeDepends
         title="Cover use case for sending data in odwb for a staging environment"
         import_profile="imio.smartweb.common.upgrades:upgrade_1028_to_1029"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1029"
+      destination="1030"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Remove obsolete patterns bundle / fix previous 1027_to_1028 upgrade"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1029_to_1030"
         />
   </genericsetup:upgradeSteps>
 

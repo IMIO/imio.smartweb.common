@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<registry>
+
+  <records prefix="plone.bundles/patterns"
+           interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           remove="true" />
+
+  <records prefix="plone.bundles/faceted.jquery"
+           interface="Products.CMFPlone.interfaces.IBundleRegistry">
+    <value key="jscompilation">++plone++facetednavigation/faceted-jquery.min.js</value>
+  </records>
+
+</registry>

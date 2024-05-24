@@ -5,6 +5,10 @@ Changelog
 1.2.14 (unreleased)
 -------------------
 
+- Fix bundles: Remove obsolete patterns bundle and fix a previous upgrade for
+  eea.facetednavigation
+  [laulaz]
+
 - Fix translate call (was causing incorrect string in .po file)
   [laulaz]
 
