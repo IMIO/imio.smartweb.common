@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.14 (unreleased)
+1.2.14 (2024-05-24)
 -------------------
 
 - Fix bundles: Remove obsolete patterns bundle and fix a previous upgrade for
