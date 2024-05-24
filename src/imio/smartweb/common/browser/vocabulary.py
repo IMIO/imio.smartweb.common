@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.content.browser.vocabulary import VocabularyView
 from plone.app.content.utils import json_dumps
@@ -22,5 +21,7 @@ class TranslatedVocabularyView(VocabularyView):
         lang = api.portal.get_current_language()[:2]
         for item in json["results"]:
             if "text" in item:
-                item["text"] = translate(_(item["text"]), target_language=lang)
+                item["text"] = translate(
+                    item["text"], domain="imio.smartweb", target_language=lang
+                )
         return json_dumps(json)

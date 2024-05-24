@@ -5,6 +5,9 @@ Changelog
 1.2.14 (unreleased)
 -------------------
 
+- Fix translate call (was causing incorrect string in .po file)
+  [laulaz]
+
 - Fix translation message string
   [laulaz]
 
