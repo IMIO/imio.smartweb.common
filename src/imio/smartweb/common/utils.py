@@ -184,9 +184,17 @@ def is_staging_or_local():
     if scheme == "http" and re.search(pattern, netloc):
         return True
     elif scheme == "https" and "staging" in netloc:
+        if activate_sending_data_to_odwb_for_staging() is True:
+            return False
         return True
     else:
         return False
+
+
+def activate_sending_data_to_odwb_for_staging():
+    return api.portal.get_registry_record(
+        "imio.smartweb.common.activate_sending_data_to_odwb_for_staging", default=False
+    )
 
 
 def get_parent_of_type(context, content_type):

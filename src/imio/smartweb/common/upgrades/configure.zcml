@@ -124,6 +124,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1028_to_1029"
+      title="Upgrade common from 1028 to 1029"
+      directory="profiles/1028_to_1029"
+      description="Cover use case for sending data in odwb for a staging environment"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -399,6 +407,16 @@
     <genericsetup:upgradeDepends
         title="Unpatch (restore original) eea.facetednavigation jquery"
         import_profile="imio.smartweb.common.upgrades:upgrade_1027_to_1028"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1028"
+      destination="1029"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Cover use case for sending data in odwb for a staging environment"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1028_to_1029"
         />
   </genericsetup:upgradeSteps>
 

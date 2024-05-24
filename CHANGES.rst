@@ -5,6 +5,9 @@ Changelog
 1.2.13 (unreleased)
 -------------------
 
+- WEB-4088 : Cover use case for sending data in odwb for a staging environment
+  [boulch]
+
 - Ensure translation of vocabularies when used with `AjaxSelectFieldWidget`
   [laulaz]
 

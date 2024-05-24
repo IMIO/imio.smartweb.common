@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+  <record name="imio.smartweb.common.activate_sending_data_to_odwb_for_staging">
+    <field type="plone.registry.field.Bool">
+      <title>Activate sending data to odwb for staging</title>
+      <description>Be careful, it must be existing an odwb table prefixing with staging and naming like prod table. Also, smartweb registry keys (odwb pushkey) must be respect.</description>
+      <required>False</required>
+    </field>
+    <value>False</value>
+  </record>
+
+</registry>
