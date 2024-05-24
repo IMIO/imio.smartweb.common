@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.13 (unreleased)
+1.2.13 (2024-05-24)
 -------------------
 
 - WEB-4088 : Cover use case for sending data in odwb for a staging environment
