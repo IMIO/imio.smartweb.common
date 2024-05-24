@@ -54,7 +54,11 @@ class ImportJson(baseImportJson):
                                     "status": "error",
                                     "message": translate(
                                         _(
-                                            f'Term "{term_title}" can\'t be removed because it is used (at least) here : {here}'
+                                            'Term "${term_title}" can\'t be removed because it is used (at least) here : ${here}',
+                                            mapping={
+                                                "term_title": term_title,
+                                                "here": here,
+                                            },
                                         ),
                                         context=request,
                                     ),

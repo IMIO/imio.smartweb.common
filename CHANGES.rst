@@ -5,7 +5,8 @@ Changelog
 1.2.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix translation message string
+  [laulaz]
 
 
 1.2.13 (2024-05-24)
