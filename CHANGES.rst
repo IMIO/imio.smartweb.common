@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.15 (unreleased)
+1.2.15 (2024-05-27)
 -------------------
 
 - Fix missing ZCML dependency
