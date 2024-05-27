@@ -5,7 +5,8 @@ Changelog
 1.2.15 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix missing ZCML dependency
+  [laulaz]
 
 
 1.2.14 (2024-05-24)
