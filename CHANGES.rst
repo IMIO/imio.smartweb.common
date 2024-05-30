@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.16 (unreleased)
+1.2.16 (2024-05-30)
 -------------------
 
 - WEB-4107 : Update resource registries modification time (used as ETag) at Zope startup
