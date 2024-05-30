@@ -5,7 +5,8 @@ Changelog
 1.2.16 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4107 : Update resource registries modification time (used as ETag) at Zope startup
+  [laulaz]
 
 
 1.2.15 (2024-05-27)
