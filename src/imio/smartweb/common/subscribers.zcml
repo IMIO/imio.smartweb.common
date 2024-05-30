@@ -1,6 +1,9 @@
 <configure
     xmlns="http://namespaces.zope.org/zope">
 
+  <subscriber for="zope.processlifetime.IProcessStarting"
+              handler=".subscribers.started_zope"/>
+
   <subscriber for="plone.dexterity.interfaces.IDexterityContent
                    zope.lifecycleevent.interfaces.IObjectAddedEvent"
               handler=".subscribers.added_content" />
