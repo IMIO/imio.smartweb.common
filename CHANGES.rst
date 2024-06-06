@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.17 (unreleased)
+1.2.17 (2024-06-06)
 -------------------
 
 - WEB-4113 : Add `TranslatedAjaxSelectFieldWidget` to fix translations of initial
