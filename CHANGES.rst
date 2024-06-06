@@ -5,7 +5,9 @@ Changelog
 1.2.17 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4113 : Add `TranslatedAjaxSelectFieldWidget` to fix translations of initial
+  values in select2 fields
+  [laulaz]
 
 
 1.2.16 (2024-05-30)
