@@ -5,6 +5,9 @@ Changelog
 1.2.18 (unreleased)
 -------------------
 
+- WEB-4088 : Refactor code for odwb staging availability
+  [boulch]
+
 - GHA tests on Python 3.8 3.9 and 3.10
   [remdub]
 

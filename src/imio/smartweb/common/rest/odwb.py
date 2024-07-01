@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.utils import activate_sending_data_to_odwb_for_staging
 from imio.smartweb.common.utils import is_staging_or_local
 from plone import api
 from plone.restapi.services import Service
@@ -30,6 +31,8 @@ class OdwbService(Service):
     def available(self):
         staging_or_local = is_staging_or_local()
         if staging_or_local:
+            if activate_sending_data_to_odwb_for_staging() is True:
+                return True
             logger.info(
                 "Don't send odwb data when we are in staging or local environment"
             )

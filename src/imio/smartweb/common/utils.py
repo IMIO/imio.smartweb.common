@@ -184,8 +184,6 @@ def is_staging_or_local():
     if scheme == "http" and re.search(pattern, netloc):
         return True
     elif scheme == "https" and "staging" in netloc:
-        if activate_sending_data_to_odwb_for_staging() is True:
-            return False
         return True
     else:
         return False
