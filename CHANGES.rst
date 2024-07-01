@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.18 (unreleased)
+1.2.18 (2024-07-01)
 -------------------
 
 - WEB-4088 : Refactor code for odwb staging availability
