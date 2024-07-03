@@ -19,4 +19,15 @@
       provides=".iam.IAm"
       />
 
+  <plone:behavior
+      name="imio.smartweb.leadimage"
+      title="Lead Image with Custom Validation"
+      description="A lead image field with custom format validation."
+      factory="plone.app.contenttypes.behaviors.leadimage.LeadImage"
+      provides=".behaviors.ICustomLeadImageBehavior"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      marker="plone.app.contenttypes.behaviors.leadimage.ILeadImage"
+      former_dotted_names="imio.smartweb.common.behaviors.ICustomLeadImage"
+      />
+
 </configure>

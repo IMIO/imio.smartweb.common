@@ -5,7 +5,7 @@ Changelog
 1.2.18 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4122 : Override ILeadImageBehavior to limit image formats available for upload
 
 
 1.2.17 (2024-06-06)
