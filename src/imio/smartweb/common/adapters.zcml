@@ -7,4 +7,10 @@
       factory=".adapters.BaseCroppingProvider"
       />
 
+  <adapter
+      factory=".adapters.ImageContenttypeValidator"
+      provides="plone.namedfile.field.IPluggableImageFieldValidation"
+      name="smartweb_image_contenttype"
+      />
+
 </configure>

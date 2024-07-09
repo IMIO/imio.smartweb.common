@@ -5,7 +5,8 @@ Changelog
 1.2.19 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4122 : Create adapter/validator to filter valid image mimetype in our solutions
+  [boulch]
 
 
 1.2.18 (2024-07-01)

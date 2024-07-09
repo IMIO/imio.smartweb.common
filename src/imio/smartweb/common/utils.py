@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_parent
+from io import BytesIO
 from imio.smartweb.common.config import TRANSLATED_VOCABULARIES
 from imio.smartweb.common.interfaces import ICropping
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from PIL import Image
 from plone import api
 from plone.app.imagecropping.storage import Storage
 from plone.dexterity.utils import iterSchemata
@@ -203,3 +205,27 @@ def get_parent_of_type(context, content_type):
             return parent
         parent = aq_parent(parent)
     return None
+
+
+def _get_pil_mimetype(pil_image):
+    """Retourne le MIME type d'une image PIL."""
+    format_to_mime = {
+        "JPEG": "image/jpeg",
+        "PNG": "image/png",
+        "GIF": "image/gif",
+        "BMP": "image/bmp",
+        "TIFF": "image/tiff",
+        "WEBP": "image/webp",
+        "SVG": "image/svg+xml",
+    }
+    return format_to_mime.get(pil_image.format, "application/octet-stream")
+
+
+def get_image_format(named_blob_image):
+    """Détecte le format d'une image à partir de son contenu binaire."""
+    if named_blob_image and named_blob_image.data:
+        try:
+            with Image.open(BytesIO(named_blob_image.data)) as img:
+                return _get_pil_mimetype(img)
+        except Exception:
+            return None
