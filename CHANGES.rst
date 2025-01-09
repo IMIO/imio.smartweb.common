@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.19 (unreleased)
+1.2.19 (2025-01-09)
 -------------------
 
 - WEB-4153 : Override @vocabularies endpoint to add a cache ruleset on it
