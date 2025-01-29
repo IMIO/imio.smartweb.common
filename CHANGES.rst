@@ -12,8 +12,7 @@ Changelog
 1.2.19 (2025-01-09)
 -------------------
 
-- WEB-4153 : Override @vocabularies endpoint to add a cache ruleset on it
-  [remdub]
+- Nothing changed yet.
 
 
 1.2.18 (2024-07-01)
