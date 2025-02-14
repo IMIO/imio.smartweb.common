@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.22 (unreleased)
+1.2.22 (2025-02-14)
 -------------------
 
 - WEB-4153 : Ruleset plone.stableResource for image scales
