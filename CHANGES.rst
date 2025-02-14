@@ -5,7 +5,8 @@ Changelog
 1.2.22 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4153 : Ruleset plone.stableResource for image scales
+  [remdub]
 
 
 1.2.21 (2025-01-31)

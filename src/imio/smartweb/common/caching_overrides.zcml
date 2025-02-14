@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cache="http://namespaces.zope.org/cache"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
+
+    <include package="z3c.unconfigure" file="meta.zcml" />
+
+    <unconfigure>
+        <cache:ruleset
+                for="plone.namedfile.scaling.ImageScale"
+                ruleset="plone.content.file"
+                />
+    </unconfigure>
+
+    <cache:ruleset
+        for="plone.namedfile.scaling.ImageScale"
+        ruleset="plone.stableResource"
+    />
+
+</configure>
