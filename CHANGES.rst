@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.23 (unreleased)
+1.2.23 (2025-02-24)
 -------------------
 
 - WEB-3718 : Accessibility : Add aria-label for consent buttons
