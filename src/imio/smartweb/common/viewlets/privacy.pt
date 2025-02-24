@@ -12,13 +12,15 @@
                           data-json-url string:${navigation_root_url}/@@consent-json">
         <input name="came_from" type="hidden" value="" tal:attributes="value view/rebuild_url">
         <div class="gdpr-actions">
-            <input type="submit" name="consent" value="Accept all" i18n:attributes="value"/>
-            <a href=""
+            <input type="submit" name="consent" aria-label="Accept all cookies" value="Accept all" i18n:attributes="aria-label;value"/>
+            <a href=""             
                class="pat-plone-modal"
+               aria-label="Read more and manage cookies settings"
                data-pat-plone-modal='{"prependContent": ""}'
-               tal:attributes="href string:${navigation_root_url}/@@consent"
+               tal:attributes="href string:${navigation_root_url}/@@consent"               
+               i18n:attributes="aria-label"
                i18n:translate="">Read more and manage settings</a>
-            <input type="submit" name="refuse" value="Refuse all" i18n:attributes="value"/>
+            <input type="submit" name="refuse" aria-label="Refuse all cookies" value="Refuse all" i18n:attributes="aria-label;value"/>
         </div>
     </form>
 </div>
