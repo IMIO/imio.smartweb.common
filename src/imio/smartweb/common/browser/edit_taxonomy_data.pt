@@ -106,7 +106,7 @@
                     var nodeElement = this.closest(".info");
                     if (nodeElement == null) {
                         showModal("Impossible de supprimer cet élément car il contient d'autres termes .");
-                        return;from zope.schema.interfaces import IVocabularyFactory
+                        return;
 
                     }
                     var identifierInput = nodeElement.querySelector(".identifier-input");

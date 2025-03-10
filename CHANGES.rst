@@ -5,7 +5,9 @@ Changelog
 1.2.25 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4232 : Fix JQuery.
+  Version 1.2.24 contained issues affecting the smooth running of the preventing deletion of a taxonomy term
+  [boulch]
 
 
 1.2.24 (2025-03-10)
