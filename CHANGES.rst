@@ -42,7 +42,8 @@ Changelog
 1.2.19 (2025-01-09)
 -------------------
 
-- Nothing changed yet.
+- WEB-4232 : Refactoring of the code that prevents the deletion of a taxonomy term if it is used in at least one object
+  [boulch]
 
 
 1.2.18 (2024-07-01)

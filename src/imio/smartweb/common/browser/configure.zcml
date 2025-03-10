@@ -91,9 +91,19 @@
       />
 
   <browser:page
-      name="taxonomy-import"
+      name="taxonomy-edit-data"
       for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".collective_taxonomy_controlpanel.ImportJson"
+      class=".collective_taxonomy_controlpanel.EditTaxonomyData"
+      template="edit_taxonomy_data.pt"
+      permission="collective.taxonomy.ManageTaxonomies"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      />
+
+  <browser:page
+      name="check_delete_taxonomy"
+      attribute="check_delete_taxonomy"
+      for="*"
+      class=".collective_taxonomy_controlpanel.DeleteTaxonomyData"
       permission="collective.taxonomy.ManageTaxonomies"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
