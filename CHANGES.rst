@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.24 (unreleased)
+1.2.24 (2025-03-10)
 -------------------
 
 - WEB-4232 : Refactoring of the code that prevents the deletion of a taxonomy term if it is used in at least one object
