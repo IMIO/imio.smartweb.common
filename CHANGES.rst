@@ -5,7 +5,8 @@ Changelog
 1.2.26 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4212: Fixe i18n:domain for skip to content
+  [thomlamb]
 
 
 1.2.25 (2025-03-10)
