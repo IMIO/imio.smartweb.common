@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.26 (unreleased)
+1.2.26 (2025-03-12)
 -------------------
 
 - WEB-4212: Fixe i18n:domain for skip to content
