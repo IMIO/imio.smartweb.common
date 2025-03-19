@@ -5,7 +5,8 @@ Changelog
 1.2.27 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4122 : Create adapter/validator to filter valid image mimetype in our solutions
+  [boulch]
 
 
 1.2.26 (2025-03-12)
@@ -64,7 +65,8 @@ Changelog
 1.2.19 (2025-01-09)
 -------------------
 
-- Nothing changed yet.
+- WEB-4153 : Override @vocabularies endpoint to add a cache ruleset on it
+  [remdub]
 
 
 1.2.18 (2024-07-01)
