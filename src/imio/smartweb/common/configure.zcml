@@ -25,4 +25,6 @@
   <include package=".upgrades" />
   <include package=".viewlets" />
 
+  <includeOverrides file="caching_overrides.zcml" />
+
 </configure>

@@ -2,7 +2,66 @@ Changelog
 =========
 
 
-1.2.19 (unreleased)
+1.2.27 (unreleased)
+-------------------
+
+- Nothing changed yet.
+
+
+1.2.26 (2025-03-12)
+-------------------
+
+- WEB-4212: Fixe i18n:domain for skip to content
+  [thomlamb]
+
+
+1.2.25 (2025-03-10)
+-------------------
+
+- WEB-4232 : Fix JQuery.
+  Version 1.2.24 contained issues affecting the smooth running of the preventing deletion of a taxonomy term
+  [boulch]
+
+
+1.2.24 (2025-03-10)
+-------------------
+
+- WEB-4232 : Refactoring of the code that prevents the deletion of a taxonomy term if it is used in at least one object
+  [boulch]
+
+
+1.2.23 (2025-02-24)
+-------------------
+
+- WEB-3718 : Accessibility : Add aria-label for consent buttons
+  [boulch]
+
+
+1.2.22 (2025-02-14)
+-------------------
+
+- WEB-4153 : Ruleset plone.stableResource for image scales
+  [remdub]
+
+
+1.2.21 (2025-01-31)
+-------------------
+
+- **Fix:** Updated to align scale behavior with the fix in plone.scale ([commit a352815](https://github.com/plone/plone.scale/commit/a352815#diff-24f46fc714c6d36041bcea7e64a7d5aeceacd929eb802655276a1d8f4b4576f4R209)).
+  [boulch]
+
+
+1.2.20 (2025-01-29)
+-------------------
+
+- Update Python classifiers to be compatible with Python 3.12
+  [remdub]
+
+- Migrate to Plone 6.0.14
+  [boulch]
+
+
+1.2.19 (2025-01-09)
 -------------------
 
 - WEB-4122 : Create adapter/validator to filter valid image mimetype in our solutions

@@ -71,6 +71,9 @@ class TestCropping(unittest.TestCase):
         # uncropped scale
         self.assertIsNone(factory.box)
 
+        factory("image", "scale", 100, 100)
+        self.assertIsNone(factory.box)
+
         api.content.transition(self.folder, "publish")
         transaction.commit()
         browser = Browser(self.layer["app"])

@@ -1,0 +1,190 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="context/main_template/macros/master"
+>
+
+  <head>
+    <metal:block fill-slot="style_slot">
+      <link rel="stylesheet"
+            type="text/css"
+            tal:attributes="
+              href string:$portal_url/++resource++taxonomy/icons/css/taxonomy.css;
+            "
+      />
+      <link rel="stylesheet"
+            type="text/css"
+            tal:attributes="
+              href string:$portal_url/++resource++taxonomy/js/css/react-treeview.css;
+            "
+      />
+      <link rel="stylesheet"
+            type="text/css"
+            tal:attributes="
+              href string:$portal_url/++resource++taxonomy/css/collective.taxonomy.css;
+            "
+      />
+    </metal:block>
+  </head>
+
+  <body>
+    <metal:block fill-slot="main">
+      <style>
+        /* Modale en arrière-plan */
+        .modal {
+            display: none; /* Caché par défaut */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5); /* Fond semi-transparent */
+        }
+
+        /* Contenu de la modale */
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 50%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Bouton de fermeture */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+      </style>    
+      <div id="content-core">
+        <script type="text/javascript">
+        <!--
+        document.addEventListener("DOMContentLoaded", function() {
+            var rootDiv = document.getElementById("root");
+            var portalUrl = rootDiv ? rootDiv.dataset.portalUrl : window.location.origin + "/Plone"; // Fallback
+
+            // Sélection des éléments de la modale
+            const modal = document.getElementById("error-modal");
+            const modalMessage = document.getElementById("error-message");
+            const closeModalBtn = document.querySelector(".close");
+
+            // Fonction pour afficher la modale avec un message d'erreur
+            function showModal(message) {
+                modalMessage.innerHTML = message;
+                modal.style.display = "block";
+            }
+
+            // Fonction pour fermer la modale
+            function closeModal() {
+                modal.style.display = "none";
+            }
+
+            // Écouteur d'événement pour fermer la modale avec "X"
+            closeModalBtn.addEventListener("click", closeModal);
+
+            // Fermer la modale si on clique en dehors du contenu
+            window.addEventListener("click", function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            document.querySelectorAll(".taxonomy-icon-minus").forEach(button => {
+                button.addEventListener("click", function(event) {
+                    event.preventDefault(); // Empêche le comportement par défaut            
+                    event.stopPropagation(); // Empêche l'événement de se propager                    
+                    var nodeElement = this.closest(".info");
+                    if (nodeElement == null) {
+                        showModal("Impossible de supprimer cet élément car il contient d'autres termes .");
+                        return;
+
+                    }
+                    var identifierInput = nodeElement.querySelector(".identifier-input");
+                    var termTitle = nodeElement.querySelector("input").value; // Récupération du titre du terme
+                    if (!identifierInput) {
+                        console.error("Impossible de trouver l'identifiant du nœud.");
+                        return;
+                    }
+
+                    var termId = identifierInput.value; // Récupération de l'ID du terme
+
+                    // Confirmation avant suppression
+                    if (!confirm(`Voulez-vous vraiment supprimer le terme "${termTitle}" ?`)) {
+                        return;
+                    }
+                    var deleteUrl = `${portalUrl}/@@check_delete_taxonomy`;
+                    
+                    // Annulation de la suppression de l'élément de l'UI ici
+                    var buttonDelete = this; // Le bouton "supprimer"
+                    buttonDelete.disabled = true; // Désactive temporairement le bouton "supprimer"
+
+                    // Envoie une requête AJAX pour vérifier si la suppression est possible
+                    fetch(deleteUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ termId: termId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        handleDeleteResponse(data, event, buttonDelete, nodeElement);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la suppression:', error);
+                        alert('Une erreur est survenue.');
+                        buttonDelete.disabled = false; // Réactive le bouton "supprimer" si erreur AJAX
+                    });        
+                });
+            });
+
+            function handleDeleteResponse(data, event, buttonDelete, nodeElement) {
+                if (data.status === 'error') {
+                    showModal(data.message);
+                    buttonDelete.disabled = false;
+                    event.stopPropagation();
+                } else {
+                    alert("Terme supprimé avec succès !");
+                    nodeElement.remove();
+                }
+            }
+        });
+        -->
+        </script>
+
+        <div id="root"
+             tal:attributes="
+               data-taxonomy view/get_data;
+               data-languages view/get_languages_mapping;
+               data-portal-url context/absolute_url
+             "
+        >
+        </div>
+
+      </div>
+
+      <script type="text/javascript"
+              tal:attributes="
+                src view/get_resource_url;
+              "
+      ></script>
+      <div id="error-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="error-message"></p>
+        </div>
+      </div>
+    </metal:block>
+
+  </body>
+</html>

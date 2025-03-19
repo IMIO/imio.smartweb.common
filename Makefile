@@ -3,7 +3,7 @@
 all: buildout
 
 bin/pip:
-	python3 -m venv .
+	python3.12 -m venv .
 	touch $@
 
 bin/buildout: bin/pip

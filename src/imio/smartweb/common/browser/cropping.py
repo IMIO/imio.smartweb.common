@@ -55,7 +55,6 @@ class SmartwebCroppingImageScalingFactory(CroppingImageScalingFactory):
             orientation = scale.split("_")[0]
             # take cropping box from "affiche" scale
             self.box = storage.read(fieldname, f"{orientation}_affiche")
-
         if self.box:
             mode = "contain"
         else:
