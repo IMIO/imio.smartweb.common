@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.27 (unreleased)
+1.2.27 (2025-03-19)
 -------------------
 
 - WEB-4122 : Create adapter/validator to filter valid image mimetype in our solutions
