@@ -22,7 +22,7 @@ jobs:
         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
 
   test:
-    runs-on: gha-runners-smartweb
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         plone-version: ['6.0', '6.1']
