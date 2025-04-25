@@ -2,11 +2,8 @@
 
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.jsonimpl import EditTaxonomyData as baseEditTaxonomyData
-from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from zope.component import queryUtility
-from zope.component import queryUtility
-from plone import api
 from Products.Five import BrowserView
 
 
