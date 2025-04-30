@@ -22,7 +22,7 @@ jobs:
         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: gha-runners-smartweb
     strategy:
       fail-fast: false
       matrix:
