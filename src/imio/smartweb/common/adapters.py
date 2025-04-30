@@ -4,7 +4,6 @@ from imio.smartweb.common.utils import get_image_format
 from plone.namedfile.interfaces import IAvailableSizes
 from plone.namedfile.interfaces import INamedImageField
 from plone.namedfile.field import InvalidImageFile
-from plone.namedfile.utils import get_contenttype
 from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import Interface
