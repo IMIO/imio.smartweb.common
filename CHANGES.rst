@@ -5,7 +5,8 @@ Changelog
 1.2.30 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Dirty css fix to hide the "Upload" button in the new pat-contentbrowser
+  [remdub]
 
 
 1.2.29 (2025-05-13)
