@@ -5,7 +5,8 @@ Changelog
 1.2.29 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Upgrade TinyMCE settings to version 7
+  [remdub]
 
 
 1.2.28 (2025-04-30)
