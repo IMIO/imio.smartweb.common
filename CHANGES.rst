@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.29 (unreleased)
+1.2.29 (2025-05-13)
 -------------------
 
 - Upgrade TinyMCE settings to version 7
