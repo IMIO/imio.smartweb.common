@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+
+   <!-- See possible values in https://www.tiny.cloud/docs/tinymce/latest/available-menu-items/ -->
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.menu"
+  >
+    <value purge="true">
+        {
+            "file": {
+                "title": "File",
+                "items": ""
+            },
+            "tools": {
+                "title": "Tools",
+                "items": ""
+            },
+            "table": {
+                "title": "Table",
+                "items": ""
+            },
+            "edit": {
+                "title": "Edit",
+                "items": "undo redo | cut copy paste | searchreplace selectall"
+            },
+            "format": {
+                "title": "Format",
+                "items": ""
+            },
+            "insert": {
+                "title": "Insert",
+                "items": ""
+            },
+            "table": {
+                "title": "Table",
+                "items": "inserttable deletetable | cell row column"
+            },
+            "view": {
+                "title": "View",
+                "items": "visualblocks preview fullscreen"
+            }
+        }
+        </value>
+  </record>
+
+  <!-- See paste_as_text options in https://www.tiny.cloud/docs/tinymce/latest/copy-and-paste/#paste_as_text -->
+  <!-- See style_formats options in https://www.tiny.cloud/docs/tinymce/latest/user-formatting-options/#style_formats -->
+  <!-- See default table options in https://www.tiny.cloud/docs/tinymce/latest/table-options/ -->
+  <!-- See plugin table options in https://www.tiny.cloud/docs/tinymce/latest/table/ -->
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.other_settings"
+  >
+    <value>
+    {
+      "paste_as_text": true,
+      "style_formats": [
+         {
+            "block": "p",
+            "title": "Paragraphe"
+         },
+         {
+            "block": "h2",
+            "title": "Titre 2"
+         },
+         {
+            "block": "h3",
+            "title": "Titre 3"
+         },
+         {
+            "block": "h4",
+            "title": "Titre 4"
+         },
+         {
+            "block": "mark",
+            "title": "Mise en évidence"
+         },
+         {
+            "block": "blockquote",
+            "title": "Citation"
+         }
+      ]
+    }
+    </value>
+  </record>
+
+</registry>
