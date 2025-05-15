@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.31 (unreleased)
+1.2.31 (2025-05-15)
 -------------------
 
 - Dirty css fix to hide the "Upload" button in the new pat-contentbrowser
