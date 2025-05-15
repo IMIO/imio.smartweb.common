@@ -1,5 +1,5 @@
 #!/usr/bin/make
-.PHONY: buildout cleanall test instance
+.PHONY: buildout cleanall test start
 all: buildout
 
 bin/pip:
@@ -16,8 +16,8 @@ buildout: bin/buildout
 test: buildout
 	./bin/test
 
-instance: buildout
-	./bin/instance fg
+start: buildout
+	ALLOWED_DISTRIBUTIONS=classic ./bin/instance fg
 
 cleanall:
 	rm -rf bin develop-eggs downloads include lib lib64 parts .installed.cfg .mr.developer.cfg bootstrap.py parts/omelette local share
