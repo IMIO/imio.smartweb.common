@@ -4,6 +4,7 @@ from collective.privacy.interfaces import ICollectivePrivacyLayer
 from collective.taxonomy.interfaces import IBrowserLayer
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import schema
+from plone.app.z3cform.interfaces import IAjaxSelectWidget
 from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.supermodel import model
 from plone.theme.interfaces import IDefaultPloneLayer
@@ -41,3 +42,7 @@ class IAddress(model.Schema):
         source="imio.smartweb.vocabulary.Countries",
         required=False,
     )
+
+
+class ITranslatedAjaxSelectWidget(IAjaxSelectWidget):
+    """Marker interface for the TranslatedAjaxSelectWidget."""

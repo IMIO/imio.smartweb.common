@@ -27,4 +27,7 @@
 
   <includeOverrides file="caching_overrides.zcml" />
 
+  <!-- widgets -->
+  <include file="widgets.zcml" />
+
 </configure>
