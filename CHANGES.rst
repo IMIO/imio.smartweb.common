@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.32 (unreleased)
+1.2.32 (2025-05-19)
 -------------------
 
 - WEB-4250 : Quick fix : Since Plone 6.1, AjaxSelectWidget is displaying in edit mode even if mode is "display"
