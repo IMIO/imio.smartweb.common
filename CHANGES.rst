@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.33 (unreleased)
+1.2.33 (2025-05-22)
 -------------------
 
 - WEB-4259 : Override plone.volto summary_serializer_metadata to solve a problem with new
