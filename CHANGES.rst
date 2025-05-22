@@ -5,7 +5,9 @@ Changelog
 1.2.33 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4259 : Override plone.volto summary_serializer_metadata to solve a problem with new
+  metadata fields being added to the summary serializer and breaking our search endpoints
+  [bsuttor, remdub]
 
 
 1.2.32 (2025-05-19)

@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="imio.smartweb"
+    >
+
+  <utility
+      factory=".summary.JSONSummarySerializerMetadata"
+      name="imio.smartweb.common.summary_serializer_metadata"
+      />
+
+</configure>
