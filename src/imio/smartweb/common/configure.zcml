@@ -1,10 +1,15 @@
-<configure
-    xmlns="http://namespaces.zope.org/zope">
+<configure xmlns="http://namespaces.zope.org/zope">
 
-  <include package="z3c.unconfigure" file="meta.zcml" />
+  <include
+      package="z3c.unconfigure"
+      file="meta.zcml"
+      />
   <include package="collective.taxonomy" />
   <include package="eea.facetednavigation" />
-  <include package="eea.facetednavigation" file="meta.zcml" />
+  <include
+      package="eea.facetednavigation"
+      file="meta.zcml"
+      />
   <include package="plone.app.imagecropping" />
   <include package="imio.gdpr" />
   <include package="imio.smartweb.locales" />
@@ -21,9 +26,12 @@
   <include package=".browser" />
   <include package=".faceted" />
   <include package=".rest" />
+  <includeOverrides file="utility_overrides.zcml" />
+  <include package=".serializers" />
   <include package=".sharing" />
   <include package=".upgrades" />
   <include package=".viewlets" />
+
 
   <includeOverrides file="caching_overrides.zcml" />
 

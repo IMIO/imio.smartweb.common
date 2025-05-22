@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="imio.smartweb"
+    >
+
+  <include
+      package="z3c.unconfigure"
+      file="meta.zcml"
+      />
+
+  <unconfigure>
+    <utility
+        factory="plone.volto.summary.JSONSummarySerializerMetadata"
+        name="plone.volto.summary_serializer_metadata"
+        />
+  </unconfigure>
+
+</configure>
