@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.34 (unreleased)
+1.2.34 (2025-05-26)
 -------------------
 
 - WEB-4258 : Temporary CSS fix to unhide the "External link" tab when adding a new link.
