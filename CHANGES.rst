@@ -5,7 +5,9 @@ Changelog
 1.2.34 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4258 : Temporary CSS fix to unhide the "External link" tab when adding a new link.
+  This a temporary fix while waiting for a new release in imio_smartweb_themes
+  [remdub]
 
 
 1.2.33 (2025-05-22)
