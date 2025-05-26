@@ -5,7 +5,8 @@ Changelog
 1.2.35 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- CITI-7 : Fix retrieving mimeType for some picture files
+  [boulch]
 
 
 1.2.34 (2025-05-26)

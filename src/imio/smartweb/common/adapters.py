@@ -31,16 +31,20 @@ class ImageContenttypeValidator:
         self.value = value
 
     def __call__(self):
+        return self.validate_image()
+
+    def validate_image(self):
         if self.value is None:
-            return
+            return False
         mimetype = get_image_format(self.value)
 
-        valid_mimetypes = [
+        valid_mimetypes = {
             "image/gif",
             "image/jpeg",
             "image/png",
             "image/svg+xml",
             "image/webp",
-        ]
+        }
         if mimetype not in valid_mimetypes:
             raise InvalidImageFile(mimetype, self.field.__name__)
+        return True

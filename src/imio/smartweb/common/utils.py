@@ -223,6 +223,8 @@ def _get_pil_mimetype(pil_image):
 
 def get_image_format(named_blob_image):
     """Détecte le format d'une image à partir de son contenu binaire."""
+    if hasattr(named_blob_image, "contentType"):
+        return named_blob_image.contentType
     if named_blob_image and named_blob_image.data:
         try:
             with Image.open(BytesIO(named_blob_image.data)) as img:
