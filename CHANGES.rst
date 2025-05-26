@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.35 (unreleased)
+1.2.35 (2025-05-26)
 -------------------
 
 - CITI-7 : Fix retrieving mimeType for some picture files
