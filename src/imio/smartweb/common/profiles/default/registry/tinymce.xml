@@ -107,7 +107,7 @@
             },
             "insert": {
                 "title": "Insert",
-                "items": ""
+                "items": "hr"
             },
             "table": {
                 "title": "Table",
