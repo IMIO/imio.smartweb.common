@@ -5,7 +5,8 @@ Changelog
 1.2.36 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4269 : Add Horizontal Rule option to the insert menu in TinyMCE
+  [remdub]
 
 
 1.2.35 (2025-05-26)

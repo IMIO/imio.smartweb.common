@@ -157,6 +157,14 @@
       directory="profiles/1031_to_1032"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1032_to_1033"
+      title="Upgrade common from 1032 to 1033"
+      description="Add HorizontalRule to TinyMCE7"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/1032_to_1033"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -493,6 +501,17 @@
     <genericsetup:upgradeDepends
         title="Migrate missing settings from TinyMCE5 to TinyMCE7"
         import_profile="imio.smartweb.common.upgrades:upgrade_1031_to_1032"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      profile="imio.smartweb.common:default"
+      source="1032"
+      destination="1033"
+      >
+    <genericsetup:upgradeDepends
+        title="Add HorizontalRule to TinyMCE7"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1032_to_1033"
         />
   </genericsetup:upgradeSteps>
 
