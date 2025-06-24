@@ -8,6 +8,12 @@
       />
 
   <utility
+      name="imio.smartweb.vocabulary.Topics_de"
+      component=".vocabularies.TopicsDeVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />      
+
+  <utility
       name="imio.smartweb.vocabulary.IAm"
       component=".vocabularies.IAmVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"

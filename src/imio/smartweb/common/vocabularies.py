@@ -5,6 +5,7 @@ from plone import api
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
+from zope.i18n import translate
 from zope.i18n.locales import locales
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -38,6 +39,23 @@ class TopicsVocabularyFactory:
 
 
 TopicsVocabulary = TopicsVocabularyFactory()
+
+
+class TopicsDeVocabularyFactory:
+    def __call__(self, context=None):
+        vocabulary = TopicsVocabularyFactory()(context)
+        translated_terms = [
+            SimpleTerm(
+                value=term.value,
+                token=term.token,
+                title=translate(term.title, target_language="de"),
+            )
+            for term in vocabulary
+        ]
+        return SimpleVocabulary(translated_terms)
+
+
+TopicsDeVocabulary = TopicsDeVocabularyFactory()
 
 
 class IAmVocabularyFactory:

@@ -5,6 +5,9 @@ Changelog
 1.2.36 (unreleased)
 -------------------
 
+- WEB-4278 : Create translated (de) topics vocabulary for e-guichet (citizen project)
+  [boulch]
+
 - WEB-4269 : Add Horizontal Rule option to the insert menu in TinyMCE
   [remdub]
 
