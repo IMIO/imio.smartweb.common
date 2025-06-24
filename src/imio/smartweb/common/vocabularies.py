@@ -79,6 +79,23 @@ class IAmVocabularyFactory:
 IAmVocabulary = IAmVocabularyFactory()
 
 
+class IAmDeVocabularyFactory:
+    def __call__(self, context=None):
+        vocabulary = IAmVocabularyFactory()(context)
+        translated_terms = [
+            SimpleTerm(
+                value=term.value,
+                token=term.token,
+                title=translate(term.title, target_language="de"),
+            )
+            for term in vocabulary
+        ]
+        return SimpleVocabulary(translated_terms)
+
+
+IAmDeVocabulary = IAmDeVocabularyFactory()
+
+
 class CountriesVocabularyFactory:
     def __call__(self, context=None, lang=None):
         normalizer = getUtility(IIDNormalizer)

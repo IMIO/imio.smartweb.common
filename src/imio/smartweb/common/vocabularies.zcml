@@ -18,6 +18,12 @@
       component=".vocabularies.IAmVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
+  
+  <utility
+      name="imio.smartweb.vocabulary.IAm_de"
+      component=".vocabularies.IAmDeVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />      
 
   <utility
       name="imio.smartweb.vocabulary.Countries"
