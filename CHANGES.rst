@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.36 (unreleased)
+1.2.36 (2025-06-25)
 -------------------
 
 - WEB-4278 : Create translated (de) iam vocabulary for e-guichet (citizen project)
