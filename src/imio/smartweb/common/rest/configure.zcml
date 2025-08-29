@@ -10,4 +10,14 @@
     permission="zope2.View"
     />
 
+  <plone:service
+      name="@find"
+      method="GET"
+      accept="application/json"
+      for="zope.interface.Interface"
+      factory=".endpoint.FindEndpoint"
+      permission="zope2.View"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      />
+
 </configure>

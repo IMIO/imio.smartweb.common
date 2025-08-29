@@ -5,7 +5,8 @@ Changelog
 1.2.37 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add new @find endpoint to find content in instance
+  [boulch]
 
 
 1.2.36 (2025-06-25)
