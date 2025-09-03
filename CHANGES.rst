@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.37 (unreleased)
+1.2.37 (2025-09-03)
 -------------------
 
 - Add new @find endpoint to find content in instance
