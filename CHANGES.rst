@@ -5,7 +5,8 @@ Changelog
 1.2.38 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- @find : Process None value in a field or ["None", "other value"] for agatha stats
+  [boulch
 
 
 1.2.37 (2025-09-03)

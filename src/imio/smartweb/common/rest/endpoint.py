@@ -130,24 +130,41 @@ class FindEndpointHandler(SearchHandler):
         if total == 0:
             return {}
 
-        # Récupération des valeurs réelles dans les objets
+        # Récupération et normalisation des valeurs
         values = []
         for brain in brains:
             obj = brain.getObject()
             value = getattr(obj, field_name, None)
-            if isinstance(value, (list, tuple)):  # cas champ multi-valué
-                values.extend(value)
+            if isinstance(value, (list, tuple)):
+                if not value:
+                    # liste/tuple vide => on compte 1 None
+                    values.append(None)
+                else:
+                    mapped = [
+                        None if (v in ("", "None") or v is None) else v for v in value
+                    ]
+                    # si TOUT est None, on compte 1 None (au lieu d'en ajouter 0)
+                    if all(v is None for v in mapped):
+                        values.append(None)
+                    else:
+                        values.extend(mapped)
             else:
-                values.append(value)
+                v = None if (value in ("", "None") or value is None) else value
+                values.append(v)
         counter = Counter(values)
 
-        # Calcul stats seulement pour expected_values
-        result = {}
+        # Normalisation des valeurs attendues
         expected_values = normalize_query_param(expected_values)
-        for val in expected_values:
-            count = counter.get(val, 0)
+        # On garde les labels originaux pour l'affichage, mais on mappe "None" vers None réel pour le compteur
+        expected_mapping = {v: (None if v == "None" else v) for v in expected_values}
+
+        # Calcul stats
+        result = {}
+        for label, key in expected_mapping.items():
+            count = counter.get(key, 0)
             percent = (count / total) * 100 if total > 0 else 0
-            result[val] = {"count": count, "percent": round(percent, 2)}
+            result[label] = {"count": count, "percent": round(percent, 2)}
+
         return result
 
 
