@@ -3,6 +3,7 @@
     xmlns:cache="http://namespaces.zope.org/cache"
     xmlns:zcml="http://namespaces.zope.org/zcml">
 
+    <include package="plone.app.caching" />
     <include package="z3c.unconfigure" file="meta.zcml" />
 
     <unconfigure>
