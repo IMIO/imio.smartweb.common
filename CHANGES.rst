@@ -8,6 +8,9 @@ Changelog
 - @find : Process None value in a field or ["None", "other value"] for agatha stats
   [boulch
 
+- Add plone.app.caching include for futur proofing override
+  [jchandelle]
+
 
 1.2.37 (2025-09-03)
 -------------------
