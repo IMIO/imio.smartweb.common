@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.38 (unreleased)
+1.2.38 (2025-09-10)
 -------------------
 
 - @find : Process None value in a field or ["None", "other value"] for agatha stats
