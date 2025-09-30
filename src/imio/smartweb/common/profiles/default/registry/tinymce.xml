@@ -66,6 +66,20 @@
     </value>
   </record>
 
+  <record name="plone.custom_plugins"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+          field="custom_plugins">
+    <field type="plone.registry.field.List">
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>text_expand|++resource++tinymce.js</element>
+      <element>suggest_titles|++resource++tinymce.js</element>
+      <element>ia|++resource++tinymce.js</element>
+      <element>ia_menuitems|++resource++tinymce.js</element>
+    </value>
+  </record>
+
   <!-- See possible values in https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar -->
   <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
           name="plone.menubar"
@@ -116,6 +130,10 @@
             "view": {
                 "title": "View",
                 "items": "visualblocks preview fullscreen"
+            },
+            "ia_menuitems": {
+              "title": "IA",
+              "items": "ia_text_expand ia_suggest_titles"
             }
         }
         </value>
@@ -125,7 +143,7 @@
   <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
           name="plone.toolbar"
   >
-    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen</value>
+    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen | text_expand | suggest_titles | ia</value>
   </record>
 
 
