@@ -8,7 +8,9 @@ function getCsrfTokenSync() {
     xhr.send(null);
     const m = /value="([^"]+)"/.exec(xhr.responseText);
     return m ? m[1] : "";
-  } catch (e) { return ""; }
+  } catch (e) {
+    return "";
+  }
 }
 
 // --- HTTP helper -------------------------------------------------------------
@@ -19,17 +21,19 @@ async function postProcess(url, payload) {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json; charset=utf-8",
-      "X-CSRF-TOKEN": token
+      "X-CSRF-TOKEN": token,
     },
     credentials: "same-origin",
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
   if (!resp.ok) {
     const txt = await resp.text().catch(() => "");
     throw new Error("HTTP " + resp.status + " – " + txt);
   }
   const ct = resp.headers.get("Content-Type") || "";
-  return ct.includes("application/json") ? resp.json() : { html: await resp.text() };
+  return ct.includes("application/json")
+    ? resp.json()
+    : { html: await resp.text() };
 }
 
 // --- UI helpers (spinner + disable button) -----------------------------------
@@ -46,11 +50,19 @@ async function withProcessingUI(editor, btnApi, fn) {
     startProcessingUI(editor, btnApi);
     await fn();
     stopProcessingUI(editor, btnApi);
-    editor.notificationManager.open({ text: "Terminé", type: "success", timeout: 1800 });
+    editor.notificationManager.open({
+      text: "Terminé",
+      type: "success",
+      timeout: 1800,
+    });
   } catch (e) {
     console.error("[tinymce-process] error:", e);
     stopProcessingUI(editor, btnApi);
-    editor.notificationManager.open({ text: "Échec du traitement", type: "error", timeout: 2500 });
+    editor.notificationManager.open({
+      text: "Échec du traitement",
+      type: "error",
+      timeout: 2500,
+    });
   }
 }
 
@@ -74,7 +86,7 @@ function getSelectedHtml(editor) {
         editor.notificationManager.open({
           text: "Sélectionnez du texte à traiter.",
           type: "warning",
-          timeout: 2000
+          timeout: 2000,
         });
         return;
       }
@@ -83,8 +95,11 @@ function getSelectedHtml(editor) {
       const bookmark = editor.selection.getBookmark(2, true);
 
       await withProcessingUI(editor, btnApi, async () => {
-        const data = await postProcess("@@process-textexpand", { html: selectedHtml });
-        if (!data || typeof data.html !== "string") throw new Error("Réponse invalide");
+        const data = await postProcess("@@process-textexpand", {
+          html: selectedHtml,
+        });
+        if (!data || typeof data.html !== "string")
+          throw new Error("Réponse invalide");
         editor.undoManager.transact(() => {
           editor.selection.moveToBookmark(bookmark);
           editor.selection.setContent(data.html);
@@ -96,7 +111,10 @@ function getSelectedHtml(editor) {
       text: "Text expand",
       tooltip: "Process text expand",
       onAction: () => editor.execCommand("textExpandRun"),
-      onSetup: (api) => { btnApi = api; return () => (btnApi = null); }
+      onSetup: (api) => {
+        btnApi = api;
+        return () => (btnApi = null);
+      },
     });
   });
 
@@ -110,7 +128,7 @@ function getSelectedHtml(editor) {
         editor.notificationManager.open({
           text: "Sélectionnez le passage pour proposer des titres.",
           type: "warning",
-          timeout: 2000
+          timeout: 2000,
         });
         return;
       }
@@ -118,8 +136,11 @@ function getSelectedHtml(editor) {
       const bookmark = editor.selection.getBookmark(2, true);
 
       await withProcessingUI(editor, btnApi, async () => {
-        const data = await postProcess("@@process-suggesttitles", { html: selectedHtml });
-        if (!data || typeof data.html !== "string") throw new Error("Réponse invalide");
+        const data = await postProcess("@@process-suggesttitles", {
+          html: selectedHtml,
+        });
+        if (!data || typeof data.html !== "string")
+          throw new Error("Réponse invalide");
         editor.undoManager.transact(() => {
           editor.selection.moveToBookmark(bookmark);
           editor.selection.setContent(data.html);
@@ -131,7 +152,92 @@ function getSelectedHtml(editor) {
       text: "Suggest titles",
       tooltip: "Proposer des titres",
       onAction: () => editor.execCommand("suggestTitlesRun"),
-      onSetup: (api) => { btnApi = api; return () => (btnApi = null); }
+      onSetup: (api) => {
+        btnApi = api;
+        return () => (btnApi = null);
+      },
+    });
+  });
+
+  // ===== Plugin 3 : text_improve =====
+  tinymce.PluginManager.add("text_improve", function (editor) {
+    let btnApi = null;
+
+    editor.addCommand("textImproveRun", async function () {
+      const selectedHtml = getSelectedHtml(editor);
+      if (!selectedHtml.trim()) {
+        editor.notificationManager.open({
+          text: "Sélectionnez le passage pour améliorer le texte.",
+          type: "warning",
+          timeout: 2000,
+        });
+        return;
+      }
+
+      const bookmark = editor.selection.getBookmark(2, true);
+
+      await withProcessingUI(editor, btnApi, async () => {
+        const data = await postProcess("@@process-textimprove", {
+          html: selectedHtml,
+        });
+        if (!data || typeof data.html !== "string")
+          throw new Error("Réponse invalide");
+        editor.undoManager.transact(() => {
+          editor.selection.moveToBookmark(bookmark);
+          editor.selection.setContent(data.html);
+        });
+      });
+    });
+
+    editor.ui.registry.addButton("text_improve", {
+      text: "Text improve",
+      tooltip: "Améliorer le texte",
+      onAction: () => editor.execCommand("textImproveRun"),
+      onSetup: (api) => {
+        btnApi = api;
+        return () => (btnApi = null);
+      },
+    });
+  });
+
+  // ===== Plugin 3 : text_shorter =====
+  tinymce.PluginManager.add("text_shorter", function (editor) {
+    let btnApi = null;
+
+    editor.addCommand("textShorterRun", async function () {
+      const selectedHtml = getSelectedHtml(editor);
+      if (!selectedHtml.trim()) {
+        editor.notificationManager.open({
+          text: "Sélectionnez le passage pour raccourcir le texte.",
+          type: "warning",
+          timeout: 2000,
+        });
+        return;
+      }
+
+      const bookmark = editor.selection.getBookmark(2, true);
+
+      await withProcessingUI(editor, btnApi, async () => {
+        const data = await postProcess("@@process-textshorter", {
+          html: selectedHtml,
+        });
+        if (!data || typeof data.html !== "string")
+          throw new Error("Réponse invalide");
+        editor.undoManager.transact(() => {
+          editor.selection.moveToBookmark(bookmark);
+          editor.selection.setContent(data.html);
+        });
+      });
+    });
+
+    editor.ui.registry.addButton("text_shorter", {
+      text: "Text shorter",
+      tooltip: "Raccourcir le texte",
+      onAction: () => editor.execCommand("textShorterRun"),
+      onSetup: (api) => {
+        btnApi = api;
+        return () => (btnApi = null);
+      },
     });
   });
 
@@ -142,8 +248,26 @@ function getSelectedHtml(editor) {
       tooltip: "Outils IA",
       fetch: (callback) => {
         callback([
-          { type: "menuitem", text: "Text expand", onAction: () => editor.execCommand("textExpandRun") },
-          { type: "menuitem", text: "Suggest titles", onAction: () => editor.execCommand("suggestTitlesRun") },
+          {
+            type: "menuitem",
+            text: "Text expand",
+            onAction: () => editor.execCommand("textExpandRun"),
+          },
+          {
+            type: "menuitem",
+            text: "Suggest titles",
+            onAction: () => editor.execCommand("suggestTitlesRun"),
+          },
+          {
+            type: "menuitem",
+            text: "Text improve",
+            onAction: () => editor.execCommand("textImproveRun"),
+          },
+          {
+            type: "menuitem",
+            text: "Text shorter",
+            onAction: () => editor.execCommand("textShorterRun"),
+          },
         ]);
       },
     });
@@ -160,5 +284,4 @@ function getSelectedHtml(editor) {
       onAction: () => editor.execCommand("suggestTitlesRun"),
     });
   });
-
 })();
