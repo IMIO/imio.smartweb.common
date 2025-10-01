@@ -88,7 +88,7 @@ def geocode_object(obj):
             ),
             request=getRequest(),
             type="warning",
-            )
+        )
         return False
     if location:
         obj.geolocation = Geolocation(

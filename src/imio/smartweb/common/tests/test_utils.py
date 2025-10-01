@@ -110,8 +110,9 @@ class TestUtils(unittest.TestCase):
         obj.zipcode = "12345"
         obj.city = "Testville"
         obj.country = "be"
-        with patch("geopy.geocoders.Nominatim") as mock_nominatim, \
-            patch("geopy.exc.GeocoderUnavailable", new=geopy.exc.GeocoderUnavailable):
+        with patch("geopy.geocoders.Nominatim") as mock_nominatim, patch(
+            "geopy.exc.GeocoderUnavailable", new=geopy.exc.GeocoderUnavailable
+        ):
             instance = mock_nominatim.return_value
             instance.geocode.side_effect = geopy.exc.GeocoderUnavailable
             result = geocode_object(obj)
