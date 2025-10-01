@@ -102,6 +102,21 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(obj.geolocation.latitude, 1)
         self.assertEqual(obj.geolocation.longitude, 2)
 
+    def test_geocode_object_geocoder_unavailable(self):
+        obj = GeolocatedObject()
+        obj.street = "Test Street"
+        obj.number = "1"
+        obj.complement = ""
+        obj.zipcode = "12345"
+        obj.city = "Testville"
+        obj.country = "be"
+        with patch("geopy.geocoders.Nominatim") as mock_nominatim, \
+            patch("geopy.exc.GeocoderUnavailable", new=geopy.exc.GeocoderUnavailable):
+            instance = mock_nominatim.return_value
+            instance.geocode.side_effect = geopy.exc.GeocoderUnavailable
+            result = geocode_object(obj)
+            self.assertFalse(result)
+
     def test_get_uncroppable_scales_infos(self):
         folder = api.content.create(
             container=self.portal,

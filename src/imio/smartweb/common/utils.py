@@ -14,6 +14,7 @@ from plone.namedfile.field import NamedBlobImage
 from plone.namedfile.interfaces import IAvailableSizes
 from urllib.parse import urlparse
 from zope.component import getUtility
+from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.schema import getFields
 from zope.schema.interfaces import IVocabularyFactory
@@ -77,7 +78,18 @@ def geocode_object(obj):
     if not address:
         return
     geolocator = geopy.geocoders.Nominatim(user_agent="contact@imio.be", timeout=3)
-    location = geolocator.geocode(address)
+    location = None
+    try:
+        location = geolocator.geocode(address)
+    except geopy.exc.GeocoderUnavailable:
+        api.portal.show_message(
+            _(
+                "Error: Geolocation service is unavailable. Your content is not geocoded."
+            ),
+            request=getRequest(),
+            type="warning",
+            )
+        return False
     if location:
         obj.geolocation = Geolocation(
             latitude=location.latitude, longitude=location.longitude
