@@ -19,4 +19,18 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <browser:page
+      name="process-textimprove"
+      for="*"
+      class=".process.ProcessTextImproveView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      name="process-textshorter"
+      for="*"
+      class=".process.ProcessTextShorterView"
+      permission="cmf.ModifyPortalContent"
+      />
+
 </configure>
