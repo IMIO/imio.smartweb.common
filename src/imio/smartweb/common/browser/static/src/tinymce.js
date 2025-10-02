@@ -118,48 +118,7 @@ function getSelectedHtml(editor) {
     });
   });
 
-  // ===== Plugin 2 : suggest_titles =====
-  tinymce.PluginManager.add("suggest_titles", function (editor) {
-    let btnApi = null;
-
-    editor.addCommand("suggestTitlesRun", async function () {
-      const selectedHtml = getSelectedHtml(editor);
-      if (!selectedHtml.trim()) {
-        editor.notificationManager.open({
-          text: "Sélectionnez le passage pour proposer des titres.",
-          type: "warning",
-          timeout: 2000,
-        });
-        return;
-      }
-
-      const bookmark = editor.selection.getBookmark(2, true);
-
-      await withProcessingUI(editor, btnApi, async () => {
-        const data = await postProcess("@@process-suggesttitles", {
-          html: selectedHtml,
-        });
-        if (!data || typeof data.html !== "string")
-          throw new Error("Réponse invalide");
-        editor.undoManager.transact(() => {
-          editor.selection.moveToBookmark(bookmark);
-          editor.selection.setContent(data.html);
-        });
-      });
-    });
-
-    editor.ui.registry.addButton("suggest_titles", {
-      text: "Suggest titles",
-      tooltip: "Proposer des titres",
-      onAction: () => editor.execCommand("suggestTitlesRun"),
-      onSetup: (api) => {
-        btnApi = api;
-        return () => (btnApi = null);
-      },
-    });
-  });
-
-  // ===== Plugin 3 : text_improve =====
+  // ===== Plugin 2 : text_improve =====
   tinymce.PluginManager.add("text_improve", function (editor) {
     let btnApi = null;
 
@@ -200,7 +159,7 @@ function getSelectedHtml(editor) {
     });
   });
 
-  // ===== Plugin 4 : text_shorter =====
+  // ===== Plugin 3 : text_shorter =====
   tinymce.PluginManager.add("text_shorter", function (editor) {
     let btnApi = null;
 
@@ -267,16 +226,8 @@ function getSelectedHtml(editor) {
         </svg>
       `
     );
-
-    editor.ui.registry.addIcon(
-      "iatitle",
-      `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.32 23.79">
-        <path d="m20.84.07.35 1.62c.15.72.72 1.29 1.44 1.44l1.62.35c.1.02.1.16 0 .19l-1.62.35c-.72.15-1.29.72-1.44 1.44l-.35 1.62c-.02.1-.16.1-.19 0l-.35-1.62c-.15-.72-.72-1.29-1.44-1.44l-1.62-.35c-.1-.02-.1-.16 0-.19l1.62-.35c.72-.15 1.29-.72 1.44-1.44l.35-1.62c.02-.1.16-.1.19 0Z"/>
-        <path d="M14.96 11.08c-.29-1.22-.88-2.24-1.14-2.61-.48-.56-.69-.77-2.26-.77h-1.7v12.51c0 2.24.27 2.4 2.64 2.58v.99H3.65v-.99c2.26-.19 2.5-.35 2.5-2.58V7.7H4.53c-1.49 0-1.92.24-2.42.88-.37.51-.75 1.46-1.09 2.53H0c.19-1.94.37-4.02.43-5.3h.8c.4.61.72.67 1.52.67H13.4c.72 0 1.09-.16 1.54-.67h.77c.03 1.12.13 3.46.27 5.19l-1.01.08Zm6.97 4.66c-.12-.52-.37-.95-.48-1.1-.2-.24-.29-.33-.96-.33h-.72v5.29c0 .95.11 1.01 1.12 1.09v.42h-3.74v-.42c.96-.08 1.06-.15 1.06-1.09v-5.29h-.69c-.63 0-.81.1-1.02.37-.16.21-.32.62-.46 1.07h-.43c.08-.82.16-1.7.18-2.24h.34c.17.26.3.28.64.28h4.5c.3 0 .46-.07.65-.28h.33c.01.47.06 1.46.11 2.2l-.43.03Z" class="cls-1"/>
-        </svg>
-      `
-    );
+    var msg = _t("my_label", "Default text");
+    console.log(msg + " - tinymce ia plugin loaded");
 
     editor.ui.registry.addMenuButton("ia", {
       text: "IA",
@@ -292,12 +243,6 @@ function getSelectedHtml(editor) {
           },
           {
             type: "menuitem",
-            text: "Suggest titles",
-            icon: "iatitle",
-            onAction: () => editor.execCommand("suggestTitlesRun"),
-          },
-          {
-            type: "menuitem",
             text: "Text improve",
             icon: "ai-prompt",
             onAction: () => editor.execCommand("textImproveRun"),
@@ -310,18 +255,6 @@ function getSelectedHtml(editor) {
           },
         ]);
       },
-    });
-  });
-
-  // Menu bouton "IA" dans la toolbar façon Seb
-  tinymce.PluginManager.add("ia_menuitems", function (editor) {
-    editor.ui.registry.addMenuItem("ia_text_expand", {
-      text: "Text expand",
-      onAction: () => editor.execCommand("textExpandRun"),
-    });
-    editor.ui.registry.addMenuItem("ia_suggest_titles", {
-      text: "Suggest titles",
-      onAction: () => editor.execCommand("suggestTitlesRun"),
     });
   });
 })();
