@@ -73,7 +73,6 @@
       <element>text_expand|++resource++tinymce.js</element>
       <element>text_shorter|++resource++tinymce.js</element>
       <element>text_improve|++resource++tinymce.js</element>
-      <element>suggest_titles|++resource++tinymce.js</element>
       <element>ia|++resource++tinymce.js</element>
       <element>ia_menuitems|++resource++tinymce.js</element>
     </value>
@@ -126,7 +125,7 @@
             },
             "ia_menuitems": {
               "title": "IA",
-              "items": "ia_text_expand ia_suggest_titles ia_text_shorter ia_text_improve"
+              "items": "ia_text_expand ia_text_shorter ia_text_improve"
             }
         }
         </value>
@@ -136,7 +135,7 @@
   <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
           name="plone.toolbar"
   >
-    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen | text_expand | suggest_titles | text_shorter | text_improve | ia</value>
+    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen | ia</value>
   </record>
 
 
