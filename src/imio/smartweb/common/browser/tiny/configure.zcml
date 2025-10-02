@@ -13,13 +13,6 @@
       />
 
   <browser:page
-      name="process-suggesttitles"
-      for="*"
-      class=".process.ProcessSuggestedTitlesView"
-      permission="cmf.ModifyPortalContent"
-      />
-
-  <browser:page
       name="process-textimprove"
       for="*"
       class=".process.ProcessTextImproveView"
