@@ -1,7 +1,8 @@
 # src/your.pkg/browser/process.py
-import json
+from imio.smartweb.common.config import IPA_URL
 from zope.publisher.browser import BrowserView
 
+import json
 import requests
 
 
@@ -32,7 +33,7 @@ class ProcessTextExpandView(BaseIAView):
             "input": current_html,
             "expansion_target": 50,
         }
-        url = "http://127.0.0.1:8000/common/text-expand"
+        url = f"{IPA_URL}/text-expand"
         response = requests.post(url, headers=self.headers, json=payload)
         if response.status_code != 200:
             return current_html
@@ -61,7 +62,7 @@ class ProcessSuggestedTitlesView(BaseIAView):
             "input": current_html,
             "expansion_target": 50,
         }
-        url = "http://127.0.0.1:8000/common/suggest-titles"
+        url = f"{IPA_URL}/suggest-titles"
         response = requests.post(url, headers=self.headers, json=payload)
         if response.status_code != 200:
             return current_html
@@ -89,7 +90,7 @@ class ProcessTextShorterView(BaseIAView):
             "input": current_html,
             "expansion_target": 50,
         }
-        url = "http://127.0.0.1:8000/common/text-shorter"
+        url = f"{IPA_URL}/text-shorter"
         response = requests.post(url, headers=self.headers, json=payload)
         if response.status_code != 200:
             return current_html
@@ -117,7 +118,7 @@ class ProcessTextImproveView(BaseIAView):
             "input": current_html,
             "expansion_target": 50,
         }
-        url = "http://127.0.0.1:8000/common/text-improve"
+        url = f"{IPA_URL}/text-improve"
         response = requests.post(url, headers=self.headers, json=payload)
         if response.status_code != 200:
             return current_html

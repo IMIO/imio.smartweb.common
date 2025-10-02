@@ -1,3 +1,5 @@
+import os
+
 # Used to limit description field on all content types
 DESCRIPTION_MAX_LENGTH = 700
 
@@ -12,3 +14,5 @@ VOCABULARIES_MAPPING = {
 TRANSLATED_VOCABULARIES = [
     "imio.smartweb.vocabulary.Countries",
 ]
+
+IPA_URL = os.environ.get("IPA_URL", "https://ipa-staging.imio.be/imio/ai/v1/agents")
