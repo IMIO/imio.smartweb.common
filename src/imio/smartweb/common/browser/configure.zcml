@@ -111,7 +111,7 @@
 
   <browser:resource
       name="tinymce.js"
-      file="./static/src/tinymce.js"
+      file="./static/smartweb-common-tinymce-compiled.js"
       />
 
 </configure>
