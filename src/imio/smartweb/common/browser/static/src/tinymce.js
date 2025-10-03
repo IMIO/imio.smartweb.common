@@ -1,3 +1,25 @@
+// Traductions françaises directement dans le JS
+tinymce.i18n.add("fr_FR", {
+  text_expand_label: "Développer le texte",
+  text_improve_label: "Améliorer le texte",
+  text_shorter_label: "Raccourcir le texte",
+  text_shorter_label: "Raccourcir le texte",
+});
+
+tinymce.i18n.add("nl_NL", {
+  text_expand_label: "Tekst uitbreiden",
+  text_improve_label: "Tekst verbeteren",
+  text_shorter_label: "Tekst verkorten",
+  text_shorter_label: "Tekst verkorten",
+});
+
+tinymce.i18n.add("de_DE", {
+  text_expand_label: "Text erweitern",
+  text_improve_label: "Text verbessern",
+  text_shorter_label: "Text verkürzen",
+  text_shorter_label: "Text verkürzen",
+});
+
 // --- CSRF helper -------------------------------------------------------------
 function getCsrfTokenSync() {
   const meta = document.querySelector('meta[name="csrf-token"]');
@@ -226,8 +248,6 @@ function getSelectedHtml(editor) {
         </svg>
       `
     );
-    var msg = _t("my_label", "Default text");
-    console.log(msg + " - tinymce ia plugin loaded");
 
     editor.ui.registry.addMenuButton("ia", {
       text: "IA",
@@ -237,19 +257,19 @@ function getSelectedHtml(editor) {
         callback([
           {
             type: "menuitem",
-            text: "Text expand",
+            text: tinymce.i18n.translate("text_expand_label"),
             icon: "iashorter",
             onAction: () => editor.execCommand("textExpandRun"),
           },
           {
             type: "menuitem",
-            text: "Text improve",
+            text: tinymce.i18n.translate("text_improve_label"),
             icon: "ai-prompt",
             onAction: () => editor.execCommand("textImproveRun"),
           },
           {
             type: "menuitem",
-            text: "Text shorter",
+            text: tinymce.i18n.translate("text_shorter_label"),
             icon: "iashorter",
             onAction: () => editor.execCommand("textShorterRun"),
           },
