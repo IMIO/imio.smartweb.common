@@ -33,7 +33,7 @@ class ProcessTextExpandView(BaseIAView):
             "input": current_html,
             "expansion_target": 50,
         }
-        url = f"{IPA_URL}/text-expand"
+        url = f"{IPA_URL}/expand-text"
         response = requests.post(url, headers=self.headers, json=payload)
         if response.status_code != 200:
             return current_html
@@ -61,7 +61,7 @@ class ProcessTextShorterView(BaseIAView):
             "input": current_html,
             "expansion_target": 50,
         }
-        url = f"{IPA_URL}/text-shorter"
+        url = f"{IPA_URL}/reduce-text"
         response = requests.post(url, headers=self.headers, json=payload)
         if response.status_code != 200:
             return current_html
@@ -89,7 +89,7 @@ class ProcessTextImproveView(BaseIAView):
             "input": current_html,
             "expansion_target": 50,
         }
-        url = f"{IPA_URL}/text-improve"
+        url = f"{IPA_URL}/improve-text"
         response = requests.post(url, headers=self.headers, json=payload)
         if response.status_code != 200:
             return current_html
