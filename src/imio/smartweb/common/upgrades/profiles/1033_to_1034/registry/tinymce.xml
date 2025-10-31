@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.plugins"
+  >
+    <value purge="true">
+      <element>code</element>
+      <element>charmap</element>
+      <element>fullscreen</element>
+      <element>lists</element>
+      <element>nonbreaking</element>
+      <element>searchreplace</element>
+      <element>table</element>
+      <element>visualblocks</element>
+      <element>visualchars</element>
+      <element>wordcount</element>
+    </value>
+  </record>
+
+  <!-- See possible values in https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar -->
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.menubar">
+    <value purge="true">edit format insert table view</value>
+  </record>
+
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+        name="plone.menu">
+    <value purge="true">
+    {
+      "file": {
+        "title": "File",
+        "items": ""
+      },
+      "tools": {
+        "title": "Tools",
+        "items": ""
+      },
+      "edit": {
+        "title": "Edit",
+        "items": "undo redo | cut copy paste | searchreplace selectall"
+      },
+      "format": {
+        "title": "Format",
+        "items": ""
+      },
+      "insert": {
+        "title": "Insert",
+        "items": "hr"
+      },      
+      "table": {
+        "title": "Table",
+        "items": "inserttable deletetable | cell row column"
+      },
+      "view": {
+        "title": "View",
+        "items": "visualblocks preview fullscreen"
+      }
+    }
+    </value>
+  </record>
+
+  <!-- See possible values in https://www.tiny.cloud/docs/tinymce/latest/available-toolbar-buttons/ -->
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.toolbar"
+  >
+    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen</value>
+  </record>
+
+</registry>

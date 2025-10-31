@@ -53,11 +53,8 @@
       <element>code</element>
       <element>charmap</element>
       <element>fullscreen</element>
-      <element>hr</element>
       <element>lists</element>
       <element>nonbreaking</element>
-      <element>noneditable</element>
-      <element>paste</element>
       <element>searchreplace</element>
       <element>table</element>
       <element>visualblocks</element>
@@ -70,13 +67,7 @@
   <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
           name="plone.menubar"
   >
-    <value purge="true">
-      <element>edit</element>
-      <element>format</element>
-      <element>insert</element>
-      <element>table</element>
-      <element>view</element>
-    </value>
+    <value purge="true">edit format insert table view</value>
   </record>
 
   <!-- See possible values in https://www.tiny.cloud/docs/tinymce/latest/available-menu-items/ -->
@@ -106,8 +97,8 @@
                 "items": ""
             },
             "insert": {
-                "title": "Insert",
-                "items": "hr"
+              "title": "Insert",
+              "items": "hr"
             },
             "table": {
                 "title": "Table",

@@ -5,7 +5,8 @@ Changelog
 1.2.39 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Migration to Plone 6.1.3
+  [boulch]
 
 
 1.2.38 (2025-09-10)
