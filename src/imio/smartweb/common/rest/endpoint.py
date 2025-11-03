@@ -25,8 +25,6 @@ class FindEndpointHandler(SearchHandler):
         if not types:
             raise Unauthorized("No types found, you are not allowed to search")
         self._constrain_query_by_path(query)
-        if not query.get("path"):
-            query["path"] = {"query": "/Plone"}
         # query = self._parse_query(query)
         if query.get("type_of_request") == "count_contents_types":
             results = self.count_contents_types(query)
@@ -164,7 +162,6 @@ class FindEndpointHandler(SearchHandler):
             count = counter.get(key, 0)
             percent = (count / total) * 100 if total > 0 else 0
             result[label] = {"count": count, "percent": round(percent, 2)}
-
         return result
 
 
