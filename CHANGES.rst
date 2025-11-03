@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.39 (unreleased)
+1.2.39 (2025-11-03)
 -------------------
 
 - Migration to Plone 6.1.3
