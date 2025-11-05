@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.40 (unreleased)
+1.2.40 (2025-11-05)
 -------------------
 
 - Catch Exception on geocoding to avoid blocking content creation
