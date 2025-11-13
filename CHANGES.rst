@@ -2,10 +2,18 @@ Changelog
 =========
 
 
-1.2.40 (unreleased)
+1.2.41 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.40 (2025-11-05)
+-------------------
+
+- Catch Exception on geocoding to avoid blocking content creation
+  if geopy service is down
+  [remdub]
 
 
 1.2.39 (2025-11-03)
