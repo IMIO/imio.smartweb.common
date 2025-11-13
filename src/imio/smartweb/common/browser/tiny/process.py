@@ -85,9 +85,7 @@ class ProcessTextImproveView(BaseIAView):
         except Exception:
             data = {}
         current_html = data.get("html", "")
-        payload = {
-            "input": current_html
-        }
+        payload = {"input": current_html}
         url = f"{IPA_URL}/improve-text"
         response = requests.post(url, headers=self.headers, json=payload)
         if response.status_code != 200:
