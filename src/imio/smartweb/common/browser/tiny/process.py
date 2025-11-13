@@ -59,7 +59,7 @@ class ProcessTextShorterView(BaseIAView):
         current_html = data.get("html", "")
         payload = {
             "input": current_html,
-            "expansion_target": 50,
+            "reduction_target": 50,
         }
         url = f"{IPA_URL}/reduce-text"
         response = requests.post(url, headers=self.headers, json=payload)
@@ -86,8 +86,7 @@ class ProcessTextImproveView(BaseIAView):
             data = {}
         current_html = data.get("html", "")
         payload = {
-            "input": current_html,
-            "expansion_target": 50,
+            "input": current_html
         }
         url = f"{IPA_URL}/improve-text"
         response = requests.post(url, headers=self.headers, json=payload)

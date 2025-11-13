@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+
+  <record name="plone.custom_plugins"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+          field="custom_plugins"
+  >
+    <field type="plone.registry.field.List">
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>text_expand|++resource++tinymce.js</element>
+      <element>text_shorter|++resource++tinymce.js</element>
+      <element>text_improve|++resource++tinymce.js</element>
+      <element>ia|++resource++tinymce.js</element>
+      <element>ia_menuitems|++resource++tinymce.js</element>
+    </value>
+  </record>
+
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.menu"
+  >
+    <value purge="true">
+        {
+            "file": {
+                "title": "File",
+                "items": ""
+            },
+            "tools": {
+                "title": "Tools",
+                "items": ""
+            },
+            "table": {
+                "title": "Table",
+                "items": ""
+            },
+            "edit": {
+                "title": "Edit",
+                "items": "undo redo | cut copy paste | searchreplace selectall"
+            },
+            "format": {
+                "title": "Format",
+                "items": ""
+            },
+            "insert": {
+              "title": "Insert",
+              "items": "hr"
+            },
+            "table": {
+                "title": "Table",
+                "items": "inserttable deletetable | cell row column"
+            },
+            "view": {
+                "title": "View",
+                "items": "visualblocks preview fullscreen"
+            },
+            "ia_menuitems": {
+              "title": "IA",
+              "items": "ia_text_expand ia_text_shorter ia_text_improve"
+            }
+        }
+        </value>
+  </record>
+
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.toolbar"
+  >
+    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen | ia</value>
+  </record>
+
+</registry>
