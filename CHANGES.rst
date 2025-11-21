@@ -5,7 +5,8 @@ Changelog
 1.2.41 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- IPA : Add IA buttons to TinyMCE + fix payload
+  [boulch]
 
 
 1.2.40 (2025-11-05)

@@ -1,0 +1,29 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    >
+
+  <browser:page
+      name="process-textexpand"
+      for="*"
+      class=".process.ProcessTextExpandView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      name="process-textimprove"
+      for="*"
+      class=".process.ProcessTextImproveView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      name="process-textshorter"
+      for="*"
+      class=".process.ProcessTextShorterView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+</configure>
