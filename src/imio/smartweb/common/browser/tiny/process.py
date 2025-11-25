@@ -1,20 +1,9 @@
 # src/your.pkg/browser/process.py
+from imio.smartweb.common.browser.ia import BaseIAView
 from imio.smartweb.common.config import IPA_URL
-from zope.publisher.browser import BrowserView
 
 import json
 import requests
-
-
-class BaseIAView(BrowserView):
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self.headers = {
-            "accept": "application/json",
-            "Content-Type": "application/json",
-        }
 
 
 class ProcessTextExpandView(BaseIAView):

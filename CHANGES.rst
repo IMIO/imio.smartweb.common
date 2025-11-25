@@ -5,7 +5,10 @@ Changelog
 1.2.41 (unreleased)
 -------------------
 
-- IPA : Add IA buttons to TinyMCE + fix payload
+- IAK-77 : IPA : Add new header to queries + some Refactoring
+  [boulch]
+
+- IAK-77 : IPA : Add IA buttons to TinyMCE + fix payload
   [boulch]
 
 
