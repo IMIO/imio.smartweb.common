@@ -16,3 +16,7 @@ TRANSLATED_VOCABULARIES = [
 ]
 
 IPA_URL = os.environ.get("IPA_URL", "https://ipa-staging.imio.be/imio/ai/v1/agents")
+
+APPLICATION_ID = os.environ.get("application_id", "iA.Smartweb")
+
+PROJECT_ID = os.environ.get("PROJECT_ID", "smartweb")

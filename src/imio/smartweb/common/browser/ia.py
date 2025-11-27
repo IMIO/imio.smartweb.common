@@ -1,5 +1,8 @@
+from imio.smartweb.common.config import APPLICATION_ID
+from imio.smartweb.common.config import PROJECT_ID
 from zope.publisher.browser import BrowserView
 
+import json
 import os
 
 
@@ -12,10 +15,19 @@ class BaseIAView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        project_id = os.environ.get("PROJECT_ID", "smartweb")
-        self.headers = {
-            "accept": "application/json",
-            "Content-Type": "application/json",
-            "x-imio-application": "smartweb",
-            "x-imio-municipality": project_id,
-        }
+        self._headers = None
+
+    @property
+    def headers(self):
+        if self._headers is None:
+            self._headers = {
+                "accept": "application/json",
+                "Content-Type": "application/json",
+                "x-imio-application": APPLICATION_ID,
+                "x-imio-municipality": PROJECT_ID,
+            }
+        return self._headers
+
+    @property
+    def headers_json(self):
+        return json.dumps(self.headers)
