@@ -5,6 +5,9 @@ Changelog
 1.2.41 (unreleased)
 -------------------
 
+- IAK-77 : IPA : Change icon with omnia set
+  [thomlamb]
+
 - IAK-77 : IPA : Add new header to queries + some Refactoring
   [boulch]
 
