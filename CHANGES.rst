@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.41 (unreleased)
+1.2.41 (2025-11-28)
 -------------------
 
 - IAK-77 : IPA : Change icon with omnia set
