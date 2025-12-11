@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.42 (unreleased)
+1.2.42 (2025-12-11)
 -------------------
 
 - Add a new type of request in @find endpoint
