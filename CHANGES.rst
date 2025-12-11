@@ -5,7 +5,8 @@ Changelog
 1.2.42 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add a new type of request in @find endpoint
+  [boulch]
 
 
 1.2.41 (2025-11-28)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collections import Counter
+from DateTime import DateTime
 from imio.smartweb.common.rest.utils import get_json
 from plone import api
 from plone.restapi.search.handler import SearchHandler
@@ -38,6 +39,9 @@ class FindEndpointHandler(SearchHandler):
                 query.get("field_name"),
                 query.get("expected_values"),
             )
+        elif query.get("type_of_request") == "catalog":
+            json_str_query = query.get("json_str_query")
+            results = self.search_from_json(json_str_query)
         else:
             return super().search(query)
         return results
@@ -163,6 +167,73 @@ class FindEndpointHandler(SearchHandler):
             percent = (count / total) * 100 if total > 0 else 0
             result[label] = {"count": count, "percent": round(percent, 2)}
         return result
+
+    def normalize_catalog_params(self, params):
+        """Recursilvly normalize catalog values :
+        - dicts keys 'query' -> try to convert DateTime
+        - list/tuple -> normalizing recursilvly
+        """
+        if isinstance(params, dict):
+            new = {}
+            for key, value in params.items():
+                # Special case : bloc of catalog criteria -> {'query': '...', 'range': 'min'}
+                if isinstance(value, dict) and "query" in value:
+                    crit = value.copy()
+                    q = crit.get("query")
+
+                    # if string test DateTime
+                    if isinstance(q, str):
+                        try:
+                            crit["query"] = DateTime(q)
+                        except Exception:
+                            # let in string
+                            pass
+
+                    # Normalizing others
+                    for k2, v2 in crit.items():
+                        if k2 != "query":
+                            crit[k2] = self.normalize_catalog_params(v2)
+
+                    new[key] = crit
+
+                else:
+                    new[key] = self.normalize_catalog_params(value)
+            return new
+
+        if isinstance(params, (list, tuple)):
+            return [self.normalize_catalog_params(v) for v in params]
+
+        return params
+
+    def search_from_json(self, json_str):
+        """
+        Docstring for search_from_json
+
+        :param self: Description
+        :param json_str: Description
+        :example1: {"portal_type":"imio.events.Event","effective": {"query":"2025-12-12","range": "min"},"enableAutopublishing":true}
+        """
+        data = json.loads(json_str) or {}
+        attrs = [k for k, v in data.items()]
+        attrs = attrs + ["Title", "getPath"]
+        query_params = self.normalize_catalog_params(data)
+        catalog = api.portal.get_tool("portal_catalog")
+        brains = catalog(**query_params)
+
+        results = []
+        for brain in brains:
+            item = {}
+            for name in attrs:
+                value = getattr(brain, name, None)
+                if value is None:
+                    value = getattr(brain.getObject(), name, None)
+                if callable(value):
+                    value = value()
+                if isinstance(value, DateTime):
+                    value = value.ISO8601()
+                item[name] = value
+            results.append(item)
+        return results
 
 
 class FindEndpoint(Service):
