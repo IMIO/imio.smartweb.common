@@ -184,7 +184,7 @@
   <genericsetup:registerProfile
       name="upgrade_1035_to_1036"
       title="Upgrade common from 1035 to 1036"
-      description="Add smartweb-common-suggested_title bundle"
+      description="Add smartweb-common-suggested_titles bundle"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/1035_to_1036"
       />      
@@ -567,7 +567,7 @@
       destination="1036"
       >
     <genericsetup:upgradeDepends
-        title="Add smartweb-common-suggested_title bundle"
+        title="Add smartweb-common-suggested_titles bundle"
         import_profile="imio.smartweb.common.upgrades:upgrade_1035_to_1036"
         />
   </genericsetup:upgradeSteps>
