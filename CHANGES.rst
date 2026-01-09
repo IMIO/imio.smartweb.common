@@ -5,7 +5,9 @@ Changelog
 1.2.43 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- OIA-109 : Refactor "suggested titles" feature from imio.smartweb.core to imio.smartweb.common
+  Use it as a behavior <element value="imio.smartweb.ia.titles"/> (instead of plone.basic)
+  [boulch]
 
 
 1.2.42 (2025-12-11)
