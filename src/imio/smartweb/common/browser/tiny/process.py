@@ -1,5 +1,5 @@
 # src/your.pkg/browser/process.py
-from imio.smartweb.common.browser.ia import BaseIAView
+from imio.smartweb.common.ia.browser.views import BaseIAView
 from imio.smartweb.common.config import IPA_URL
 
 import json

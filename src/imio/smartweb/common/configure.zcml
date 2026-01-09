@@ -25,6 +25,7 @@
   <include package=".behaviors" />
   <include package=".browser" />
   <include package=".faceted" />
+  <include package=".ia" />
   <include package=".rest" />
   <includeOverrides file="utility_overrides.zcml" />
   <include package=".serializers" />
