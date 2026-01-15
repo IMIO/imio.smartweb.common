@@ -5,6 +5,9 @@ Changelog
 1.2.43 (unreleased)
 -------------------
 
+- OIA-109 : Refactor "CategorizeContent" feature from imio.smartweb.core to imio.smartweb.common
+  [boulch]
+
 - OIA-109 : Refactor "suggested titles" feature from imio.smartweb.core to imio.smartweb.common
   Use it as a behavior <element value="imio.smartweb.ia.titles"/> (instead of plone.basic)
   [boulch]

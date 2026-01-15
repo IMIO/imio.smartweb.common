@@ -18,4 +18,20 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <browser:page
+      name="ProcessCategorizeContent"
+      for="plone.dexterity.interfaces.IDexterityContainer"
+      class=".views.BaseProcessCategorizeContentView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="imio.events.core.contents.IEvent"
+      name="edit"
+      class=".categorization_button_edit.PageEditForm"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      />
+
+
 </configure>
