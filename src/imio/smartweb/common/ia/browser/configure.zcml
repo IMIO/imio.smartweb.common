@@ -26,7 +26,7 @@
       />
 
   <browser:page
-      for="imio.events.core.contents.IEvent"
+      for="plone.dexterity.interfaces.IDexterityContainer"
       name="edit"
       class=".categorization_button_edit.PageEditForm"
       permission="cmf.ModifyPortalContent"

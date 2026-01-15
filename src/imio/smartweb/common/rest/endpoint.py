@@ -218,8 +218,17 @@ class FindEndpointHandler(SearchHandler):
         attrs = attrs + ["Title", "getPath"]
         query_params = self.normalize_catalog_params(data)
         catalog = api.portal.get_tool("portal_catalog")
-        brains = catalog(**query_params)
+        brains = None
+        try:
+            brains = catalog(**query_params)
+        except:
+            # try querystring-search with query-builder ?
+            from plone.app.querystring.querybuilder import QueryBuilder
 
+            portal = api.portal.get()
+            request = portal.REQUEST
+            qb = QueryBuilder(portal, request)
+            brains = qb(query_params["query"])
         results = []
         for brain in brains:
             item = {}

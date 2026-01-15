@@ -82,9 +82,6 @@ class BaseProcessCategorizeContentView(BaseIAView):
                 url, headers=self.headers, json=payload, timeout=self.timeout
             )
             response.raise_for_status()
-            import pdb
-
-            pdb.set_trace()
             return response.json() or {}
         except requests.RequestException:
             return {}

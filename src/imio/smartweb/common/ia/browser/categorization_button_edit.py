@@ -36,9 +36,6 @@ class HtmlSnippetWidget(z3c_widget.Widget):
         try:
             for item in getattr(self.context, "objectItems", lambda: [])():
                 obj = item[1]
-                import pdb
-
-                pdb.set_trace()
                 # Vérifier si la section texte a du contenu (non vide)
                 text_output = getattr(getattr(obj, "text", None), "output", "")
                 if text_output and text_output.strip():
