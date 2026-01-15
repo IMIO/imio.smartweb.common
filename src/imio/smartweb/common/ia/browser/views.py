@@ -57,14 +57,14 @@ class ProcessSuggestedTitlesView(BaseIAView):
 
 class BaseProcessCategorizeContentView(BaseIAView):
 
-    timeout = (5, 20)
+    timeout = (10, 30)
 
     def __init__(self, context, request):
         super().__init__(context, request)
         self.current_lang = api.portal.get_current_language()[:2]
 
-    def _get_structured_data_from_vocabulary(self, vocabulary_name):
-        voc = get_vocabulary(vocabulary_name)
+    def _get_structured_data_from_vocabulary(self, vocabulary_name, obj=None):
+        voc = get_vocabulary(vocabulary_name, obj)
         voc_translated_dict = [
             {
                 "title": translate(t.title, target_language=self.current_lang),
@@ -140,7 +140,6 @@ class BaseProcessCategorizeContentView(BaseIAView):
         self.request.response.setHeader(
             "Content-Type", "application/json; charset=utf-8"
         )
-
         all_text = self._get_all_text()
         results = {}
         self._process_iam(all_text, results)

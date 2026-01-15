@@ -1,76 +1,22 @@
 # -*- coding: utf-8 -*-
-# imio/smartweb/core/browser/categorization_button_edit.py
 from imio.smartweb.common.browser.forms import CustomEditForm
-from imio.smartweb.common.config import APPLICATION_ID
-from imio.smartweb.common.config import PROJECT_ID
+from imio.smartweb.common.ia.widgets.html_snippet_widget import EditHtmlSnippetWidget
 from plone.z3cform import layout
 from zope import schema
-from z3c.form.interfaces import DISPLAY_MODE, HIDDEN_MODE
+from z3c.form.interfaces import DISPLAY_MODE
 from z3c.form.widget import FieldWidget
-from z3c.form import widget as z3c_widget
-from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 
 FIELD_NAME = "categorization_ia_link"  # Internal id for dummy field
 
 
-class HtmlSnippetWidget(z3c_widget.Widget):
-    """Widget HTML (bouton + JS) avec template ZPT."""
-
-    template = ViewPageTemplateFile("html_snippet_widget.pt")
-    x_imio_application = APPLICATION_ID
-    x_imio_municipality = PROJECT_ID
-
-    def update(self):
-        # edit : context == objet
-        base = self.context.absolute_url()
-        self.endpoint = f"{base}/@@ProcessCategorizeContent"
-        # Unique id for button + status zone
-        self.wid = getattr(self, "name", FIELD_NAME)
-
-        # Désactiver le bouton si aucune section texte avec contenu n'est présente
-        self.klass = getattr(self, "klass", "")
-        has_text_content = False
-
-        # Vérifie si le contexte contient au moins une section texte avec du contenu
-        try:
-            for item in getattr(self.context, "objectItems", lambda: [])():
-                obj = item[1]
-                # Vérifier si la section texte a du contenu (non vide)
-                text_output = getattr(getattr(obj, "text", None), "output", "")
-                if text_output and text_output.strip():
-                    has_text_content = True
-                    break
-        except Exception:
-            pass
-
-        if not has_text_content:
-            self.klass = f"{self.klass} disabled".strip() if self.klass else "disabled"
-            self.is_disabled = True
-        else:
-            self.is_disabled = False
-
-    def render(self):
-        return self.template()
-
-
-class PageEditForm(CustomEditForm):
+class IACategorizeEditForm(CustomEditForm):
     """Vue edit custom, avec bouton 'Catégoriser' injecté en haut de 'categorization'."""
 
     def update(self):
-        super(PageEditForm, self).update()
+        super(IACategorizeEditForm, self).update()
 
-        # ONLY SMARTWEB.CORE
-        # 1) Hide hide_title in 'layout' group
-        # for group in getattr(self, "groups", []):
-        #     if (
-        #         getattr(group, "__name__", "") == "layout"
-        #         and "hide_title" in group.widgets
-        #     ):
-        #         group.widgets["hide_title"].mode = HIDDEN_MODE
-        #         group.widgets["hide_title"].value = ["selected"]
-
-        # 2) Inject button on top of 'categorization' fieldset
+        # Inject button on top of 'categorization' fieldset
         if not getattr(self, "groups", None):
             return
 
@@ -94,7 +40,7 @@ class PageEditForm(CustomEditForm):
 
         # Create dummy field + FieldWidget(HtmlSnippetWidget)
         zfield = schema.Text(__name__=FIELD_NAME, title="", description="")
-        w = FieldWidget(zfield, HtmlSnippetWidget(self.request))
+        w = FieldWidget(zfield, EditHtmlSnippetWidget(self.request))
         w.mode = DISPLAY_MODE
         w.context = self.context
         w.form = self
@@ -138,4 +84,4 @@ class PageEditForm(CustomEditForm):
                 pass
 
 
-PageEditView = layout.wrap_form(PageEditForm)
+IACategorizeEditView = layout.wrap_form(IACategorizeEditForm)

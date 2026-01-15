@@ -1,40 +1,17 @@
 from imio.smartweb.common.browser.forms import CustomAddForm
-from imio.smartweb.common.config import APPLICATION_ID
-from imio.smartweb.common.config import PROJECT_ID
+from imio.smartweb.common.ia.widgets.html_snippet_widget import AddHtmlSnippetWidget
 from plone.dexterity.browser.add import DefaultAddView
-
 from z3c.form.interfaces import HIDDEN_MODE, DISPLAY_MODE
 from z3c.form.widget import FieldWidget
-from z3c.form import widget as z3c_widget
 from zope import schema
-from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
-
 
 FIELD_NAME = "categorization_ia_link"
 
 
-class HtmlSnippetWidget(z3c_widget.Widget):
-    template = ViewPageTemplateFile("html_snippet_widget.pt")
-    x_imio_application = APPLICATION_ID
-    x_imio_municipality = PROJECT_ID
+class IACategorizeAddForm(CustomAddForm):
 
     def update(self):
-        # ++add++ : context = container ; edit : context = object
-        base = self.context.absolute_url()
-        self.endpoint = f"{base}/@@ProcessCategorizeContent"
-        self.wid = getattr(self, "name", "categorization_ia_link")
-        self.klass = getattr(self, "klass", "")
-        self.is_disabled = False
-
-    def render(self):
-        return self.template()
-
-
-class PageAddForm(CustomAddForm):
-    portal_type = "imio.smartweb.Page"
-
-    def update(self):
-        super(PageAddForm, self).update()
+        super(IACategorizeAddForm, self).update()
 
         for group in self.groups:
             if getattr(group, "__name__", "") == "layout":
@@ -60,7 +37,7 @@ class PageAddForm(CustomAddForm):
 
         # Create dummy field + FieldWidget(HtmlSnippetWidget)
         zfield = schema.Text(__name__=FIELD_NAME, title="", description="")
-        w = FieldWidget(zfield, HtmlSnippetWidget(self.request))
+        w = FieldWidget(zfield, AddHtmlSnippetWidget(self.request))
         w.mode = DISPLAY_MODE
         w.context = self.context  # conteneur du futur objet
         w.form = self
@@ -82,5 +59,5 @@ class PageAddForm(CustomAddForm):
                     cat.widgets._widgets.append(w)
 
 
-class PagesAddView(DefaultAddView):
-    form = PageAddForm
+class IACategorizeAddView(DefaultAddView):
+    form = IACategorizeAddForm

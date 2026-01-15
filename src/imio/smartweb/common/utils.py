@@ -25,9 +25,11 @@ import re
 import unicodedata
 
 
-def get_vocabulary(voc_name):
+def get_vocabulary(voc_name, obj=None):
+    if obj is None:
+        obj = api.portal.get()
     factory = getUtility(IVocabularyFactory, voc_name)
-    vocabulary = factory(api.portal.get())
+    vocabulary = factory(obj)
     return vocabulary
 
 

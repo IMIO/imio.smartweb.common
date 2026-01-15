@@ -273,6 +273,14 @@ function setPatSelect2(el, values, options){
     });
   }
 
+  /* BASIC collect
+  function collect(){
+    var out = {};
+    var t = document.getElementById('form-widgets-IBasic-title');
+    if (t) out['form-widgets-IBasic-title'] = t.value;
+    return out;
+  }*/
+
   // (optionnel) collecte minimale pour le backend
 function collect() {
   var out = {};
