@@ -16,7 +16,7 @@ long_description = "\n\n".join(
 
 setup(
     name="imio.smartweb.common",
-    version="1.2.43",
+    version="1.2.44.dev0",
     description="Common utilities, vocabularies, taxonomies for imio.smartweb & co products",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
