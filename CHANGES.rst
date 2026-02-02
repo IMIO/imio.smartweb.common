@@ -5,7 +5,8 @@ Changelog
 1.2.44 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Change french text to (default) english
+  [boulch]
 
 
 1.2.43 (2026-01-21)
