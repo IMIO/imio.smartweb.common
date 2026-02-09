@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.45 (unreleased)
+1.2.45 (2026-02-09)
 -------------------
 
 - Implement a function to get a parent from object acquisition with a specific interface
