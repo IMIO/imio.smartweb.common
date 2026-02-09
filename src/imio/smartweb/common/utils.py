@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_inner
 from Acquisition import aq_parent
 from io import BytesIO
 from imio.smartweb.common.config import TRANSLATED_VOCABULARIES
@@ -209,6 +210,15 @@ def activate_sending_data_to_odwb_for_staging():
     return api.portal.get_registry_record(
         "imio.smartweb.common.activate_sending_data_to_odwb_for_staging", default=False
     )
+
+
+def get_parent_providing(obj, interface):
+    current_obj = aq_inner(obj)
+    while current_obj is not None:
+        if interface.providedBy(current_obj):
+            return current_obj
+        current_obj = aq_parent(current_obj)
+    return None
 
 
 def get_parent_of_type(context, content_type):

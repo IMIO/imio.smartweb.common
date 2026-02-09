@@ -5,6 +5,9 @@ Changelog
 1.2.45 (unreleased)
 -------------------
 
+- Implement a function to get a parent from object acquisition with a specific interface
+  [boulch]
+
 - Change OMNIA default staging url
   [boulch]
 
