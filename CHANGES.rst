@@ -5,7 +5,8 @@ Changelog
 1.2.45 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Change OMNIA default staging url
+  [boulch]
 
 
 1.2.44 (2026-02-02)
