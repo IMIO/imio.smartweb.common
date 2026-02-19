@@ -5,7 +5,8 @@ Changelog
 1.2.46 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- CITIBDC-507 : Don't send data to ODWB when in preprod environment
+  [remdub]
 
 
 1.2.45 (2026-02-09)

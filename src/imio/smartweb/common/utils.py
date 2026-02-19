@@ -200,7 +200,7 @@ def is_staging_or_local():
     pattern = "|".join(map(re.escape, elem))
     if scheme == "http" and re.search(pattern, netloc):
         return True
-    elif scheme == "https" and "staging" in netloc:
+    elif scheme == "https" and ("staging" in netloc or "preprod" in netloc):
         return True
     else:
         return False
