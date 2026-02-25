@@ -5,6 +5,9 @@ Changelog
 1.2.46 (unreleased)
 -------------------
 
+- WEB-4366 : Add entity_uid to ignored params for search-filters endpoint to avoid catalog warning
+  [boulch]
+
 - CITIBDC-507 : Don't send data to ODWB when in preprod environment
   [remdub]
 

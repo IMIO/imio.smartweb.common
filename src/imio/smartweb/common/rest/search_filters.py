@@ -37,7 +37,7 @@ class SearchFiltersHandler(SearchHandler):
     faceted searches.
     """
 
-    ignored_params = ["fullobjects", "b_size", "b_start"]
+    ignored_params = ["fullobjects", "b_size", "b_start", "entity_uid"]
 
     def search(self, query=None):
         if query is None:
