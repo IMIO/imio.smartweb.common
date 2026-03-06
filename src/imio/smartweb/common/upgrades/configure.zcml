@@ -187,7 +187,15 @@
       description="Add smartweb-common-suggested_titles bundle"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/1035_to_1036"
-      />      
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1036_to_1037"
+      title="Upgrade common from 1036 to 1037"
+      description="Add IA text accessible button to TinyMCE"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/1036_to_1037"
+      />
 
   <genericsetup:upgradeStep
       title="Configure first official release"
@@ -569,6 +577,17 @@
     <genericsetup:upgradeDepends
         title="Add smartweb-common-suggested_titles bundle"
         import_profile="imio.smartweb.common.upgrades:upgrade_1035_to_1036"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      profile="imio.smartweb.common:default"
+      source="1036"
+      destination="1037"
+      >
+    <genericsetup:upgradeDepends
+        title="Add IA text accessible button to TinyMCE"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1036_to_1037"
         />
   </genericsetup:upgradeSteps>
 

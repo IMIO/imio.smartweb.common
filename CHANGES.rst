@@ -5,6 +5,9 @@ Changelog
 1.2.46 (unreleased)
 -------------------
 
+- OIA-118 : Consuming the make_accessible endpoint in TinyMCE
+  [boulch]
+
 - WEB-4366 : Add entity_uid to ignored params for search-filters endpoint to avoid catalog warning
   [boulch]
 

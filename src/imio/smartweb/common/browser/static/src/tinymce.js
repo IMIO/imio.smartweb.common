@@ -3,21 +3,21 @@ tinymce.i18n.add("fr_FR", {
   text_expand_label: "Développer le texte",
   text_improve_label: "Améliorer le texte",
   text_shorter_label: "Raccourcir le texte",
-  text_shorter_label: "Raccourcir le texte",
+  text_accessible_label: "Rendre le texte accessible",
 });
 
 tinymce.i18n.add("nl_NL", {
   text_expand_label: "Tekst uitbreiden",
   text_improve_label: "Tekst verbeteren",
   text_shorter_label: "Tekst verkorten",
-  text_shorter_label: "Tekst verkorten",
+  text_accessible_label: "Tekst toegankelijk maken",
 });
 
 tinymce.i18n.add("de_DE", {
   text_expand_label: "Text erweitern",
   text_improve_label: "Text verbessern",
   text_shorter_label: "Text verkürzen",
-  text_shorter_label: "Text verkürzen",
+  text_accessible_label: "Text zugänglich machen",
 });
 
 // --- CSRF helper -------------------------------------------------------------
@@ -222,6 +222,47 @@ function getSelectedHtml(editor) {
     });
   });
 
+  // ===== Plugin 4 : text_accessible =====
+  tinymce.PluginManager.add("text_accessible", function (editor) {
+    let btnApi = null;
+
+    editor.addCommand("textAccessibleRun", async function () {
+      const selectedHtml = getSelectedHtml(editor);
+      if (!selectedHtml.trim()) {
+        editor.notificationManager.open({
+          text: "Sélectionnez le passage pour rendre le texte accessible.",
+          type: "warning",
+          timeout: 2000,
+        });
+        return;
+      }
+
+      const bookmark = editor.selection.getBookmark(2, true);
+
+      await withProcessingUI(editor, btnApi, async () => {
+        const data = await postProcess("@@process-textaccessible", {
+          html: selectedHtml,
+        });
+        if (!data || typeof data.html !== "string")
+          throw new Error("Réponse invalide");
+        editor.undoManager.transact(() => {
+          editor.selection.moveToBookmark(bookmark);
+          editor.selection.setContent(data.html);
+        });
+      });
+    });
+
+    editor.ui.registry.addButton("text_accessible", {
+      text: "Text accessible",
+      tooltip: "Rendre le texte accessible",
+      onAction: () => editor.execCommand("textAccessibleRun"),
+      onSetup: (api) => {
+        btnApi = api;
+        return () => (btnApi = null);
+      },
+    });
+  });
+
   tinymce.PluginManager.add("ia", function (editor) {
     // Déclare ton icône custom (injectée dans le registry de l’éditeur actif)
     editor.ui.registry.addIcon(
@@ -286,6 +327,20 @@ function getSelectedHtml(editor) {
       `
     );
 
+    editor.ui.registry.addIcon(
+      "iaaccessible",
+      `
+      <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="18" r="8" fill="#282828"/>
+        <path d="M30 38C30 38 40 34 50 34C60 34 70 38 70 38" stroke="#282828" stroke-width="6" stroke-linecap="round"/>
+        <path d="M50 34V58" stroke="#282828" stroke-width="6" stroke-linecap="round"/>
+        <path d="M50 58L38 78" stroke="#282828" stroke-width="6" stroke-linecap="round"/>
+        <path d="M50 58L62 78" stroke="#282828" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="34" stroke="#E6007E" stroke-width="6"/>
+      </svg>
+      `
+    );
+
     editor.ui.registry.addMenuButton("ia", {
       text: "",
       tooltip: "Outils IA",
@@ -309,6 +364,12 @@ function getSelectedHtml(editor) {
             text: tinymce.i18n.translate("text_shorter_label"),
             icon: "iashorter",
             onAction: () => editor.execCommand("textShorterRun"),
+          },
+          {
+            type: "menuitem",
+            text: tinymce.i18n.translate("text_accessible_label"),
+            icon: "iaaccessible",
+            onAction: () => editor.execCommand("textAccessibleRun"),
           },
         ]);
       },

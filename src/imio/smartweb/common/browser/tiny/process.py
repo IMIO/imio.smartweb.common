@@ -85,3 +85,28 @@ class ProcessTextImproveView(BaseIAView):
 
         new_html = data.get("result")
         return json.dumps({"html": new_html})
+
+
+class ProcessTextAccessibleView(BaseIAView):
+
+    def __call__(self):
+        self.request.response.setHeader(
+            "Content-Type", "application/json; charset=utf-8"
+        )
+        body = self.request.get("BODY", b"") or self.request.stdin.read() or b""
+        try:
+            data = json.loads(body.decode("utf-8"))
+        except Exception:
+            data = {}
+        current_html = data.get("html", "")
+        payload = {"input": current_html}
+        url = f"{IPA_URL}/make-accessible"
+        response = requests.post(url, headers=self.headers, json=payload)
+        if response.status_code != 200:
+            return current_html
+        data = response.json()
+        if not data:
+            return current_html
+
+        new_html = data.get("result")
+        return json.dumps({"html": new_html})

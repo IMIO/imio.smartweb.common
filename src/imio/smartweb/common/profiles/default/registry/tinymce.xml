@@ -73,6 +73,7 @@
       <element>text_expand|++resource++tinymce.js</element>
       <element>text_shorter|++resource++tinymce.js</element>
       <element>text_improve|++resource++tinymce.js</element>
+      <element>text_accessible|++resource++tinymce.js</element>
       <element>ia|++resource++tinymce.js</element>
       <element>ia_menuitems|++resource++tinymce.js</element>
     </value>
@@ -125,7 +126,7 @@
             },
             "ia_menuitems": {
               "title": "IA",
-              "items": "ia_text_expand ia_text_shorter ia_text_improve"
+              "items": "ia_text_expand ia_text_shorter ia_text_improve ia_text_accessible"
             }
         }
         </value>
