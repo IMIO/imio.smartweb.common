@@ -1,3 +1,4 @@
+from imio.helpers.ws import get_auth_token
 from imio.smartweb.common.config import IPA_URL
 from imio.smartweb.common.config import APPLICATION_ID
 from imio.smartweb.common.config import PROJECT_ID
@@ -27,6 +28,9 @@ class BaseIAView(BrowserView):
                 "x-imio-application": APPLICATION_ID,
                 "x-imio-municipality": PROJECT_ID,
             }
+            token = get_auth_token()
+            if isinstance(token, str) and token:
+                self._headers["Authorization"] = f"Bearer {token}"
         return self._headers
 
     @property
