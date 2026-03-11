@@ -76,9 +76,7 @@ class TestProcessSuggestedTitlesViewHeaders(unittest.TestCase):
         "imio.smartweb.common.ia.browser.views.get_auth_token",
         return_value="mytoken",
     )
-    def test_suggest_titles_passes_authorization_header(
-        self, mock_token, mock_post
-    ):
+    def test_suggest_titles_passes_authorization_header(self, mock_token, mock_post):
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.json.return_value = ["Title A", "Title B"]
@@ -90,7 +88,10 @@ class TestProcessSuggestedTitlesViewHeaders(unittest.TestCase):
         view()
 
         _, kwargs = mock_post.call_args
-        sent_headers = kwargs.get("headers", mock_post.call_args[0][1] if len(mock_post.call_args[0]) > 1 else {})
+        sent_headers = kwargs.get(
+            "headers",
+            mock_post.call_args[0][1] if len(mock_post.call_args[0]) > 1 else {},
+        )
         self.assertIn("Authorization", sent_headers)
         self.assertEqual(sent_headers["Authorization"], "Bearer mytoken")
 
