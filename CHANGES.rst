@@ -5,6 +5,9 @@ Changelog
 1.2.46 (unreleased)
 -------------------
 
+- WEB-4373 : Send JWT Bearer token in all Omnia/IPA API requests
+  [remdub]
+
 - OIA-118 : Consuming the make_accessible endpoint in TinyMCE
   [boulch]
 
