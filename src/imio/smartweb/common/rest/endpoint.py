@@ -221,7 +221,7 @@ class FindEndpointHandler(SearchHandler):
         brains = None
         try:
             brains = catalog(**query_params)
-        except:
+        except Exception:
             # try querystring-search with query-builder ?
             from plone.app.querystring.querybuilder import QueryBuilder
 
