@@ -1,3 +1,4 @@
+from imio.helpers.ws import get_auth_token
 from imio.smartweb.common.config import IPA_URL
 from imio.smartweb.common.config import APPLICATION_ID
 from imio.smartweb.common.config import PROJECT_ID
@@ -7,7 +8,10 @@ from Products.Five import BrowserView
 from zope.i18n import translate
 
 import json
+import logging
 import requests
+
+logger = logging.getLogger(__name__)
 
 
 class BaseIAView(BrowserView):
@@ -27,6 +31,15 @@ class BaseIAView(BrowserView):
                 "x-imio-application": APPLICATION_ID,
                 "x-imio-municipality": PROJECT_ID,
             }
+            try:
+                token = get_auth_token()
+                if isinstance(token, str) and token:
+                    self._headers["Authorization"] = f"Bearer {token}"
+            except Exception:
+                logger.warning(
+                    "Could not retrieve auth token; proceeding without Authorization header",
+                    exc_info=True,
+                )
         return self._headers
 
     @property

@@ -69,6 +69,7 @@ setup(
         "plone.schema",
         "eea.facetednavigation",
         "imio.gdpr",
+        "imio.helpers",
         "collective.privacy",
         "collective.taxonomy",
         "iaweb.privacy",
