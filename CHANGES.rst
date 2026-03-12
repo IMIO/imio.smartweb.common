@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.46 (unreleased)
+1.2.46 (2026-03-12)
 -------------------
 
 - WEB-4373 : Send JWT Bearer token in all Omnia/IPA API requests
