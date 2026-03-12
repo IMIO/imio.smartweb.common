@@ -5,7 +5,8 @@ Changelog
 1.2.47 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- OIA-109 : OMNIA : Add some fields to check to be able to "CategorizeContent" with imio.directory.Contact
+  [boulch]
 
 
 1.2.46 (2026-03-12)

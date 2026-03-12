@@ -282,12 +282,15 @@ function setPatSelect2(el, values, options){
   }*/
 
   // (optionnel) collecte minimale pour le backend
+  // subtitle, basic-description et basic-title servent dans l'annuaire.
 function collect() {
   var out = {};
   var fields = [
     'form-widgets-IBasic-title',
     'form-widgets-IIASmartTitle-title',
-    'form-widgets-IRichTextBehavior-text'
+    'form-widgets-IRichTextBehavior-text',
+    'form-widgets-subtitle',
+    'form-widgets-IBasic-description'
   ];
 
   fields.forEach(function (id) {
