@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.47 (unreleased)
+1.2.47 (2026-03-12)
 -------------------
 
 - OIA-109 : OMNIA : Add some fields to check to be able to "CategorizeContent" with imio.directory.Contact
