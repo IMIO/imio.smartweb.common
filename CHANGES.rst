@@ -5,7 +5,7 @@ Changelog
 1.2.48 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- OIA-109 : OMNIA : Improve handling of "Not enough content to categorize" message for imio.directory.Contact
 
 
 1.2.47 (2026-03-12)

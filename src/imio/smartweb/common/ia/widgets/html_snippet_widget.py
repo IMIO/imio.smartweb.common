@@ -26,17 +26,25 @@ class EditHtmlSnippetWidget(z3c_widget.Widget):
         self.klass = getattr(self, "klass", "")
         has_text_content = False
 
+        # Check direct text fields (title, subtitle, description)
+        for field in ("title", "subtitle", "description"):
+            value = getattr(self.context, field, None)
+            if value and str(value).strip():
+                has_text_content = True
+                break
+
         # Vérifie si le contexte contient au moins une section texte avec du contenu
-        try:
-            for item in getattr(self.context, "objectItems", lambda: [])():
-                obj = item[1]
-                # Vérifier si la section texte a du contenu (non vide)
-                text_output = getattr(getattr(obj, "text", None), "output", "")
-                if text_output and text_output.strip():
-                    has_text_content = True
-                    break
-        except Exception:
-            pass
+        if not has_text_content:
+            try:
+                for item in getattr(self.context, "objectItems", lambda: [])():
+                    obj = item[1]
+                    # Vérifier si la section texte a du contenu (non vide)
+                    text_output = getattr(getattr(obj, "text", None), "output", "")
+                    if text_output and text_output.strip():
+                        has_text_content = True
+                        break
+            except Exception:
+                pass
 
         if not has_text_content:
             self.klass = f"{self.klass} disabled".strip() if self.klass else "disabled"
