@@ -24,6 +24,7 @@
       <element>tile 64:64</element>
       <element>icon 32:32</element>
       <element>listing 16:16</element>
+      <element>section_text 760:0</element>
     </value>
   </record>
 
