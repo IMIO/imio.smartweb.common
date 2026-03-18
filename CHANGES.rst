@@ -5,8 +5,11 @@ Changelog
 1.2.48 (unreleased)
 -------------------
 
-- OIA-109 : OMNIA : Improve handling of "Not enough content to categorize" message for imio.directory.Contact
+- Migrate to Plone 6.1.4
+  [boulch]
 
+- OIA-109 : OMNIA : Improve handling of "Not enough content to categorize" message for imio.directory.Contact
+  [boulch]
 
 1.2.47 (2026-03-12)
 -------------------
