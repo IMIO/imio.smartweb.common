@@ -5,6 +5,9 @@ Changelog
 1.2.48 (unreleased)
 -------------------
 
+- WEB-3859 :  "Instance-level cached" statics vocabularies
+  [boulch]
+
 - Migrate to Plone 6.1.4
   [boulch]
 
