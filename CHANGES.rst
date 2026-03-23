@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.48 (unreleased)
+1.2.48 (2026-03-23)
 -------------------
 
 - WEB-3859 :  "Instance-level cached" statics vocabularies
