@@ -5,7 +5,8 @@ Changelog
 1.2.49 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- OIA-109 : OMNIA : Add custom logo for TinyMCE IA Accessible button
+  [thomlamb]
 
 
 1.2.48 (2026-03-23)
