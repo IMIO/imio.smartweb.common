@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.50 (unreleased)
+1.2.50 (2026-04-13)
 -------------------
 
 - WEB-4367 : Add avif to allowed image types
