@@ -241,6 +241,7 @@ def _get_pil_mimetype(pil_image):
         "TIFF": "image/tiff",
         "WEBP": "image/webp",
         "SVG": "image/svg+xml",
+        "AVIF": "image/avif",
     }
     return format_to_mime.get(pil_image.format, "application/octet-stream")
 

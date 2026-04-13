@@ -44,6 +44,7 @@ class ImageContenttypeValidator:
             "image/png",
             "image/svg+xml",
             "image/webp",
+            "image/avif",
         }
         if mimetype not in valid_mimetypes:
             raise InvalidImageFile(mimetype, self.field.__name__)

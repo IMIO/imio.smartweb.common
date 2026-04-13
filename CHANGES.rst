@@ -5,7 +5,8 @@ Changelog
 1.2.50 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4367 : Add avif to allowed image types
+  [thomlamb]
 
 
 1.2.49 (2026-03-30)
