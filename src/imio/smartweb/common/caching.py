@@ -12,7 +12,7 @@ logger = logging.getLogger("imio.smartweb.common")
 def ban_physicalpath(request, physical_path):
     portal = api.portal.get()
     caching_servers = os.environ.get("CACHING_SERVERS", "").split(" ")
-    forwarded_host = request.get("X-Forwarded-Host", "")
+    forwarded_host = request.get("X-Forwarded-Host", "") or request.get("HTTP_HOST", "")
     headers = {"Host": forwarded_host}
     len_portal_path = len(portal.getPhysicalPath())
     path = "/".join(physical_path[len_portal_path:])
