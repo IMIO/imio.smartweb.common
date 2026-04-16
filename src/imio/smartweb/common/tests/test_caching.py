@@ -30,22 +30,30 @@ class TestBanPhysicalpath(unittest.TestCase):
         mock_portal_get.return_value = self._make_portal()
         env = {k: v for k, v in os.environ.items() if k != "CACHING_SERVERS"}
         with patch.dict(os.environ, env, clear=True):
-            ban_physicalpath(self._make_request(http_host="www.example.com"), ("", "Plone", "en"))
+            ban_physicalpath(
+                self._make_request(http_host="www.example.com"), ("", "Plone", "en")
+            )
         mock_request.assert_not_called()
 
     @patch("imio.smartweb.common.caching.requests.request")
     @patch("imio.smartweb.common.caching.api.portal.get")
-    def test_no_ban_when_caching_servers_is_empty_string(self, mock_portal_get, mock_request):
+    def test_no_ban_when_caching_servers_is_empty_string(
+        self, mock_portal_get, mock_request
+    ):
         mock_portal_get.return_value = self._make_portal()
         with patch.dict(os.environ, {"CACHING_SERVERS": ""}):
-            ban_physicalpath(self._make_request(http_host="www.example.com"), ("", "Plone", "en"))
+            ban_physicalpath(
+                self._make_request(http_host="www.example.com"), ("", "Plone", "en")
+            )
         mock_request.assert_not_called()
 
     @patch("imio.smartweb.common.caching.requests.request")
     @patch("imio.smartweb.common.caching.api.portal.get")
     def test_uses_x_forwarded_host_as_host_header(self, mock_portal_get, mock_request):
         mock_portal_get.return_value = self._make_portal()
-        request = self._make_request(x_forwarded_host="www.example.com", http_host="internal.host")
+        request = self._make_request(
+            x_forwarded_host="www.example.com", http_host="internal.host"
+        )
         with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
             ban_physicalpath(request, ("", "Plone", "en"))
         args, kwargs = mock_request.call_args
@@ -53,7 +61,9 @@ class TestBanPhysicalpath(unittest.TestCase):
 
     @patch("imio.smartweb.common.caching.requests.request")
     @patch("imio.smartweb.common.caching.api.portal.get")
-    def test_falls_back_to_http_host_when_x_forwarded_host_missing(self, mock_portal_get, mock_request):
+    def test_falls_back_to_http_host_when_x_forwarded_host_missing(
+        self, mock_portal_get, mock_request
+    ):
         # Direct Varnish → Plone topology: X-Forwarded-Host is never set,
         # the browser's Host header lands in HTTP_HOST.
         mock_portal_get.return_value = self._make_portal()
@@ -65,7 +75,9 @@ class TestBanPhysicalpath(unittest.TestCase):
 
     @patch("imio.smartweb.common.caching.requests.request")
     @patch("imio.smartweb.common.caching.api.portal.get")
-    def test_empty_host_header_when_both_host_headers_missing(self, mock_portal_get, mock_request):
+    def test_empty_host_header_when_both_host_headers_missing(
+        self, mock_portal_get, mock_request
+    ):
         mock_portal_get.return_value = self._make_portal()
         request = self._make_request(x_forwarded_host="", http_host="")
         with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
@@ -78,13 +90,17 @@ class TestBanPhysicalpath(unittest.TestCase):
     def test_ban_method_is_used(self, mock_portal_get, mock_request):
         mock_portal_get.return_value = self._make_portal()
         with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
-            ban_physicalpath(self._make_request(http_host="www.example.com"), ("", "Plone", "en"))
+            ban_physicalpath(
+                self._make_request(http_host="www.example.com"), ("", "Plone", "en")
+            )
         args, _ = mock_request.call_args
         self.assertEqual(args[0], "BAN")
 
     @patch("imio.smartweb.common.caching.requests.request")
     @patch("imio.smartweb.common.caching.api.portal.get")
-    def test_ban_url_includes_path_relative_to_portal(self, mock_portal_get, mock_request):
+    def test_ban_url_includes_path_relative_to_portal(
+        self, mock_portal_get, mock_request
+    ):
         mock_portal_get.return_value = self._make_portal(path=("", "Plone"))
         with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
             ban_physicalpath(
@@ -96,7 +112,9 @@ class TestBanPhysicalpath(unittest.TestCase):
 
     @patch("imio.smartweb.common.caching.requests.request")
     @patch("imio.smartweb.common.caching.api.portal.get")
-    def test_ban_url_is_server_root_when_banning_portal(self, mock_portal_get, mock_request):
+    def test_ban_url_is_server_root_when_banning_portal(
+        self, mock_portal_get, mock_request
+    ):
         mock_portal_get.return_value = self._make_portal(path=("", "Plone"))
         with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
             ban_physicalpath(
