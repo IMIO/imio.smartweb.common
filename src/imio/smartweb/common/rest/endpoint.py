@@ -214,8 +214,16 @@ class FindEndpointHandler(SearchHandler):
         :param self: Description
         :param json_str: Description
         :example1: {"portal_type":"imio.events.Event","effective": {"query":"2025-12-12","range": "min"},"enableAutopublishing":true}
+        :example2: {"portal_type":"imio.directory.Contact","_has_children_of_type":"File"}
+        Special parameters (prefixed with _) are not passed to the catalog:
+          - _has_children_of_type: only return objects that have at least one child
+            of the given portal_type
         """
         data = json.loads(json_str) or {}
+
+        # Extract special parameters before building catalog query
+        has_children_of_type = data.pop("_has_children_of_type", None)
+
         attrs = [k for k, v in data.items()]
         attrs = attrs + ["Title", "getPath"]
         query_params = self.normalize_catalog_params(data)
@@ -233,6 +241,13 @@ class FindEndpointHandler(SearchHandler):
             brains = qb(query_params["query"])
         results = []
         for brain in brains:
+            if has_children_of_type:
+                children = catalog(
+                    portal_type=has_children_of_type,
+                    path={"query": brain.getPath(), "depth": 1},
+                )
+                if not children:
+                    continue
             item = {}
             for name in attrs:
                 value = getattr(brain, name, None)

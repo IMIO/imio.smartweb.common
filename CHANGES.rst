@@ -5,6 +5,9 @@ Changelog
 1.2.52 (unreleased)
 -------------------
 
+- Add _has_children_of_type filter to search_from_json
+  [boulch]
+
 - Use ``WEBSITE_HOSTNAME`` env var as Host header for BAN requests, falling back
   to ``portal.absolute_url()`` netloc. Adapt tests accordingly.
   [remdub]
