@@ -36,6 +36,7 @@ Changelog
 -------------------
 
 - WEB-3859 :  "Instance-level cached" statics vocabularies
+- Avoid unnecessary getObject() calls in check_value_of_field
   [boulch]
 
 - Migrate to Plone 6.1.4

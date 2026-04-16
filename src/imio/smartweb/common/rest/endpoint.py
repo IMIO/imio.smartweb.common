@@ -135,8 +135,10 @@ class FindEndpointHandler(SearchHandler):
         # Récupération et normalisation des valeurs
         values = []
         for brain in brains:
-            obj = brain.getObject()
-            value = getattr(obj, field_name, None)
+            value = getattr(brain, field_name, None)
+            if not value:
+                obj = brain.getObject()
+                value = getattr(obj, field_name, None)
             if isinstance(value, (list, tuple)):
                 if not value:
                     # liste/tuple vide => on compte 1 None
