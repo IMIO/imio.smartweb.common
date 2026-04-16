@@ -5,7 +5,9 @@ Changelog
 1.2.52 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Use ``WEBSITE_HOSTNAME`` env var as Host header for BAN requests, falling back
+  to ``portal.absolute_url()`` netloc. Adapt tests accordingly.
+  [remdub]
 
 
 1.2.51 (2026-04-16)
@@ -13,7 +15,7 @@ Changelog
 
 - WEB-4404 : Fix ``ban_physicalpath``: fall back to ``HTTP_HOST`` when ``X-Forwarded-Host``
   is absent (direct Varnish → Plone topology). Add tests for ``caching.py``.
-  [rdubois]
+  [remdub]
 
 
 1.2.50 (2026-04-13)
