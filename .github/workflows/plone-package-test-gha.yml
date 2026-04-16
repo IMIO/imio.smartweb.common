@@ -13,7 +13,7 @@ jobs:
     - name: Checkout codebase
       uses: actions/checkout@v4
     - name: Run check
-      uses: IMIO/gha/code-analysis-notify@v3.9.4
+      uses: IMIO/gha/code-analysis-notify@v6
       with:
         BASE_DIR: 'src'
         CHECK: 'black'
@@ -22,25 +22,19 @@ jobs:
         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
 
   test:
-    runs-on: gha-runners-smartweb
+    uses: IMIO/gha-workflows/.github/workflows/package-test-uv.yml@v1
     strategy:
-      fail-fast: false
       matrix:
-# '6.0' z3c.form ?
-        plone-version: ['6.1']
-        python-version: ['3.12', '3.13']
-    steps:
-    - name: Checkout codebase
-      uses: actions/checkout@v4
-    - name: Run check
-      uses: IMIO/gha/plone-package-test-notify@v3.9.4
-      with:
-        CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-${{ matrix.python-version }}
-        TEST_COMMAND: TZ=UTC bin/test
-        BUILDOUT_CONFIG_FILE: 'test_plone-${{ matrix.plone-version }}.cfg'
-        REQUIREMENTS_FILE: 'requirements-${{ matrix.plone-version }}.txt'
-        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
-        PYTHON_VERSION: ${{ matrix.python-version }}
+        python_version: ['3.12', '3.13']
+        plone_version: ['6.1']
+    secrets:
+      mattermost_webhook_url: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
+    with:
+      buildout_config_file: test_plone-${{ matrix.plone_version }}.cfg
+      python_version: ${{ matrix.python_version }}
+      requirements_file: requirements-${{ matrix.plone_version }}.txt
+      runner_label: gha-runners-smartweb
+      test_command: TZ=UTC bin/test
 
   coverage:
     uses: IMIO/gha-workflows/.github/workflows/package-test-coverage.yml@v1
