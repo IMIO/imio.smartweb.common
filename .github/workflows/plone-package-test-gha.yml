@@ -26,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-# '6.0' z3c.form ?      
+# '6.0' z3c.form ?
         plone-version: ['6.1']
         python-version: ['3.12', '3.13']
     steps:
@@ -43,18 +43,7 @@ jobs:
         PYTHON_VERSION: ${{ matrix.python-version }}
 
   coverage:
-    runs-on: gha-runners-smartweb
-    steps:
-    - name: Checkout codebase
-      uses: actions/checkout@v4
-    - name: Run check
-      uses: IMIO/gha/plone-package-test-notify@v3.9.4
-      with:
-        CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-3.10
-        TEST_COMMAND: TZ=UTC coverage run bin/test
-        REQUIREMENTS_FILE: 'requirements-coverage.txt'
-        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
-    - name: Submit to Coveralls
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: coveralls --service=github
+    uses: IMIO/gha-workflows/.github/workflows/package-test-coverage.yml@v1
+    with:
+      upload_to_coveralls: true
+      runner_label: gha-runners-smartweb
