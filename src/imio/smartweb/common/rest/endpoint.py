@@ -132,10 +132,17 @@ class FindEndpointHandler(SearchHandler):
         if total == 0:
             return {}
 
-        # Récupération et normalisation des valeurs
+        # Retrieve and normalize values
+        catalog_schema = self.catalog.schema()
         values = []
         for brain in brains:
-            value = getattr(brain, field_name, None)
+            # Use brain metadata if the field is a catalog column (fast path),
+            # otherwise fall back to waking up the full object
+            value = (
+                getattr(brain, field_name, None)
+                if field_name in catalog_schema
+                else None
+            )
             if not value:
                 obj = brain.getObject()
                 value = getattr(obj, field_name, None)
