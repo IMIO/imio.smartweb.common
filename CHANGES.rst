@@ -5,7 +5,9 @@ Changelog
 1.2.51 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4404 : Fix ``ban_physicalpath``: fall back to ``HTTP_HOST`` when ``X-Forwarded-Host``
+  is absent (direct Varnish → Plone topology). Add tests for ``caching.py``.
+  [rdubois]
 
 
 1.2.50 (2026-04-13)
