@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.51 (unreleased)
+1.2.51 (2026-04-16)
 -------------------
 
 - WEB-4404 : Fix ``ban_physicalpath``: fall back to ``HTTP_HOST`` when ``X-Forwarded-Host``
