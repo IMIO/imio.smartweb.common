@@ -54,7 +54,9 @@ class OdwbBaseEndpointGet(OdwbService):
         if headers is None:
             headers = {"Content-Type": "application/json"}
         try:
-            response = requests.post(url, headers=headers, data=payload)
+            response = requests.post(
+                url, headers=headers, data=payload, timeout=(5, 30)
+            )
             return response.text
         except requests.exceptions.ConnectionError as e:
             logger.error("ODWB : Connection error: %s", e)

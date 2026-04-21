@@ -5,6 +5,9 @@ Changelog
 1.2.52 (unreleased)
 -------------------
 
+- Add timeouts for requests
+  [boulch]
+
 - Add _has_children_of_type filter to search_from_json
   [boulch]
 

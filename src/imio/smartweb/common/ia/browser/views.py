@@ -59,7 +59,9 @@ class ProcessSuggestedTitlesView(BaseIAView):
             "expansion_target": 50,
         }
         url = f"{IPA_URL}/suggest-titles"
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(
+            url, headers=self.headers, json=payload, timeout=(5, 30)
+        )
         if response.status_code != 200:
             return current_html
         data = response.json()

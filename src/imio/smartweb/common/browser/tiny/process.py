@@ -23,7 +23,9 @@ class ProcessTextExpandView(BaseIAView):
             "expansion_target": 50,
         }
         url = f"{IPA_URL}/expand-text"
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(
+            url, headers=self.headers, json=payload, timeout=(5, 30)
+        )
         if response.status_code != 200:
             return current_html
         data = response.json()
@@ -51,7 +53,9 @@ class ProcessTextShorterView(BaseIAView):
             "reduction_target": 50,
         }
         url = f"{IPA_URL}/reduce-text"
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(
+            url, headers=self.headers, json=payload, timeout=(5, 30)
+        )
         if response.status_code != 200:
             return current_html
         data = response.json()
@@ -76,7 +80,9 @@ class ProcessTextImproveView(BaseIAView):
         current_html = data.get("html", "")
         payload = {"input": current_html}
         url = f"{IPA_URL}/improve-text"
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(
+            url, headers=self.headers, json=payload, timeout=(5, 30)
+        )
         if response.status_code != 200:
             return current_html
         data = response.json()
@@ -101,7 +107,9 @@ class ProcessTextAccessibleView(BaseIAView):
         current_html = data.get("html", "")
         payload = {"input": current_html}
         url = f"{IPA_URL}/make-accessible"
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(
+            url, headers=self.headers, json=payload, timeout=(5, 30)
+        )
         if response.status_code != 200:
             return current_html
         data = response.json()
