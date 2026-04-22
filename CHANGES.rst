@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.52 (unreleased)
+1.2.52 (2026-04-22)
 -------------------
 
 - Add timeouts for requests
