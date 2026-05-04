@@ -5,7 +5,8 @@ Changelog
 1.2.53 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Reduce ``@search`` ``b_size`` to 3000.
+  [boulch]
 
 
 1.2.52 (2026-04-22)

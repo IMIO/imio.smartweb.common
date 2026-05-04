@@ -3,6 +3,8 @@ import os
 # Used to limit description field on all content types
 DESCRIPTION_MAX_LENGTH = 700
 
+DIRECTORY_URL = os.environ.get("DIRECTORY_URL", "https://annuaire.enwallonie.be")
+
 # Used to translated terms from brains metadatas
 # Must be extended by other products
 VOCABULARIES_MAPPING = {
