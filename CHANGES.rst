@@ -5,7 +5,9 @@ Changelog
 1.2.53 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4423 : Use ``RateLimiter`` in ``geocode_object`` to respect Nominatim's 1 req/s
+  policy and catch ``GeocoderRateLimited`` so bulk imports are not aborted on 429.
+  [remdub]
 
 
 1.2.52 (2026-04-22)

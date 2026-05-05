@@ -85,9 +85,6 @@ class TestUtils(unittest.TestCase):
             )
 
     def test_geolocation(self):
-        attr = {"geocode.return_value": mock.Mock(latitude=1, longitude=2)}
-        geopy.geocoders.Nominatim = mock.Mock(return_value=mock.Mock(**attr))
-
         obj = GeolocatedObject()
         obj.geolocation = Geolocation(0, 0)
 
@@ -97,7 +94,9 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(obj.geolocation.longitude, 0)
 
         obj.street = "My beautiful street"
-        geocoded = geocode_object(obj)
+        with patch("imio.smartweb.common.utils._geocode") as mock_geocode:
+            mock_geocode.return_value = mock.Mock(latitude=1, longitude=2)
+            geocoded = geocode_object(obj)
         self.assertTrue(geocoded)
         self.assertEqual(obj.geolocation.latitude, 1)
         self.assertEqual(obj.geolocation.longitude, 2)
@@ -110,11 +109,21 @@ class TestUtils(unittest.TestCase):
         obj.zipcode = "12345"
         obj.city = "Testville"
         obj.country = "be"
-        with patch("geopy.geocoders.Nominatim") as mock_nominatim, patch(
-            "geopy.exc.GeocoderUnavailable", new=geopy.exc.GeocoderUnavailable
-        ):
-            instance = mock_nominatim.return_value
-            instance.geocode.side_effect = geopy.exc.GeocoderUnavailable
+        with patch("imio.smartweb.common.utils._geocode") as mock_geocode:
+            mock_geocode.side_effect = geopy.exc.GeocoderUnavailable
+            result = geocode_object(obj)
+            self.assertFalse(result)
+
+    def test_geocode_object_geocoder_rate_limited(self):
+        obj = GeolocatedObject()
+        obj.street = "Test Street"
+        obj.number = "1"
+        obj.complement = ""
+        obj.zipcode = "12345"
+        obj.city = "Testville"
+        obj.country = "be"
+        with patch("imio.smartweb.common.utils._geocode") as mock_geocode:
+            mock_geocode.side_effect = geopy.exc.GeocoderRateLimited("rate limited")
             result = geocode_object(obj)
             self.assertFalse(result)
 
