@@ -118,6 +118,20 @@ class TestUtils(unittest.TestCase):
             result = geocode_object(obj)
             self.assertFalse(result)
 
+    def test_geocode_object_geocoder_rate_limited(self):
+        obj = GeolocatedObject()
+        obj.street = "Test Street"
+        obj.number = "1"
+        obj.complement = ""
+        obj.zipcode = "12345"
+        obj.city = "Testville"
+        obj.country = "be"
+        with patch("geopy.geocoders.Nominatim") as mock_nominatim:
+            instance = mock_nominatim.return_value
+            instance.geocode.side_effect = geopy.exc.GeocoderRateLimited
+            result = geocode_object(obj)
+            self.assertFalse(result)
+
     def test_get_uncroppable_scales_infos(self):
         folder = api.content.create(
             container=self.portal,
