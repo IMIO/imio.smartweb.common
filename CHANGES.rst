@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.53 (unreleased)
+1.2.53 (2026-05-05)
 -------------------
 
 - WEB-4423 : Use ``RateLimiter`` in ``geocode_object`` to respect Nominatim's 1 req/s
