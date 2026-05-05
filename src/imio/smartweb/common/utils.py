@@ -24,6 +24,11 @@ from zope.schema.vocabulary import SimpleTerm
 import geopy
 import re
 import unicodedata
+from geopy.extra.rate_limiter import RateLimiter
+
+
+_geolocator = geopy.geocoders.Nominatim(user_agent="contact@imio.be", timeout=3)
+_geocode = RateLimiter(_geolocator.geocode, min_delay_seconds=1, swallow_exceptions=False)
 
 
 def get_vocabulary(voc_name, obj=None):
@@ -80,13 +85,9 @@ def geocode_object(obj):
     address = " ".join(filter(None, [street, entity, country]))
     if not address:
         return
-    from geopy.extra.rate_limiter import RateLimiter
-
-    geolocator = geopy.geocoders.Nominatim(user_agent="contact@imio.be", timeout=3)
-    geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
     location = None
     try:
-        location = geocode(address)
+        location = _geocode(address)
     except (geopy.exc.GeocoderUnavailable, geopy.exc.GeocoderRateLimited):
         api.portal.show_message(
             _(
