@@ -26,7 +26,6 @@ import re
 import unicodedata
 from geopy.extra.rate_limiter import RateLimiter
 
-
 _geolocator = geopy.geocoders.Nominatim(user_agent="contact@imio.be", timeout=3)
 _geocode = RateLimiter(
     _geolocator.geocode, min_delay_seconds=1, swallow_exceptions=False

@@ -43,7 +43,7 @@ def patched_get_resource(context, path):
         return
 
     if isinstance(resource, FilesystemFile):
-        (directory, sep, filename) = path.rpartition("/")
+        directory, sep, filename = path.rpartition("/")
         return context.unrestrictedTraverse(directory).readFile(filename)
 
     # calling the resource may modify the header, i.e. the content-type.
