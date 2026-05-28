@@ -1,4 +1,5 @@
-<p class="lead rich_description"
-   tal:define="description view/description"
+<p tal:define="description view/description;
+              has_container python: getattr(context, 'text_align_container', False)"
+   tal:attributes="class python: 'lead rich_description text-align-container' if has_container else 'lead rich_description'"
    tal:condition="description"
    tal:content="structure description" />
