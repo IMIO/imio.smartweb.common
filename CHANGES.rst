@@ -5,7 +5,8 @@ Changelog
 1.2.54 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- CITIBDC-585: Register topics as a Collection criterion
+  [boulch]
 
 
 1.2.53 (2026-05-05)
