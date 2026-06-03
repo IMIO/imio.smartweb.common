@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.54 (unreleased)
+1.2.54 (2026-06-03)
 -------------------
 
 - CITIBDC-585: Register topics as a Collection criterion
