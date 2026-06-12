@@ -211,7 +211,15 @@
       description="Add directory_url registry record"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/1038_to_1039"
-      />  
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1039_to_1040"
+      title="Upgrade common from 1039 to 1040"
+      description="Remove IA tools from TinyMCE (registry + resource)"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/1039_to_1040"
+      />
 
   <genericsetup:upgradeStep
       title="Configure first official release"
@@ -628,5 +636,16 @@
         import_profile="imio.smartweb.common.upgrades:upgrade_1038_to_1039"
         />
   </genericsetup:upgradeSteps>
-  
+
+  <genericsetup:upgradeSteps
+      profile="imio.smartweb.common:default"
+      source="1039"
+      destination="1040"
+      >
+    <genericsetup:upgradeDepends
+        title="Remove IA tools from TinyMCE (registry + resource)"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1039_to_1040"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

@@ -11,6 +11,9 @@ Changelog
   [boulch]
 
 - Reduce ``@search`` ``b_size`` to 3000.
+- Remove the IA tools from TinyMCE (custom plugins, IA menu and toolbar button),
+  unregister the ``tinymce.js`` resource and drop the now-unused JS files.
+  Upgrade step 1039 -> 1040.
   [boulch]
 
 
