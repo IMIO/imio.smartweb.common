@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # imio/smartweb/core/browser/categorization_button_edit.py
-from imio.smartweb.common.config import APPLICATION_ID
-from imio.smartweb.common.config import PROJECT_ID
+from imio.omnia.core.settings import get_application_id
+from imio.omnia.core.settings import get_organization_id
 from z3c.form import widget as z3c_widget
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
@@ -12,8 +12,14 @@ class EditHtmlSnippetWidget(z3c_widget.Widget):
     """Widget HTML (bouton + JS) avec template ZPT."""
 
     template = ViewPageTemplateFile("html_snippet_widget.pt")
-    x_imio_application = APPLICATION_ID
-    x_imio_municipality = PROJECT_ID
+
+    @property
+    def x_imio_application(self):
+        return get_application_id()
+
+    @property
+    def x_imio_municipality(self):
+        return get_organization_id()
 
     def update(self):
         # edit : context == objet
@@ -58,8 +64,14 @@ class EditHtmlSnippetWidget(z3c_widget.Widget):
 
 class AddHtmlSnippetWidget(z3c_widget.Widget):
     template = ViewPageTemplateFile("html_snippet_widget.pt")
-    x_imio_application = APPLICATION_ID
-    x_imio_municipality = PROJECT_ID
+
+    @property
+    def x_imio_application(self):
+        return get_application_id()
+
+    @property
+    def x_imio_municipality(self):
+        return get_organization_id()
 
     def update(self):
         # ++add++ : context = container ; edit : context = object

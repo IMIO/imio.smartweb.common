@@ -69,6 +69,7 @@ setup(
         "eea.facetednavigation",
         "imio.gdpr",
         "imio.helpers",
+        "imio.omnia.core",
         "collective.privacy",
         "collective.taxonomy",
         "iaweb.privacy",

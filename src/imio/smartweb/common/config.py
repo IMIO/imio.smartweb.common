@@ -1,5 +1,3 @@
-import os
-
 # Used to limit description field on all content types
 DESCRIPTION_MAX_LENGTH = 700
 
@@ -17,10 +15,6 @@ TRANSLATED_VOCABULARIES = [
     "imio.smartweb.vocabulary.Countries",
 ]
 
-IPA_URL = os.environ.get(
-    "IPA_URL", "https://ipa-staging.imio.be/imio/omnia/core/v1/agents"
-)
-
-APPLICATION_ID = os.environ.get("application_id", "iA.Smartweb")
-
-PROJECT_ID = os.environ.get("PROJECT_ID", "smartweb")
+# IA service configuration (URL, application id, organization id) and
+# authentication are now provided by imio.omnia.core (IOmniaCoreAPIService
+# adapter + Plone registry settings), see imio.omnia.core.settings.

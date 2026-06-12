@@ -12,6 +12,15 @@ Changelog
 
 - Reduce ``@search`` ``b_size`` to 3000.
 - Remove the IA tools from TinyMCE (custom plugins, IA menu and toolbar button),
+- OIA-106 : Get the IA service URL and authentication from ``imio.omnia.core``
+  (``IOmniaCoreAPIService`` adapter) instead of the local ``IPA_URL`` /
+  ``APPLICATION_ID`` / ``PROJECT_ID`` constants, which are removed from
+  ``config.py``. Impacts the suggested titles / categorization views and the
+  categorization widget.
+  [boulch]
+
+
+- OIA-106 : Remove the IA tools from TinyMCE (custom plugins, IA menu and toolbar button),
   unregister the ``tinymce.js`` resource and drop the now-unused JS files.
   Upgrade step 1039 -> 1040.
   [boulch]
