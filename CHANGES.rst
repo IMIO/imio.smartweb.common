@@ -12,6 +12,12 @@ Changelog
 
 - Reduce ``@search`` ``b_size`` to 3000.
 - Remove the IA tools from TinyMCE (custom plugins, IA menu and toolbar button),
+- OIA-106 : Pre-fill the ``imio.omnia.core`` control panel fields
+  ``application_id`` and ``organization_id`` from the legacy ``application_id``
+  and ``PROJECT_ID`` env vars (on install and via upgrade step 1040 -> 1041),
+  unless already set.
+  [boulch]
+
 - OIA-106 : Get the IA service URL and authentication from ``imio.omnia.core``
   (``IOmniaCoreAPIService`` adapter) instead of the local ``IPA_URL`` /
   ``APPLICATION_ID`` / ``PROJECT_ID`` constants, which are removed from

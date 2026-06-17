@@ -648,4 +648,20 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="imio.smartweb.common:default"
+      source="1040"
+      destination="1041"
+      >
+    <genericsetup:upgradeDepends
+        title="Install imio.omnia.core (creates the IOmniaCoreSettings registry records)"
+        import_profile="imio.omnia.core:default"
+        />
+    <genericsetup:upgradeStep
+        title="Pre-fill imio.omnia.core IA settings (application_id, organization_id)"
+        description="Initialize the imio.omnia.core control panel from the legacy application_id / PROJECT_ID env vars"
+        handler=".upgrades.prefill_omnia_core_settings"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

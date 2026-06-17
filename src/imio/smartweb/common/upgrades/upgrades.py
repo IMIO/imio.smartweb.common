@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.setuphandlers import set_omnia_core_settings
 from plone import api
 from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.imagecropping.interfaces import IImageCroppingMarker
@@ -18,6 +19,10 @@ PROFILEID = "profile-imio.smartweb.common:default"
 def reload_registry(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runImportStepFromProfile(PROFILEID, "plone.app.registry")
+
+
+def prefill_omnia_core_settings(context):
+    set_omnia_core_settings()
 
 
 def reload_actions(context):
