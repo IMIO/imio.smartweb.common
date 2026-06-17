@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<registry>
+
+  <record name="imio.omnia.IOmniaCoreSettings.core_api_url"
+          interface="imio.omnia.core.browser.controlpanel.IOmniaCoreSettings"
+          field="core_api_url">
+    <value>https://ipa.imio.be/imio/omnia/core</value>
+  </record>
+
+  <record name="imio.omnia.IOmniaCoreSettings.enable_proxy"
+          interface="imio.omnia.core.browser.controlpanel.IOmniaCoreSettings"
+          field="enable_proxy">
+    <value>True</value>
+  </record>
+
+</registry>

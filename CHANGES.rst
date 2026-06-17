@@ -11,11 +11,11 @@ Changelog
   [boulch]
 
 - Reduce ``@search`` ``b_size`` to 3000.
-- Remove the IA tools from TinyMCE (custom plugins, IA menu and toolbar button),
-- OIA-106 : Pre-fill the ``imio.omnia.core`` control panel fields
-  ``application_id`` and ``organization_id`` from the legacy ``application_id``
-  and ``PROJECT_ID`` env vars (on install and via upgrade step 1040 -> 1041),
-  unless already set.
+  [boulch]
+
+- OIA-106 : Remove the IA tools from TinyMCE (custom plugins, IA menu and toolbar button),
+  unregister the ``tinymce.js`` resource and drop the now-unused JS files.
+  Upgrade step 1039 -> 1040.
   [boulch]
 
 - OIA-106 : Get the IA service URL and authentication from ``imio.omnia.core``
@@ -25,10 +25,15 @@ Changelog
   categorization widget.
   [boulch]
 
+- OIA-106 : Pre-fill the ``imio.omnia.core`` control panel fields
+  ``application_id`` and ``organization_id`` from the legacy ``application_id``
+  and ``PROJECT_ID`` env vars (on install and via upgrade step 1040 -> 1041),
+  unless already set.
+  [boulch]
 
-- OIA-106 : Remove the IA tools from TinyMCE (custom plugins, IA menu and toolbar button),
-  unregister the ``tinymce.js`` resource and drop the now-unused JS files.
-  Upgrade step 1039 -> 1040.
+- OIA-106 : Set the ``imio.omnia.core`` control panel default settings
+  (``core_api_url`` and ``enable_proxy``) on install and via upgrade step
+  1041 -> 1042. Configuration moved from ``imio.smartweb.policy``.
   [boulch]
 
 

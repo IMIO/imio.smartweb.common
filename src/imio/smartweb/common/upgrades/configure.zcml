@@ -221,6 +221,14 @@
       directory="profiles/1039_to_1040"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1041_to_1042"
+      title="Upgrade common from 1041 to 1042"
+      description="Set imio.omnia.core default settings (core_api_url and enable_proxy)"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/1041_to_1042"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -661,6 +669,17 @@
         title="Pre-fill imio.omnia.core IA settings (application_id, organization_id)"
         description="Initialize the imio.omnia.core control panel from the legacy application_id / PROJECT_ID env vars"
         handler=".upgrades.prefill_omnia_core_settings"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1041"
+      destination="1042"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Set imio.omnia.core default settings (core_api_url and enable_proxy)"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1041_to_1042"
+        import_steps="plone.app.registry"
         />
   </genericsetup:upgradeSteps>
 
