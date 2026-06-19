@@ -981,6 +981,21 @@
     <value>False</value>
   </record>
 
+  <records interface="plone.app.querystring.interfaces.IQueryField"
+           prefix="plone.app.querystring.field.topics">
+    <value key="title" i18n:translate="">Topics</value>
+    <value key="description" i18n:translate="">Filter content by topic</value>
+    <value key="enabled">True</value>
+    <value key="sortable">False</value>
+    <value key="operations">
+      <element>plone.app.querystring.operation.selection.any</element>
+      <element>plone.app.querystring.operation.selection.all</element>
+      <element>plone.app.querystring.operation.selection.none</element>
+    </value>
+    <value key="vocabulary">imio.smartweb.vocabulary.Topics</value>
+    <value key="group" i18n:translate="">Metadata</value>
+  </records>
+
   <record name="imio.smartweb.common.activate_sending_data_to_odwb_for_staging">
     <field type="plone.registry.field.Bool">
       <title>Activate sending data to odwb for staging</title>

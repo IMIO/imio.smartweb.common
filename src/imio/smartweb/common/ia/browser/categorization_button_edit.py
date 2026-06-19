@@ -6,7 +6,6 @@ from zope import schema
 from z3c.form.interfaces import DISPLAY_MODE
 from z3c.form.widget import FieldWidget
 
-
 FIELD_NAME = "categorization_ia_link"  # Internal id for dummy field
 
 

@@ -4,7 +4,6 @@
 from setuptools import find_packages
 from setuptools import setup
 
-
 long_description = "\n\n".join(
     [
         open("README.rst").read(),
@@ -16,7 +15,7 @@ long_description = "\n\n".join(
 
 setup(
     name="imio.smartweb.common",
-    version="1.2.53.dev0",
+    version="1.2.55.dev0",
     description="Common utilities, vocabularies, taxonomies for imio.smartweb & co products",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/

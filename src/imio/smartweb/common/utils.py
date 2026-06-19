@@ -28,6 +28,12 @@ import logging
 import re
 import requests
 import unicodedata
+from geopy.extra.rate_limiter import RateLimiter
+
+_geolocator = geopy.geocoders.Nominatim(user_agent="contact@imio.be", timeout=3)
+_geocode = RateLimiter(
+    _geolocator.geocode, min_delay_seconds=1, swallow_exceptions=False
+)
 
 logger = logging.getLogger("imio.smartweb.core")
 
@@ -123,14 +129,13 @@ def geocode_object(obj):
     address = " ".join(filter(None, [street, entity, country]))
     if not address:
         return
-    geolocator = geopy.geocoders.Nominatim(user_agent="contact@imio.be", timeout=3)
     location = None
     try:
-        location = geolocator.geocode(address)
-    except geopy.exc.GeocoderUnavailable:
+        location = _geocode(address)
+    except (geopy.exc.GeocoderUnavailable, geopy.exc.GeocoderRateLimited):
         api.portal.show_message(
             _(
-                "Error: Geolocation service is unavailable. Your content is not geocoded."
+                "Error: Geolocation service is unavailable or rate limited. Your content is not geocoded."
             ),
             request=getRequest(),
             type="warning",

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
+
 from imio.smartweb.common.testing import (
     IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING,
 )  # noqa: E501

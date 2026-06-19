@@ -200,10 +200,18 @@
   <genericsetup:registerProfile
       name="upgrade_1037_to_1038"
       title="Upgrade common from 1037 to 1038"
-      description="Add directory_url registry record"
+      description="Register topics as a Collection criterion (plone.app.querystring)"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/1037_to_1038"
       />
+
+  <genericsetup:registerProfile
+      name="upgrade_1038_to_1039"
+      title="Upgrade common from 1038 to 1039"
+      description="Add directory_url registry record"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/1038_to_1039"
+      />  
 
   <genericsetup:upgradeStep
       title="Configure first official release"
@@ -605,9 +613,20 @@
       destination="1038"
       >
     <genericsetup:upgradeDepends
-        title="Add directory_url registry record"
+        title="Register topics as a Collection criterion (plone.app.querystring)"
         import_profile="imio.smartweb.common.upgrades:upgrade_1037_to_1038"
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="imio.smartweb.common:default"
+      source="1038"
+      destination="1039"
+      >
+    <genericsetup:upgradeDepends
+        title="Add directory_url registry record"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1038_to_1039"
+        />
+  </genericsetup:upgradeSteps>
+  
 </configure>

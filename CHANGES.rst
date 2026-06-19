@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.53 (unreleased)
+1.2.55 (unreleased)
 -------------------
 
 - Resolve the directory base URL for the remote entities vocabulary from the
@@ -12,6 +12,21 @@ Changelog
 
 - Reduce ``@search`` ``b_size`` to 3000.
   [boulch]
+
+
+1.2.54 (2026-06-03)
+-------------------
+
+- CITIBDC-585: Register topics as a Collection criterion
+  [boulch]
+
+
+1.2.53 (2026-05-05)
+-------------------
+
+- WEB-4423 : Use ``RateLimiter`` in ``geocode_object`` to respect Nominatim's 1 req/s
+  policy and catch ``GeocoderRateLimited`` so bulk imports are not aborted on 429.
+  [remdub]
 
 
 1.2.52 (2026-04-22)
