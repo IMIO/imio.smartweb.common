@@ -5,6 +5,11 @@ Changelog
 1.2.53 (unreleased)
 -------------------
 
+- Resolve the directory base URL for the remote entities vocabulary from the
+  ``imio.smartweb.common.directory_url`` registry record (falls back to the
+  ``DIRECTORY_URL`` env var / default).
+  [boulch]
+
 - Reduce ``@search`` ``b_size`` to 3000.
   [boulch]
 

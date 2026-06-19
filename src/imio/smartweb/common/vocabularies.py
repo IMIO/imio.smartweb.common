@@ -165,7 +165,13 @@ ScalesVocabulary = ScalesVocabularyFactory()
 
 class RemoteDirectoryEntitiesVocabularyFactory:
     def __call__(self, context=None):
-        return get_entities_vocabulary("imio.directory.Entity", DIRECTORY_URL)
+        directory_url = (
+            api.portal.get_registry_record(
+                "imio.smartweb.common.directory_url", default=""
+            )
+            or DIRECTORY_URL
+        )
+        return get_entities_vocabulary("imio.directory.Entity", directory_url)
 
 
 RemoteDirectoryEntitiesVocabulary = RemoteDirectoryEntitiesVocabularyFactory()
