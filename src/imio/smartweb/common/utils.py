@@ -20,9 +20,13 @@ from zope.i18n import translate
 from zope.schema import getFields
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 import geopy
+import json
+import logging
 import re
+import requests
 import unicodedata
 from geopy.extra.rate_limiter import RateLimiter
 
@@ -30,6 +34,26 @@ _geolocator = geopy.geocoders.Nominatim(user_agent="contact@imio.be", timeout=3)
 _geocode = RateLimiter(
     _geolocator.geocode, min_delay_seconds=1, swallow_exceptions=False
 )
+
+logger = logging.getLogger("imio.smartweb.core")
+
+
+def get_json(url, auth=None, timeout=5):
+    language = api.portal.get_current_language()
+    headers = {"Accept": "application/json", "Cookie": f"I18N_LANGUAGE={language}"}
+    if auth is not None:
+        headers["Authorization"] = auth
+    try:
+        response = requests.get(url, headers=headers, timeout=timeout)
+    except requests.exceptions.Timeout:
+        logger.warning(f"Timeout raised for requests : {url}")
+        return None
+    except Exception:
+        return None
+    if response.status_code != 200:
+        return None
+    if response.text:
+        return json.loads(response.text)
 
 
 def get_vocabulary(voc_name, obj=None):
@@ -49,6 +73,25 @@ def get_term_from_vocabulary(vocabulary, value):
     except LookupError:
         return SimpleTerm(value=value, title=value)
     return term
+
+
+def get_entities_vocabulary(portal_type, base_url):
+    params = [
+        "portal_type={}".format(portal_type),
+        "sort_on=sortable_title",
+        "b_size=3000",
+        "metadata_fields=UID",
+    ]
+    url = "{}/@search?{}".format(base_url, "&".join(params))
+    json_entities = get_json(url)
+    if json_entities is None or len(json_entities.get("items", [])) == 0:
+        return SimpleVocabulary([])
+    return SimpleVocabulary(
+        [
+            SimpleTerm(value=elem["UID"], title=elem["title"])
+            for elem in json_entities.get("items")
+        ]
+    )
 
 
 def translate_vocabulary_term(vocabulary, term, lang=None):

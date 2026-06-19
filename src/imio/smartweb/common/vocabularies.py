@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+from imio.smartweb.common.config import DIRECTORY_URL
+from imio.smartweb.common.utils import get_entities_vocabulary
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.i18n.normalizer.interfaces import IIDNormalizer
@@ -160,3 +161,17 @@ class ScalesVocabularyFactory:
 
 
 ScalesVocabulary = ScalesVocabularyFactory()
+
+
+class RemoteDirectoryEntitiesVocabularyFactory:
+    def __call__(self, context=None):
+        directory_url = (
+            api.portal.get_registry_record(
+                "imio.smartweb.common.directory_url", default=""
+            )
+            or DIRECTORY_URL
+        )
+        return get_entities_vocabulary("imio.directory.Entity", directory_url)
+
+
+RemoteDirectoryEntitiesVocabulary = RemoteDirectoryEntitiesVocabularyFactory()

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<registry>
+
+  <record name="imio.smartweb.common.directory_url">
+    <field type="plone.registry.field.TextLine">
+      <title>Directory base URL</title>
+      <description>Base URL of the directory used to build the remote entities vocabulary (e.g. https://annuaire.enwallonie.be). Leave empty to fall back on the DIRECTORY_URL environment variable / default.</description>
+      <required>False</required>
+    </field>
+    <value></value>
+  </record>
+
+</registry>
