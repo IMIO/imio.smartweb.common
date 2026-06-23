@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.55 (unreleased)
+1.2.55 (2026-06-23)
 -------------------
 
 - Resolve the directory base URL for the remote entities vocabulary from the
