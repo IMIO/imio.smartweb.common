@@ -5,6 +5,12 @@ Changelog
 1.2.55 (unreleased)
 -------------------
 
+- OIA-106: Remove the legacy IA TinyMCE plugins SELECTIVELY in the 1039->1040
+  upgrade (Python handler) instead of purging the whole ``plone.custom_plugins``
+  list, so plugins appended by other add-ons (e.g. ``omnia`` from
+  imio.omnia.tinymce) are preserved regardless of upgrade ordering.
+  [boulch]
+
 - Resolve the directory base URL for the remote entities vocabulary from the
   ``imio.smartweb.common.directory_url`` registry record (falls back to the
   ``DIRECTORY_URL`` env var / default).

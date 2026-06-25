@@ -650,8 +650,13 @@
       source="1039"
       destination="1040"
       >
+    <genericsetup:upgradeStep
+        title="Remove the legacy IA TinyMCE custom plugins (selective)"
+        description="Remove only the legacy IA entries from plone.custom_plugins, preserving other plugins (e.g. omnia from imio.omnia.tinymce)."
+        handler=".upgrades.remove_legacy_ia_custom_plugins"
+        />
     <genericsetup:upgradeDepends
-        title="Remove IA tools from TinyMCE (registry + resource)"
+        title="Drop the IA menu and toolbar button from TinyMCE"
         import_profile="imio.smartweb.common.upgrades:upgrade_1039_to_1040"
         />
   </genericsetup:upgradeSteps>

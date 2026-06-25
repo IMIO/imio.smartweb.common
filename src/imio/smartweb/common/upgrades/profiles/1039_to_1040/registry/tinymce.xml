@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <registry>
 
-  <!-- Remove the IA tools from TinyMCE: empty the custom plugins list
-       (purge defaults to true, so the existing value is replaced). -->
-  <record name="plone.custom_plugins"
-          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
-          field="custom_plugins"
-  >
-    <field type="plone.registry.field.List">
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value />
-  </record>
+  <!-- NB: the legacy IA entries in plone.custom_plugins are removed *selectively*
+       by the .upgrades.remove_legacy_ia_custom_plugins handler (see
+       upgrades/configure.zcml). We must NOT purge the whole list here, otherwise
+       other plugins appended to the same shared record (e.g. "omnia" from
+       imio.omnia.tinymce) would be wiped depending on upgrade ordering. -->
 
   <!-- Drop the "IA" menu without the ia_menuitems entry. -->
   <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
