@@ -9,7 +9,9 @@
       directory="static"
       name="imio.smartweb.common.ia"
       type="plone"
-  />    
+  />
+
+  <adapter factory=".services.TokenAuthCoreAPIService" />
 
   <browser:page
       name="processsuggestedtitles"
