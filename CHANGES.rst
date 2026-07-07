@@ -5,6 +5,9 @@ Changelog
 1.2.55 (unreleased)
 -------------------
 
+- update to Plone 6.1.5 and buidlout 5-x versions
+  [bouch]
+
 - OIA-106: Remove the legacy IA TinyMCE plugins SELECTIVELY in the 1039->1040
   upgrade (Python handler) instead of purging the whole ``plone.custom_plugins``
   list, so plugins appended by other add-ons (e.g. ``omnia`` from
