@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <version>1042</version>
+  <version>1043</version>
   <dependencies>
     <dependency>profile-imio.omnia.core:default</dependency>
     <dependency>profile-plone.restapi:default</dependency>
