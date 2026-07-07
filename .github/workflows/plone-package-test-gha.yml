@@ -7,37 +7,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  black:
-    runs-on: gha-runners-smartweb
-    steps:
-    - name: Checkout codebase
-      uses: actions/checkout@v4
-    - name: Run check
-      uses: IMIO/gha/code-analysis-notify@v6
-      with:
-        BASE_DIR: 'src'
-        CHECK: 'black'
-        PATH: |
-          imio/smartweb/common
-        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
-
-  test:
-    uses: IMIO/gha-workflows/.github/workflows/package-test-uv.yml@v1
-    strategy:
-      matrix:
-        python_version: ['3.12', '3.13']
-        plone_version: ['6.1']
+  full-test:
+    uses: IMIO/gha-workflows/.github/workflows/package-full-test.yml@v1
     secrets:
       mattermost_webhook_url: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
     with:
-      buildout_config_file: test_plone-${{ matrix.plone_version }}.cfg
-      python_version: ${{ matrix.python_version }}
-      requirements_file: requirements-${{ matrix.plone_version }}.txt
+      check_path: |
+        imio/smartweb/common
+      buildout_config_file: test_plone6.cfg
+      python_versions: '["3.12", "3.13"]'
       runner_label: gha-runners-smartweb
       test_command: TZ=UTC bin/test
-
-  coverage:
-    uses: IMIO/gha-workflows/.github/workflows/package-test-coverage.yml@v1
-    with:
       upload_to_coveralls: true
-      runner_label: gha-runners-smartweb

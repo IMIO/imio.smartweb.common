@@ -13,7 +13,6 @@ from unittest import mock
 import json
 import unittest
 
-
 MODULE = "imio.smartweb.common.browser.collective_taxonomy_controlpanel"
 
 

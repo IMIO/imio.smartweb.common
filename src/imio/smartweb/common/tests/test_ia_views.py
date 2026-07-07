@@ -12,7 +12,6 @@ from unittest.mock import patch
 import json
 import unittest
 
-
 VIEWS = "imio.smartweb.common.ia.browser.views"
 
 

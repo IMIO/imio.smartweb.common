@@ -13,7 +13,6 @@ from z3c.form.interfaces import DISPLAY_MODE
 
 import unittest
 
-
 PREFIXED_KEY = f"form.widgets.{FIELD_NAME}"
 
 
