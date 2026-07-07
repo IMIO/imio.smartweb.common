@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+
+  <!-- NB: the legacy IA entries in plone.custom_plugins are removed *selectively*
+       by the .upgrades.remove_legacy_ia_custom_plugins handler (see
+       upgrades/configure.zcml). We must NOT purge the whole list here, otherwise
+       other plugins appended to the same shared record (e.g. "omnia" from
+       imio.omnia.tinymce) would be wiped depending on upgrade ordering. -->
+
+  <!-- Drop the "IA" menu without the ia_menuitems entry. -->
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.menu"
+  >
+    <value purge="true">
+        {
+            "file": {
+                "title": "File",
+                "items": ""
+            },
+            "tools": {
+                "title": "Tools",
+                "items": ""
+            },
+            "table": {
+                "title": "Table",
+                "items": ""
+            },
+            "edit": {
+                "title": "Edit",
+                "items": "undo redo | cut copy paste | searchreplace selectall"
+            },
+            "format": {
+                "title": "Format",
+                "items": ""
+            },
+            "insert": {
+              "title": "Insert",
+              "items": "hr"
+            },
+            "table": {
+                "title": "Table",
+                "items": "inserttable deletetable | cell row column"
+            },
+            "view": {
+                "title": "View",
+                "items": "visualblocks preview fullscreen"
+            }
+        }
+        </value>
+  </record>
+
+  <!-- Drop the "ia" button from the toolbar. -->
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.toolbar"
+  >
+    <value>undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen</value>
+  </record>
+
+</registry>

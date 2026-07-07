@@ -5,7 +5,7 @@ from imio.smartweb.common.testing import (
     IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING,
 )  # noqa: E501
 from plone import api
-from plone.app.testing import setRoles, TEST_USER_ID
+from plone.app.testing import applyProfile, setRoles, TEST_USER_ID
 from Products.CMFPlone.utils import get_installer
 
 import unittest
@@ -24,6 +24,19 @@ class TestSetup(unittest.TestCase):
     def test_product_installed(self):
         """Test if imio.smartweb.common is installed."""
         self.assertTrue(self.installer.is_product_installed("imio.smartweb.common"))
+
+    def test_omnia_core_settings_installed(self):
+        """The default profile sets the imio.omnia.core default settings."""
+        applyProfile(self.portal, "imio.smartweb.common:default")
+        self.assertEqual(
+            api.portal.get_registry_record(
+                "imio.omnia.IOmniaCoreSettings.core_api_url"
+            ),
+            "https://ipa.imio.be/imio/omnia/core",
+        )
+        self.assertTrue(
+            api.portal.get_registry_record("imio.omnia.IOmniaCoreSettings.enable_proxy")
+        )
 
     def test_browserlayer(self):
         """Test that IImioSmartwebCommonLayer is registered."""

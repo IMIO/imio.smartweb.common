@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.setuphandlers import set_omnia_core_settings
 from plone import api
 from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.imagecropping.interfaces import IImageCroppingMarker
@@ -14,10 +15,43 @@ import logging
 logger = logging.getLogger("imio.smartweb.common")
 PROFILEID = "profile-imio.smartweb.common:default"
 
+# Legacy IA TinyMCE plugins introduced by the 1036->1037 upgrade. They are the
+# exact entries to drop in 1039->1040 (the IA tools moved to imio.omnia.tinymce).
+LEGACY_IA_CUSTOM_PLUGINS = (
+    "text_expand|++resource++tinymce.js",
+    "text_shorter|++resource++tinymce.js",
+    "text_improve|++resource++tinymce.js",
+    "text_accessible|++resource++tinymce.js",
+    "ia|++resource++tinymce.js",
+    "ia_menuitems|++resource++tinymce.js",
+)
+
+
+def remove_legacy_ia_custom_plugins(context):
+    """Remove only the legacy IA entries from plone.custom_plugins.
+
+    Purging the whole list (as a declarative registry import would) wipes any
+    other plugin appended to the same shared record, e.g. the "omnia" plugin
+    from imio.omnia.tinymce, depending on the order independent upgrade steps
+    run. Removing the known legacy entries selectively avoids that.
+    """
+    registry = api.portal.get_tool("portal_registry")
+    key = "plone.custom_plugins"
+    current = list(registry[key])
+    kept = [p for p in current if p not in LEGACY_IA_CUSTOM_PLUGINS]
+    if kept != current:
+        registry[key] = kept
+        removed = [p for p in current if p in LEGACY_IA_CUSTOM_PLUGINS]
+        logger.info("Removed legacy IA custom plugins %r; kept %r", removed, kept)
+
 
 def reload_registry(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runImportStepFromProfile(PROFILEID, "plone.app.registry")
+
+
+def prefill_omnia_core_settings(context):
+    set_omnia_core_settings()
 
 
 def reload_actions(context):

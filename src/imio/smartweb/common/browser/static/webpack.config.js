@@ -9,7 +9,6 @@ module.exports = {
     entry: {
         view: './src/view.js',
         edit: './src/edit.js',
-        tinymce: './src/tinymce.js',
     },
     output: {
         filename: 'smartweb-common-[name]-compiled.js',

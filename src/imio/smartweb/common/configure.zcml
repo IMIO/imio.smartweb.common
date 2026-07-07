@@ -12,6 +12,7 @@
       />
   <include package="plone.app.imagecropping" />
   <include package="imio.gdpr" />
+  <include package="imio.omnia.core" />
   <include package="imio.smartweb.locales" />
 
   <include file="adapters.zcml" />
