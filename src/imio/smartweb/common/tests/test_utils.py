@@ -2,11 +2,22 @@
 
 from imio.smartweb.common.interfaces import IAddress
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
+from imio.smartweb.common.utils import _get_pil_mimetype
+from imio.smartweb.common.utils import activate_sending_data_to_odwb_for_staging
 from imio.smartweb.common.utils import clean_invisible_char
 from imio.smartweb.common.utils import geocode_object
+from imio.smartweb.common.utils import get_entities_vocabulary
+from imio.smartweb.common.utils import get_image_format
+from imio.smartweb.common.utils import get_json
+from imio.smartweb.common.utils import get_parent_of_type
+from imio.smartweb.common.utils import get_parent_providing
 from imio.smartweb.common.utils import get_term_from_vocabulary
 from imio.smartweb.common.utils import get_uncroppable_scales_infos
+from imio.smartweb.common.utils import get_vocabulary
+from imio.smartweb.common.utils import is_log_active
+from imio.smartweb.common.utils import is_staging_or_local
 from imio.smartweb.common.utils import remove_cropping
+from imio.smartweb.common.utils import rich_description
 from imio.smartweb.common.utils import show_warning_for_scales
 from imio.smartweb.common.utils import translate_vocabulary_term
 from plone import api
@@ -14,17 +25,32 @@ from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.base.interfaces import IPloneSiteRoot
 from plone.formwidget.geolocation.geolocation import Geolocation
 from plone.namedfile.file import NamedBlobImage
 from Products.statusmessages.interfaces import IStatusMessage
+from types import SimpleNamespace
 from unittest import mock
+from unittest.mock import MagicMock
 from unittest.mock import patch
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import implementer
+from zope.interface import Interface
 
 import geopy
 import os
+import requests
 import unittest
+
+
+class IMarkerNobodyProvides(Interface):
+    """Marker interface no object in the hierarchy provides."""
+
+
+class FakeResponse:
+    def __init__(self, status_code=200, text=""):
+        self.status_code = status_code
+        self.text = text
 
 
 @implementer(IAddress)
@@ -259,3 +285,185 @@ class TestUtils(unittest.TestCase):
 
         clean_txt = clean_invisible_char(None)
         self.assertIsNone(clean_txt)
+
+    # ------------------------------
+    # get_json
+    # ------------------------------
+    def test_get_json_success_with_auth(self):
+        with patch(
+            "imio.smartweb.common.utils.requests.get",
+            return_value=FakeResponse(200, '{"a": 1}'),
+        ) as mget:
+            result = get_json("http://x", auth="Bearer TOKEN")
+        self.assertEqual(result, {"a": 1})
+        headers = mget.call_args.kwargs["headers"]
+        self.assertEqual(headers["Authorization"], "Bearer TOKEN")
+
+    def test_get_json_timeout_returns_none(self):
+        with patch(
+            "imio.smartweb.common.utils.requests.get",
+            side_effect=requests.exceptions.Timeout,
+        ):
+            self.assertIsNone(get_json("http://x"))
+
+    def test_get_json_generic_error_returns_none(self):
+        with patch(
+            "imio.smartweb.common.utils.requests.get",
+            side_effect=Exception("boom"),
+        ):
+            self.assertIsNone(get_json("http://x"))
+
+    def test_get_json_non_200_returns_none(self):
+        with patch(
+            "imio.smartweb.common.utils.requests.get",
+            return_value=FakeResponse(404, "not found"),
+        ):
+            self.assertIsNone(get_json("http://x"))
+
+    def test_get_json_empty_body_returns_none(self):
+        with patch(
+            "imio.smartweb.common.utils.requests.get",
+            return_value=FakeResponse(200, ""),
+        ):
+            self.assertIsNone(get_json("http://x"))
+
+    # ------------------------------
+    # get_vocabulary
+    # ------------------------------
+    def test_get_vocabulary(self):
+        # obj is None -> falls back to the portal
+        voc = get_vocabulary("imio.smartweb.vocabulary.Topics")
+        self.assertEqual(len(voc), 17)
+        # explicit obj branch
+        voc = get_vocabulary("imio.smartweb.vocabulary.IAm", self.portal)
+        self.assertEqual(len(voc), 10)
+
+    # ------------------------------
+    # get_entities_vocabulary
+    # ------------------------------
+    def test_get_entities_vocabulary_with_items(self):
+        payload = {"items": [{"UID": "uid1", "title": "Entity 1"}]}
+        with patch("imio.smartweb.common.utils.get_json", return_value=payload):
+            voc = get_entities_vocabulary("imio.directory.Entity", "http://dir")
+        self.assertEqual([t.value for t in voc], ["uid1"])
+        self.assertEqual(voc.getTerm("uid1").title, "Entity 1")
+
+    def test_get_entities_vocabulary_none_or_empty(self):
+        with patch("imio.smartweb.common.utils.get_json", return_value=None):
+            self.assertEqual(len(get_entities_vocabulary("t", "http://dir")), 0)
+        with patch("imio.smartweb.common.utils.get_json", return_value={"items": []}):
+            self.assertEqual(len(get_entities_vocabulary("t", "http://dir")), 0)
+
+    # ------------------------------
+    # translate_vocabulary_term (uncovered branches)
+    # ------------------------------
+    def test_translate_vocabulary_term_non_translated_vocabulary(self):
+        # Topics is not in TRANSLATED_VOCABULARIES -> factory(portal) branch
+        self.assertEqual(
+            translate_vocabulary_term("imio.smartweb.vocabulary.Topics", "culture"),
+            "Culture",
+        )
+
+    def test_translate_vocabulary_term_returns_empty_when_term_is_none(self):
+        vocabulary = MagicMock()
+        vocabulary.getTerm.return_value = None
+        factory = MagicMock(return_value=vocabulary)
+        with patch("imio.smartweb.common.utils.getUtility", return_value=factory):
+            result = translate_vocabulary_term(
+                "imio.smartweb.vocabulary.Topics", "whatever"
+            )
+        self.assertEqual(result, "")
+
+    # ------------------------------
+    # geocode_object (no location found)
+    # ------------------------------
+    def test_geocode_object_no_location_returns_false(self):
+        obj = GeolocatedObject()
+        obj.street = "Nowhere street"
+        with patch("imio.smartweb.common.utils._geocode", return_value=None):
+            self.assertFalse(geocode_object(obj))
+
+    # ------------------------------
+    # rich_description
+    # ------------------------------
+    def test_rich_description(self):
+        result = rich_description("**bold** text\r\nsecond line")
+        self.assertIn("<strong>bold</strong>", result)
+        self.assertIn("<br/>", result)
+        self.assertNotIn("\r\n", result)
+
+    # ------------------------------
+    # registry-backed flags
+    # ------------------------------
+    def test_is_log_active(self):
+        self.assertFalse(is_log_active())
+        with patch("plone.api.portal.get_registry_record", return_value=True):
+            self.assertTrue(is_log_active())
+
+    def test_activate_sending_data_to_odwb_for_staging(self):
+        self.assertFalse(activate_sending_data_to_odwb_for_staging())
+        with patch("plone.api.portal.get_registry_record", return_value=True):
+            self.assertTrue(activate_sending_data_to_odwb_for_staging())
+
+    # ------------------------------
+    # is_staging_or_local
+    # ------------------------------
+    def _patch_portal_url(self, url):
+        portal = SimpleNamespace(absolute_url=lambda: url)
+        return patch("plone.api.portal.get", return_value=portal)
+
+    def test_is_staging_or_local(self):
+        cases = {
+            "http://localhost:8080/plone": True,
+            "http://127.0.0.1/plone": True,
+            "https://staging.example.com": True,
+            "https://preprod.example.com": True,
+            "https://www.example.com": False,
+            "http://nohost/plone": False,
+        }
+        for url, expected in cases.items():
+            with self._patch_portal_url(url):
+                self.assertEqual(is_staging_or_local(), expected, url)
+
+    # ------------------------------
+    # parent traversal helpers
+    # ------------------------------
+    def test_get_parent_providing(self):
+        folder = api.content.create(container=self.portal, type="Folder", title="F")
+        doc = api.content.create(container=folder, type="Document", title="D")
+        # The site root is found walking up the acquisition chain
+        self.assertTrue(
+            IPloneSiteRoot.providedBy(get_parent_providing(doc, IPloneSiteRoot))
+        )
+        # No ancestor provides this marker -> None
+        self.assertIsNone(get_parent_providing(doc, IMarkerNobodyProvides))
+
+    def test_get_parent_of_type(self):
+        folder = api.content.create(container=self.portal, type="Folder", title="F")
+        doc = api.content.create(container=folder, type="Document", title="D")
+        self.assertEqual(get_parent_of_type(doc, "Folder"), folder)
+        self.assertIsNone(get_parent_of_type(doc, "NonExistentType"))
+
+    # ------------------------------
+    # image format helpers
+    # ------------------------------
+    def test_get_pil_mimetype(self):
+        self.assertEqual(_get_pil_mimetype(SimpleNamespace(format="PNG")), "image/png")
+        self.assertEqual(
+            _get_pil_mimetype(SimpleNamespace(format="UNKNOWN")),
+            "application/octet-stream",
+        )
+
+    def test_get_image_format_from_content_type(self):
+        value = SimpleNamespace(contentType="image/png")
+        self.assertEqual(get_image_format(value), "image/png")
+
+    def test_get_image_format_detected_from_data(self):
+        test_image = os.path.join(os.path.dirname(__file__), "resources/image.png")
+        with open(test_image, "rb") as fd:
+            data = fd.read()
+        # No contentType attribute -> falls back to PIL detection
+        self.assertEqual(get_image_format(SimpleNamespace(data=data)), "image/png")
+
+    def test_get_image_format_invalid_data_returns_none(self):
+        self.assertIsNone(get_image_format(SimpleNamespace(data=b"not an image")))
