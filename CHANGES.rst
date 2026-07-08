@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.57 (unreleased)
+1.2.57 (2026-07-08)
 -------------------
 
 - Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common 
