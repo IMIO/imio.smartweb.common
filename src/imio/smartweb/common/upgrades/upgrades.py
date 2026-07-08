@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.interfaces import IAddress
 from imio.smartweb.common.setuphandlers import set_omnia_core_settings
 from plone import api
 from plone.app.imagecropping import PAI_STORAGE_KEY
@@ -180,6 +181,28 @@ def set_effective_date_equal_to_created_date(context):
             obj = brain.getObject()
             obj.setEffectiveDate(obj.created())
             obj.reindexObject(idxs=["effective"])
+
+
+def migrate_zipcode_to_text(context):
+    """The IAddress zipcode field changed from Int to TextLine.
+
+    Existing content still stores the value as an int, which the text widget
+    would coerce on the fly but which is inconsistent (and breaks the new
+    digits-only constraint round-trip). Convert stored ints to strings once.
+    """
+    with api.env.adopt_user(username="admin"):
+        brains = api.content.find(object_provides=IAddress)
+        migrated = 0
+        for brain in brains:
+            obj = brain.getObject()
+            zipcode = getattr(obj, "zipcode", None)
+            if isinstance(zipcode, int):
+                obj.zipcode = str(zipcode)
+                migrated += 1
+                logger.info(
+                    f"Migrated zipcode {zipcode!r} -> {obj.zipcode!r} on {obj.absolute_url()}"
+                )
+        logger.info(f"Migrated {migrated} zipcode value(s) from int to text")
 
 
 def reindex_solr(context):

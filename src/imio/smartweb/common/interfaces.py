@@ -9,6 +9,14 @@ from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.supermodel import model
 from plone.theme.interfaces import IDefaultPloneLayer
 from zope.interface import Interface
+from zope.interface import Invalid
+
+
+def validate_zipcode(value):
+    """Ensure that a zipcode only contains digits."""
+    if value and not value.isdigit():
+        raise Invalid(_("The zipcode must contain only digits."))
+    return True
 
 
 class IImioSmartwebCommonLayer(
@@ -35,7 +43,11 @@ class IAddress(model.Schema):
     street = schema.TextLine(title=_("Street"), required=False)
     number = schema.TextLine(title=_("Number"), required=False)
     complement = schema.TextLine(title=_("Complement"), required=False)
-    zipcode = schema.Int(title=_("Zipcode"), required=False)
+    zipcode = schema.TextLine(
+        title=_("Zipcode"),
+        required=False,
+        constraint=validate_zipcode,
+    )
     city = schema.TextLine(title=_("City"), required=False)
     country = schema.Choice(
         title=_("Country"),

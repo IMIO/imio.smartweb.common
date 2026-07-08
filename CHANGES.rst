@@ -5,7 +5,9 @@ Changelog
 1.2.57 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-53555 : Use schema.TextLine (with validator) instead of schema.Int for zipcode field to avoid an awkward space 
+  (ex : 5 300 when editing the field) + upgrade steps
+  [boulch]
 
 
 1.2.56 (2026-07-07)

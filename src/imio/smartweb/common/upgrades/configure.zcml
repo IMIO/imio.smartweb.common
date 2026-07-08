@@ -688,4 +688,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Migrate IAddress zipcode values from int to text"
+      description="The zipcode field changed from Int to TextLine; convert stored int values to strings."
+      profile="imio.smartweb.common:default"
+      source="1042"
+      destination="1043"
+      handler=".upgrades.migrate_zipcode_to_text"
+      />
+
 </configure>
