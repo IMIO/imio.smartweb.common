@@ -5,7 +5,17 @@ Changelog
 1.2.58 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEBBDC-2835 : Add a shared contact layer extracted from ``imio.smartweb.core``'s contact section
+  Reuse the phones/mails/urls row schemas (``rows.py``), the
+  ``IContactInformationsGrids`` schema mixin carrying the three read-only
+  datagrids, the row-building helpers (``directory.py``) and the
+  ``ContactInformationsGridMixin`` form mixin (``forms.py``). 
+  Also moves ``FrozenLabelTextFieldWidget`` to ``imio.smartweb.common.widgets.frozen_label``
+  and the ``imio.smartweb.vocabulary.{Phone,Mail,Url}DisplayColumns`` vocabularies
+  Row schemas gain a hidden ``type_token`` column holding the raw remote type
+  token, for consumers that publish the stored row rather than re-reading the
+  live directory payload.
+  [boulch]
 
 
 1.2.57 (2026-07-08)
