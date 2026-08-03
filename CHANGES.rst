@@ -5,7 +5,10 @@ Changelog
 1.2.58 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix registry export (control panel / GenericSetup) crashing with
+  ``TypeError: Argument must be bytes or unicode, got 'NoneType'`` on
+  interface-aware records without a fieldName (e.g. ``smartweb.icon.*``)
+  [boulch]
 
 
 1.2.57 (2026-07-08)
