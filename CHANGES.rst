@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.58 (unreleased)
+1.2.58 (2026-08-11)
 -------------------
 
 - Remove the ``TokenAuthCoreAPIService`` adapter (WEB-4373 workaround): since
