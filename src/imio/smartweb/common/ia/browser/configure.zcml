@@ -11,8 +11,6 @@
       type="plone"
   />
 
-  <adapter factory=".services.TokenAuthCoreAPIService" />
-
   <browser:page
       name="processsuggestedtitles"
       for="*"

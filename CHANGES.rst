@@ -5,6 +5,14 @@ Changelog
 1.2.58 (unreleased)
 -------------------
 
+- Remove the ``TokenAuthCoreAPIService`` adapter (WEB-4373 workaround): since
+  imio.omnia.core 1.0 (OIA-241) the Omnia Core API authenticates itself with a
+  Keycloak SSO-Apps token, and authlib overwrites the ``Authorization`` header
+  we injected, so the adapter only spent an extra ``imio.helpers.ws``
+  token round-trip per request. Drops the ``imio.helpers`` dependency and
+  requires ``imio.omnia.core >= 1.0``.
+  [boulch]
+
 - Cache (per language) the remote directory entities vocabulary for 300s
   Memoize the German topics and iam vocabularies
   [boulch]
