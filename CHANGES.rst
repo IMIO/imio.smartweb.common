@@ -5,7 +5,12 @@ Changelog
 1.2.59 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4461 : Add a "Save and publish" button on the add and edit forms, enabled per content
+  type through the new ``imio.smartweb.save_and_publish`` behavior. The button is
+  only offered to users who may actually publish: on the add form the workflow
+  guard is checked against the container, so an editor without the publication
+  permission never sees the button
+  [boulch]
 
 
 1.2.58 (2026-08-11)
