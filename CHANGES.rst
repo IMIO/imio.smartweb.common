@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.59 (unreleased)
+1.2.59 (2026-08-24)
 -------------------
 
 - WEB-4461 : Add a "Save and publish" button on the add and edit forms, enabled per content
