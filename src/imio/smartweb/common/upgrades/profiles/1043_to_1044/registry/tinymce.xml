@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+
+  <!-- Drop ++theme++barceloneta/tinymce/tinymce-formats.css from
+       plone.content_css so that the importcss TinyMCE plugin stops appending
+       .highlight-inline and p.highlight-paragraph to the Formats menu. -->
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.content_css"
+  >
+    <value purge="true">
+      <element>++theme++barceloneta/tinymce/tinymce-ui-content.css</element>
+    </value>
+  </record>
+
+</registry>

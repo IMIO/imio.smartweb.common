@@ -5,7 +5,11 @@ Changelog
 1.2.60 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4485 : Restore the ``plone.content_css`` purge lost in 1.2.29, which let the
+  TinyMCE ``importcss`` plugin re-add the barceloneta ``.highlight-inline`` and
+  ``p.highlight-paragraph`` styles to the Formats menu.
+  [boulch]
+
 
 
 1.2.59 (2026-08-24)

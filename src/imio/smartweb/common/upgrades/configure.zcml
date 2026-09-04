@@ -229,6 +229,14 @@
       directory="profiles/1041_to_1042"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1043_to_1044"
+      title="Upgrade common from 1043 to 1044"
+      description="Remove barceloneta tinymce-formats.css from plone.content_css"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/1043_to_1044"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -696,5 +704,17 @@
       destination="1043"
       handler=".upgrades.migrate_zipcode_to_text"
       />
+
+  <genericsetup:upgradeSteps
+      source="1043"
+      destination="1044"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Remove the barceloneta highlight styles from the TinyMCE Formats menu"
+        description="Purge plone.content_css so that tinymce-formats.css (.highlight-inline, p.highlight-paragraph) is no longer picked up by the importcss plugin."
+        import_profile="imio.smartweb.common.upgrades:upgrade_1043_to_1044"
+        import_steps="plone.app.registry"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

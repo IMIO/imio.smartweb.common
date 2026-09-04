@@ -45,6 +45,21 @@
     </value>
   </record>
 
+  <!-- Barceloneta registers ++theme++barceloneta/tinymce/tinymce-formats.css in
+       plone.content_css with purge="false". The TinyMCE importcss plugin
+       (hardcoded in Products.CMFPlone.patterns.tinymce with
+       importcss_file_filter="tinymce-formats.css" and importcss_append=True)
+       then appends every selector of that file (.highlight-inline,
+       p.highlight-paragraph) to our style_formats. Purge the record to keep
+       only the styles defined below. -->
+  <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
+          name="plone.content_css"
+  >
+    <value purge="true">
+      <element>++theme++barceloneta/tinymce/tinymce-ui-content.css</element>
+    </value>
+  </record>
+
   <!-- See possible values in https://www.tiny.cloud/docs/tinymce/latest/plugins/#open-source-plugins -->
   <record interface="plone.base.interfaces.controlpanel.ITinyMCESchema"
           name="plone.plugins"
