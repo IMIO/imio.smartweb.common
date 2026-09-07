@@ -410,6 +410,38 @@ class TestDirectoryInfoViewsAccess(unittest.TestCase):
         self.assertIn("/login", browser.url)
 
 
+class TestDirectoryContactAutofillResource(unittest.TestCase):
+    """The bundles of the consuming packages point at this exact path."""
+
+    layer = IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.app = self.layer["app"]
+        self.portal = self.layer["portal"]
+
+    def test_the_script_is_published(self):
+        browser = Browser(self.app)
+        browser.open(
+            "{}/++plone++imio.smartweb.common/"
+            "directory_contact_autofill.js".format(self.portal.absolute_url())
+        )
+        # Served as a static resource, so browser.contents comes back as bytes
+        # (unlike a rendered HTML page, which zope.testbrowser decodes to str).
+        contents = browser.contents.decode("utf-8")
+        self.assertIn("form-widgets-directory_linked_contact", contents)
+
+    def test_both_contact_field_id_conventions_are_handled(self):
+        # Guards the one real fork between the two content types.
+        browser = Browser(self.app)
+        browser.open(
+            "{}/++plone++imio.smartweb.common/"
+            "directory_contact_autofill.js".format(self.portal.absolute_url())
+        )
+        contents = browser.contents.decode("utf-8")
+        self.assertIn("form-widgets-IEventContact-contact_name", contents)
+        self.assertIn("form-widgets-contact_name", contents)
+
+
 # <audit>
 # Task 3 (WEBBDC-2790): moved the directory proxy views browser/contact_info.py
 # from imio.events.core to imio.smartweb.common, made them generic.
@@ -443,4 +475,22 @@ class TestDirectoryInfoViewsAccess(unittest.TestCase):
 # to `getattr(self.entity, "directory_linked_entities", None)`, mirroring the
 # same accommodation already made in browser/contact_info.py's
 # DirectoryLinkedEntitiesInfoView.__call__ for the identical reason.
+#
+# Task 4 (WEBBDC-2790): moved the directory contact autofill JavaScript
+# (browser/static/directory_contact_autofill.js) from imio.events.core to
+# imio.smartweb.common, already published under
+# ++plone++imio.smartweb.common by the existing plone:static directive (no
+# ZCML change needed). Added TestDirectoryContactAutofillResource above,
+# asserting the resource is served under its new path and that both the
+# behavior-prefixed (imio.events.Event) and unprefixed (future
+# imio.news.NewsItem) contact field id conventions are present in the script,
+# since CONTACT_FIELD_IDS now lists both as candidates and resolveFields was
+# adapted to accept either a single id or a list of candidate ids.
+#
+# Deviation from the brief, required to keep the 2 new tests green: the brief's
+# assertIn calls compared a str needle against `browser.contents` directly.
+# For this static resource (a .js file, not a rendered HTML page)
+# zope.testbrowser returns `browser.contents` as bytes, so `assertIn` raised
+# TypeError. Added `contents = browser.contents.decode("utf-8")` in both new
+# test methods and compared against that instead.
 # </audit>
