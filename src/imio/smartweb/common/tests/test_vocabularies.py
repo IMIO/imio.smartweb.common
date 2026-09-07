@@ -1,15 +1,27 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.common.config import DIRECTORY_URL
+from imio.smartweb.common.interfaces import ILocalManagerAware
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
 from imio.smartweb.common.testing import ImioSmartwebCommonTestCase
 from imio.smartweb.common.vocabularies import DIRECTORY_ENTITIES_CACHE_TTL
+from imio.smartweb.common.vocabularies import RemoteDirectoryContactVocabulary
 from imio.smartweb.common.vocabularies import RemoteDirectoryEntitiesVocabulary
+from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from unittest.mock import MagicMock
 from unittest.mock import patch
+from urllib.parse import parse_qs
+from urllib.parse import urlparse
 from zope.component import getUtility
+from zope.interface import alsoProvides
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+
+import json
+import unittest
 
 
 class TestVocabularies(ImioSmartwebCommonTestCase):
@@ -190,3 +202,112 @@ class TestVocabularies(ImioSmartwebCommonTestCase):
             mock_time.return_value = 1000.0 + DIRECTORY_ENTITIES_CACHE_TTL
             RemoteDirectoryEntitiesVocabulary()
         self.assertEqual(mock_get_voc.call_count, 2)
+
+
+REQUESTS_GET = "imio.smartweb.common.utils.requests.get"
+
+LINKED_ENTITY_UID = "11111111111111111111111111111111"
+CONTACT_UID = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+
+def fake_directory_search(url, headers=None, timeout=None):
+    """Answer a directory ``@search`` the way the real one does.
+
+    Honours the three criteria the vocabulary builds: ``selected_entities``
+    (scope), ``SearchableText`` (search) and ``UID`` (single term lookup).
+    """
+    query = parse_qs(urlparse(url).query)
+    entities = query.get("selected_entities")
+    searchable = query.get("SearchableText")
+    uids = query.get("UID")
+    items = []
+    if entities is None or LINKED_ENTITY_UID in entities:
+        items = [{"UID": CONTACT_UID, "breadcrumb": "Amay » Bibliothèque"}]
+    if searchable and not searchable[0].startswith("Bib"):
+        items = []
+    if uids is not None and CONTACT_UID not in uids:
+        items = []
+    response = MagicMock()
+    response.status_code = 200
+    response.text = json.dumps({"items": items, "items_total": len(items)})
+    return response
+
+
+class TestRemoteDirectoryContactVocabulary(unittest.TestCase):
+    """The vocabulary resolves its scope from the nearest ILocalManagerAware
+    ancestor, which is the Entity in every consuming package."""
+
+    layer = IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.entity = api.content.create(
+            container=self.portal, type="Folder", id="entity", title="Entity"
+        )
+        alsoProvides(self.entity, ILocalManagerAware)
+        self.entity.directory_linked_entities = [LINKED_ENTITY_UID]
+        self.child = api.content.create(
+            container=self.entity, type="Folder", id="child", title="Child"
+        )
+
+    def test_no_entity_ancestor_gives_an_empty_vocabulary(self):
+        vocabulary = RemoteDirectoryContactVocabulary(self.portal)
+        self.assertEqual(len(vocabulary), 0)
+
+    def test_entity_without_linked_entities_gives_an_empty_vocabulary(self):
+        self.entity.directory_linked_entities = []
+        vocabulary = RemoteDirectoryContactVocabulary(self.child)
+        self.assertEqual(len(vocabulary), 0)
+
+    def test_entity_without_the_field_at_all_gives_an_empty_vocabulary(self):
+        # A package using imio.smartweb.common may have an Entity that never
+        # got the field: degrade to empty rather than raise.
+        del self.entity.directory_linked_entities
+        vocabulary = RemoteDirectoryContactVocabulary(self.child)
+        self.assertEqual(len(vocabulary), 0)
+
+    def test_scope_is_resolved_from_a_nested_context(self):
+        with patch(REQUESTS_GET, side_effect=fake_directory_search):
+            vocabulary = RemoteDirectoryContactVocabulary(self.child)
+            terms = list(vocabulary)
+        self.assertEqual([term.value for term in terms], [CONTACT_UID])
+
+    def test_term_title_is_the_breadcrumb(self):
+        with patch(REQUESTS_GET, side_effect=fake_directory_search):
+            term = RemoteDirectoryContactVocabulary(self.child).getTerm(CONTACT_UID)
+        self.assertEqual(term.title, "Amay » Bibliothèque")
+
+    def test_search_turns_each_word_into_a_prefix(self):
+        with patch(REQUESTS_GET, side_effect=fake_directory_search) as mock_get:
+            RemoteDirectoryContactVocabulary(self.child).search("Bib libr")
+        query = parse_qs(urlparse(mock_get.call_args[0][0]).query)
+        self.assertEqual(query["SearchableText"], ["Bib* AND libr*"])
+
+    def test_search_is_scoped_to_the_linked_entities(self):
+        with patch(REQUESTS_GET, side_effect=fake_directory_search) as mock_get:
+            RemoteDirectoryContactVocabulary(self.child).search("Bib")
+        query = parse_qs(urlparse(mock_get.call_args[0][0]).query)
+        self.assertEqual(query["selected_entities"], [LINKED_ENTITY_UID])
+        self.assertEqual(query["portal_type"], ["imio.directory.Contact"])
+        self.assertEqual(query["b_size"], ["20"])
+
+    def test_an_unknown_token_raises_lookup_error(self):
+        with patch(REQUESTS_GET, side_effect=fake_directory_search):
+            vocabulary = RemoteDirectoryContactVocabulary(self.child)
+            with self.assertRaises(LookupError):
+                vocabulary.getTermByToken("does-not-exist")
+
+    def test_contains_answers_from_the_directory(self):
+        with patch(REQUESTS_GET, side_effect=fake_directory_search):
+            vocabulary = RemoteDirectoryContactVocabulary(self.child)
+            self.assertIn(CONTACT_UID, vocabulary)
+            self.assertNotIn("does-not-exist", vocabulary)
+
+
+# <audit>
+#   <file>test_vocabularies.py</file>
+#   <requirements_applied>R1, R2, R4, R5</requirements_applied>
+#   <deviations>R1 : requests.get est patché via unittest.mock plutôt que requests_mock, pour rester cohérent avec test_rest_utils.py du même paquet (R6).</deviations>
+#   <questions>None</questions>
+# </audit>
