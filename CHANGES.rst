@@ -10,6 +10,14 @@ Changelog
   ``p.highlight-paragraph`` styles to the Formats menu.
   [boulch]
 
+- WEBBDC-2790 : Move the remote directory contact vocabulary, the ``Choice``/ajax-select
+  converter, the two proxy views (``@@directory_contact_info`` and
+  ``@@directory_entities_info``) and the contact autofill script here from
+  ``imio.events.core``, so both ``imio.events.core`` and ``imio.news.core`` can share
+  them. ``get_directory_url()`` is now used by every caller, so the
+  ``imio.smartweb.common.directory_url`` registry override is honoured consistently.
+  [boulch]
+
 
 
 1.2.59 (2026-08-24)

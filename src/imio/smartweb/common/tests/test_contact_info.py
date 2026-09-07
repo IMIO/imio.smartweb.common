@@ -202,6 +202,9 @@ class TestDirectoryContactInfoView(DirectoryInfoTestCase):
         self.assertEqual(result, {})
 
     def test_searches_the_directory_on_the_contact_uid(self):
+        # The uid comes straight from the request (any authenticated user
+        # controls it), so it must be percent-encoded before it lands in the
+        # query string.
         self.request.form["uid"] = "contact uid/with specials"
         with patch(
             REQUESTS_GET, return_value=self.fake_response(self.contact_payload())
@@ -210,7 +213,7 @@ class TestDirectoryContactInfoView(DirectoryInfoTestCase):
         self.assertEqual(
             mock_get.call_args[0][0],
             "{}/@search?UID={}&fullobjects=true".format(
-                DIRECTORY_URL, "contact uid/with specials"
+                DIRECTORY_URL, "contact%20uid%2Fwith%20specials"
             ),
         )
 
@@ -332,12 +335,23 @@ class TestDirectoryLinkedEntitiesInfoView(DirectoryInfoTestCase):
     def test_looks_up_the_entity_from_a_nested_context(self):
         # The view is called on <body data-base-url>, i.e. the Event on an edit
         # form and the container Agenda on an add form: both must resolve the
-        # same parent Entity.
+        # same parent Entity, at any nesting depth in between. The shared
+        # fixture is only two levels deep (self.entity / self.content), so an
+        # intermediate container is added here to exercise a real third depth.
         self.entity.directory_linked_entities = ["uid1"]
+        intermediate = api.content.create(
+            container=self.entity,
+            type="Folder",
+            id="intermediate",
+            title="Intermediate",
+        )
+        leaf = api.content.create(
+            container=intermediate, type="Folder", id="leaf", title="Leaf"
+        )
         payload = self.entities_payload(
             {"@id": "https://annuaire.enwallonie.be/mons", "title": "Mons"}
         )
-        for context in (self.entity, self.entity, self.content):
+        for context in (self.entity, intermediate, leaf):
             with patch(REQUESTS_GET, return_value=self.fake_response(payload)):
                 result = json.loads(self.make_view(context)())
             self.assertEqual(

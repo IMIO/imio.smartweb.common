@@ -1,5 +1,5 @@
 /**
- * Edit-form helpers for ``imio.events.Event``:
+ * Edit-form helpers for ``imio.events.Event`` and ``imio.news.NewsItem``:
  *
  *  - **Contact autofill**: when the user picks an entry in the
  *    ``directory_linked_contact`` select, GET ``@@directory_contact_info``
@@ -28,7 +28,8 @@
  *    The action is intentionally manual (one click = one request) to stay
  *    within Nominatim's usage policy.
  *
- * Shipped via the ``imio-events-core-edit`` bundle, which is registered in
+ * Shipped via the ``imio-events-core-edit`` and ``imio-news-core-edit``
+ * bundles, each registered in its own package's
  * ``profiles/default/registry.xml`` and restricted to logged-in members
  * through the bundle's ``expression`` condition. Loaded site-wide for
  * editors and silently no-ops on pages without the expected form fields.
@@ -519,16 +520,21 @@
 
         // Build the "add a new contact" link(s) once, from the parent Entity's
         // linked directory entities (independent from the current selection).
-        fetch(getBaseUrl() + "/@@directory_entities_info", {
-            credentials: "same-origin",
-        })
-            .then(function (r) {
-                return r.ok ? r.json() : [];
+        // Skipped entirely while SHOW_DIRECTORY_LINKS is off: renderAddLinks
+        // would just discard the result, so there is no point holding a Zope
+        // thread on the remote directory for up to 12 s to fetch it.
+        if (SHOW_DIRECTORY_LINKS) {
+            fetch(getBaseUrl() + "/@@directory_entities_info", {
+                credentials: "same-origin",
             })
-            .then(renderAddLinks)
-            .catch(function () {
-                /* no-op: no add links shown */
-            });
+                .then(function (r) {
+                    return r.ok ? r.json() : [];
+                })
+                .then(renderAddLinks)
+                .catch(function () {
+                    /* no-op: no add links shown */
+                });
+        }
 
         // On an edit form a contact may already be linked: offer the refresh
         // button right away so its data can be pulled on demand.
@@ -536,8 +542,10 @@
 
         // Show the directory link on load WITHOUT running fetchAndFill (which
         // would clear/refill the fields and wipe existing values): just look up
-        // the contact URL.
-        if (select.value && select.value !== "--NOVALUE--") {
+        // the contact URL. setContactLink is itself a no-op while
+        // SHOW_DIRECTORY_LINKS is off, so skip the fetch too rather than
+        // hold a Zope thread on the remote directory for nothing.
+        if (SHOW_DIRECTORY_LINKS && select.value && select.value !== "--NOVALUE--") {
             fetch(
                 getPortalUrl() +
                     "/@@directory_contact_info?uid=" +
@@ -555,6 +563,12 @@
     }
 
     function fixLeafletSize() {
+        // No geolocation widget on this form: nothing for Leaflet to size, so
+        // skip installing the MutationObserver below, which would otherwise
+        // never disconnect and would fire on every class change on the page
+        // (e.g. on a news site, which has no map).
+        if (!document.getElementById(GEO_LAT_ID)) return;
+
         // Root cause: pat-leaflet (RequireJS async) and Plone's fieldset toggle
         // JS race each other. Whichever runs first loses:
         //   - If Leaflet wins: it measures a hidden container (height 0) and

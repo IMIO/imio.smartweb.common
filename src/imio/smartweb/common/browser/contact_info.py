@@ -8,6 +8,7 @@ from imio.smartweb.common.utils import get_json
 from imio.smartweb.common.utils import get_parent_providing
 from plone import api
 from Products.Five.browser import BrowserView
+from urllib.parse import quote
 
 
 def guard_anonymous():
@@ -35,13 +36,15 @@ class DirectoryContactInfoView(BrowserView):
         uid = self.request.form.get("uid")
         if not uid:
             return json.dumps({})
-        url = "{}/@search?UID={}&fullobjects=true".format(get_directory_url(), uid)
+        url = "{}/@search?UID={}&fullobjects=true".format(
+            get_directory_url(), quote(uid, safe="")
+        )
         # Forward the JS cache-buster (refresh button sends "_=<timestamp>") to
         # the directory so no proxy in front of it can serve a stale copy of a
         # contact that was just edited there.
         nocache = self.request.form.get("_")
         if nocache:
-            url += "&_={}".format(nocache)
+            url += "&_={}".format(quote(nocache, safe=""))
         data = get_json(url, None, 12)
         items = (data or {}).get("items") or []
         if not items:
