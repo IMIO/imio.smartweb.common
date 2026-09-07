@@ -173,17 +173,3 @@ class TestForms(unittest.TestCase):
         transaction.begin()
         self.assertIn("Required input is missing", browser.contents)
         self.assertEqual(len(api.content.find(portal_type="Document")), 0)
-
-
-# <audit>
-#   <file>test_forms.py</file>
-#   <requirements_applied>R1, R2, R4, R5, R6</requirements_applied>
-#   <deviations>
-#     The design doc named a single test_save_and_publish.py. R5 (one test file
-#     per production file) puts the button tests here, next to the rest of
-#     browser/forms.py, and the helper tests in test_publish.py.
-#     get_browser() was extracted from check_leadimage_caption_field (R4: shared
-#     by several methods of this single class, so a method, not a base class).
-#   </deviations>
-#   <questions>None</questions>
-# </audit>

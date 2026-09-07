@@ -85,9 +85,7 @@ def get_directory_url():
     single site never queries two different directories.
     """
     return (
-        api.portal.get_registry_record(
-            "imio.smartweb.common.directory_url", default=""
-        )
+        api.portal.get_registry_record("imio.smartweb.common.directory_url", default="")
         or DIRECTORY_URL
     )
 

@@ -42,11 +42,3 @@ class TestAjaxSelectChoiceDataConverter(unittest.TestCase):
     def test_a_widget_without_vocabulary_hands_the_token_over(self):
         self.widget.get_vocabulary.return_value = None
         self.assertEqual(self.converter.toFieldValue("uid-1"), "uid-1")
-
-
-# <audit>
-#   <file>test_converters.py</file>
-#   <requirements_applied>R1, R4, R5</requirements_applied>
-#   <deviations>Test unitaire à double factice ; la couverture d'intégration est portée par les paquets consommateurs.</deviations>
-#   <questions>None</questions>
-# </audit>

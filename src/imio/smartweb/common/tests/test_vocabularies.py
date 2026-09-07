@@ -321,11 +321,3 @@ class TestRemoteDirectoryContactVocabulary(unittest.TestCase):
             vocabulary = RemoteDirectoryContactVocabulary(self.child)
             self.assertIn(CONTACT_UID, vocabulary)
             self.assertNotIn("does-not-exist", vocabulary)
-
-
-# <audit>
-#   <file>test_vocabularies.py</file>
-#   <requirements_applied>R1, R2, R4, R5</requirements_applied>
-#   <deviations>R1 : requests.get est patché via unittest.mock plutôt que requests_mock, pour rester cohérent avec test_rest_utils.py du même paquet (R6).</deviations>
-#   <questions>None</questions>
-# </audit>

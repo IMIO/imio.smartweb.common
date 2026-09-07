@@ -5,11 +5,6 @@ Changelog
 1.2.60 (unreleased)
 -------------------
 
-- WEB-4485 : Restore the ``plone.content_css`` purge lost in 1.2.29, which let the
-  TinyMCE ``importcss`` plugin re-add the barceloneta ``.highlight-inline`` and
-  ``p.highlight-paragraph`` styles to the Formats menu.
-  [boulch]
-
 - WEBBDC-2790 : Move the remote directory contact vocabulary, the ``Choice``/ajax-select
   converter, the two proxy views (``@@directory_contact_info`` and
   ``@@directory_entities_info``) and the contact autofill script here from
@@ -18,6 +13,10 @@ Changelog
   ``imio.smartweb.common.directory_url`` registry override is honoured consistently.
   [boulch]
 
+- WEB-4485 : Restore the ``plone.content_css`` purge lost in 1.2.29, which let the
+  TinyMCE ``importcss`` plugin re-add the barceloneta ``.highlight-inline`` and
+  ``p.highlight-paragraph`` styles to the Formats menu.
+  [boulch]
 
 
 1.2.59 (2026-08-24)

@@ -454,20 +454,3 @@ class TestRestEndpoint(unittest.TestCase):
         self.assertEqual(normalize_query_param("hello"), ["hello"])
         # Non str/list -> wrapped
         self.assertEqual(normalize_query_param(123), [123])
-
-
-# <audit>
-#   <file>test_rest_endpoint.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>
-#     Extended the existing test file rather than creating a new one (R5/R6:
-#     this is the single test file for endpoint.py). Real Plone content and
-#     catalog are used throughout (R1); only the external @types HTTP call
-#     (get_json) is mocked, matching the pre-existing tests. The QueryBuilder
-#     fallback test additionally mocks the catalog tool to force the except
-#     branch, and normalize_query_param (a module-level function) is tested as a
-#     method on the existing TestRestEndpoint class to stay consistent with the
-#     file's single-class layout.
-#   </deviations>
-#   <questions>None</questions>
-# </audit>

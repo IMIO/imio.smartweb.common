@@ -73,19 +73,3 @@ class TestPublish(unittest.TestCase):
         publish(self.document, "unknown_transition", self.request)
         self.assertEqual(api.content.get_state(self.document), "private")
         self.assertEqual(IStatusMessage(self.request).show()[-1].type, "warning")
-
-
-# <audit>
-#   <file>test_publish.py</file>
-#   <requirements_applied>R1, R2, R3, R5</requirements_applied>
-#   <deviations>
-#     The skill targets imio.smartweb.core; this is imio.smartweb.common, so the
-#     layer is IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING. Per R6, the class
-#     subclasses unittest.TestCase like every other test module here, not the
-#     package's ImioSmartwebCommonTestCase (used only for assertVocabularyLen).
-#     R5 (one test method per function) is stretched for publish_transition,
-#     type_can_publish and publish: each also has a method covering its
-#     permission-dependent path, following the pattern already in this file.
-#   </deviations>
-#   <questions>None</questions>
-# </audit>
