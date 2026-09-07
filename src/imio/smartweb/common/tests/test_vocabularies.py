@@ -292,6 +292,24 @@ class TestRemoteDirectoryContactVocabulary(unittest.TestCase):
         self.assertEqual(query["portal_type"], ["imio.directory.Contact"])
         self.assertEqual(query["b_size"], ["20"])
 
+    def test_search_honours_the_registry_overridden_directory_url(self):
+        # imio.smartweb.common.directory_url (registry.xml) lets a site (e.g.
+        # staging) point at another directory than the DIRECTORY_URL default;
+        # get_directory_url() is what RemoteDirectoryEntitiesVocabulary already
+        # relies on for that, and _fetch() must go through the same helper so
+        # the two vocabularies never end up querying different directories.
+        # Relying on the integration layer's per-test transaction abort to
+        # restore the record, like every other test in this module relies on
+        # it to restore content.
+        api.portal.set_registry_record(
+            "imio.smartweb.common.directory_url", "https://annuaire.example.test"
+        )
+        with patch(REQUESTS_GET, side_effect=fake_directory_search) as mock_get:
+            RemoteDirectoryContactVocabulary(self.child).search("Bib")
+        self.assertEqual(
+            urlparse(mock_get.call_args[0][0]).netloc, "annuaire.example.test"
+        )
+
     def test_an_unknown_token_raises_lookup_error(self):
         with patch(REQUESTS_GET, side_effect=fake_directory_search):
             vocabulary = RemoteDirectoryContactVocabulary(self.child)

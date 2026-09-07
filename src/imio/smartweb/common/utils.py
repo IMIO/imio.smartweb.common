@@ -3,6 +3,7 @@
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from io import BytesIO
+from imio.smartweb.common.config import DIRECTORY_URL
 from imio.smartweb.common.config import TRANSLATED_VOCABULARIES
 from imio.smartweb.common.interfaces import ICropping
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -73,6 +74,22 @@ def get_term_from_vocabulary(vocabulary, value):
     except LookupError:
         return SimpleTerm(value=value, title=value)
     return term
+
+
+def get_directory_url():
+    """Return the directory URL, honouring the registry override.
+
+    ``imio.smartweb.common.directory_url`` lets a site (typically staging)
+    point at another directory; ``DIRECTORY_URL`` from the environment is the
+    fallback. Every caller inside this package must go through here, so a
+    single site never queries two different directories.
+    """
+    return (
+        api.portal.get_registry_record(
+            "imio.smartweb.common.directory_url", default=""
+        )
+        or DIRECTORY_URL
+    )
 
 
 def get_entities_vocabulary(portal_type, base_url):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.common.config import DIRECTORY_URL
 from imio.smartweb.common.interfaces import ILocalManagerAware
+from imio.smartweb.common.utils import get_directory_url
 from imio.smartweb.common.utils import get_entities_vocabulary
 from imio.smartweb.common.utils import get_json
 from imio.smartweb.common.utils import get_parent_providing
@@ -210,12 +210,7 @@ class RemoteDirectoryEntitiesVocabularyFactory:
     _cache = {}
 
     def __call__(self, context=None):
-        directory_url = (
-            api.portal.get_registry_record(
-                "imio.smartweb.common.directory_url", default=""
-            )
-            or DIRECTORY_URL
-        )
+        directory_url = get_directory_url()
         # get_json negotiates the current language into the remote @search
         # (utils.py:41-43), so the language is part of the cache identity, not
         # just the url. The url is in the key too, so changing the registry
@@ -279,7 +274,7 @@ class SearchableRemoteDirectoryContactVocabulary(SimpleVocabulary):
         ]
         params.extend(("selected_entities", uid) for uid in self.directory_entities)
         params.extend(criteria.items())
-        url = "{}/@search?{}".format(DIRECTORY_URL, urlencode(params))
+        url = "{}/@search?{}".format(get_directory_url(), urlencode(params))
         json_contacts = get_json(url, None, 12)
         if not json_contacts:
             return []
