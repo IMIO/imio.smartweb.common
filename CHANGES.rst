@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.60 (unreleased)
+1.2.60 (2026-09-09)
 -------------------
 
 - WEBBDC-2790 : Move the remote directory contact vocabulary, the ``Choice``/ajax-select
