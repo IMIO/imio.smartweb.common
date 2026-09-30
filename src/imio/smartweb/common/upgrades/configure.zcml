@@ -237,6 +237,14 @@
       directory="profiles/1043_to_1044"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1044_to_1045"
+      title="Upgrade common from 1044 to 1045"
+      description="Add the IA lead image metadata bundle"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/1044_to_1045"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -713,6 +721,18 @@
         title="Remove the barceloneta highlight styles from the TinyMCE Formats menu"
         description="Purge plone.content_css so that tinymce-formats.css (.highlight-inline, p.highlight-paragraph) is no longer picked up by the importcss plugin."
         import_profile="imio.smartweb.common.upgrades:upgrade_1043_to_1044"
+        import_steps="plone.app.registry"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1044"
+      destination="1045"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Add the IA lead image metadata bundle"
+        description="Register ia_image_metadata.js, which adds a button to generate the lead image caption via Omnia"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1044_to_1045"
         import_steps="plone.app.registry"
         />
   </genericsetup:upgradeSteps>

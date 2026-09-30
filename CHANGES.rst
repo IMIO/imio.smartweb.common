@@ -5,6 +5,10 @@ Changelog
 1.2.61 (unreleased)
 -------------------
 
+- Add an upgrade step (1044 to 1045) to register the ``ia_image_metadata.js``
+  bundle.
+  [boulch]
+
 - Refactor : Add get_image_file function. This function returns the
   image of an object in the format of deduce_metadata.
   [boulch]
