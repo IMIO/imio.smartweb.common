@@ -3,12 +3,17 @@
 from imio.omnia.core.interfaces import IOmniaCoreAPIService
 from imio.smartweb.common.ia.browser.views import BaseIAView
 from imio.smartweb.common.ia.browser.views import BaseProcessCategorizeContentView
+from imio.smartweb.common.ia.browser.views import ProcessImageMetadataView
 from imio.smartweb.common.ia.browser.views import ProcessSuggestedTitlesView
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
+from plone.namedfile.file import NamedBlobImage
+from plone.protect.authenticator import createToken
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 from unittest.mock import patch
+from zExceptions import Forbidden
 
+import io
 import json
 import unittest
 
@@ -86,6 +91,75 @@ class TestProcessSuggestedTitlesView(unittest.TestCase):
         self.request.form["text"] = "kept html"
         view = ProcessSuggestedTitlesView(self.portal, self.request)
         self.assertEqual(view(), "kept html")
+
+
+class FakeUpload(io.BytesIO):
+    """Minimal ZPublisher FileUpload stand-in."""
+
+    def __init__(self, data, filename, content_type):
+        super().__init__(data)
+        self.filename = filename
+        self.headers = {"content-type": content_type}
+
+
+class TestProcessImageMetadataView(unittest.TestCase):
+    layer = IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        self.request.method = "POST"
+        self.request.form["_authenticator"] = createToken()
+        self.service = MagicMock()
+        self.service.deduce_metadata.return_value = {
+            "title": "Place communale",
+            "description": "desc",
+            "keywords": ["place"],
+        }
+
+    def _call(self, context=None):
+        view = ProcessImageMetadataView(context or self.portal, self.request)
+        with patch.object(ProcessImageMetadataView, "ia_service", self.service):
+            return view()
+
+    def test_sends_uploaded_image(self):
+        self.request.form["image"] = FakeUpload(b"png", "photo.png", "image/png")
+        result = json.loads(self._call())
+        self.assertEqual(result["title"], "Place communale")
+        self.service.deduce_metadata.assert_called_once_with(
+            image_file=("photo.png", b"png", "image/png")
+        )
+
+    def test_falls_back_on_stored_image(self):
+        context = SimpleNamespace(
+            image=NamedBlobImage(data=b"gif", filename="stored.gif")
+        )
+        json.loads(self._call(context))
+        filename, data, content_type = self.service.deduce_metadata.call_args[1][
+            "image_file"
+        ]
+        self.assertEqual((filename, data), ("stored.gif", b"gif"))
+
+    def test_no_image(self):
+        self.assertEqual(json.loads(self._call(SimpleNamespace())), {})
+        self.assertEqual(self.request.response.getStatus(), 400)
+        self.service.deduce_metadata.assert_not_called()
+
+    def test_upstream_error(self):
+        self.request.form["image"] = FakeUpload(b"png", "photo.png", "image/png")
+        self.service.deduce_metadata.side_effect = Exception("boom")
+        self.assertEqual(json.loads(self._call()), {})
+        self.assertEqual(self.request.response.getStatus(), 502)
+
+    def test_requires_post(self):
+        self.request.method = "GET"
+        self.assertEqual(json.loads(self._call()), {})
+        self.assertEqual(self.request.response.getStatus(), 405)
+
+    def test_requires_authenticator(self):
+        self.request.form["_authenticator"] = "wrong"
+        with self.assertRaises(Forbidden):
+            self._call()
 
 
 class TestBaseProcessCategorizeContentView(unittest.TestCase):

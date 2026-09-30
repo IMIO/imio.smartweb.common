@@ -1,11 +1,17 @@
 from imio.omnia.core.interfaces import IOmniaCoreAPIService
 from imio.smartweb.common.utils import get_vocabulary
 from plone import api
+from plone.protect import CheckAuthenticator
 from Products.Five import BrowserView
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 
 import json
+import logging
+
+logger = logging.getLogger("imio.smartweb.common")
+
+
 def get_image_file(obj):
     """Return the ``(filename, data, content_type)`` tuple of the image stored
     on ``obj`` (as expected by ``deduce_metadata``), or None."""
@@ -43,6 +49,43 @@ class ProcessSuggestedTitlesView(BaseIAView):
         if not data:
             return current_html
         return json.dumps(data)
+
+
+class ProcessImageMetadataView(BaseIAView):
+    """Deduce metadata (title, description, keywords) from a lead image.
+
+    The image comes from the form upload (``image`` field, needed on add forms
+    where nothing is stored yet) or, as a fallback, from the image already
+    stored on the context (edit forms).
+    """
+
+    def _get_image(self):
+        upload = self.request.form.get("image")
+        if upload and getattr(upload, "filename", None):
+            upload.seek(0)
+            content_type = upload.headers.get("content-type", "")
+            return (upload.filename, upload.read(), content_type)
+        return get_image_file(self.context)
+
+    def __call__(self):
+        self.request.response.setHeader(
+            "Content-Type", "application/json; charset=utf-8"
+        )
+        if self.request.method != "POST":
+            self.request.response.setStatus(405)
+            return json.dumps({})
+        CheckAuthenticator(self.request)
+        image = self._get_image()
+        if image is None:
+            self.request.response.setStatus(400)
+            return json.dumps({})
+        try:
+            data = self.ia_service.deduce_metadata(image_file=image)
+        except Exception:
+            logger.warning("Could not deduce image metadata", exc_info=True)
+            self.request.response.setStatus(502)
+            return json.dumps({})
+        return json.dumps(data or {})
 
 
 class BaseProcessCategorizeContentView(BaseIAView):

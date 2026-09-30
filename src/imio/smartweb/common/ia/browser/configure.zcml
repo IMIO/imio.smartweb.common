@@ -19,6 +19,13 @@
       />
 
   <browser:page
+      name="process-image-metadata"
+      for="*"
+      class=".views.ProcessImageMetadataView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
       name="ProcessCategorizeContent"
       for="*"
       class=".views.BaseProcessCategorizeContentView"

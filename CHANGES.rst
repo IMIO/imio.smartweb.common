@@ -5,6 +5,13 @@ Changelog
 1.2.61 (unreleased)
 -------------------
 
+- Add an AI button below the lead image caption field.
+  The button shows only when the caption field is visible (text sections).
+  The button sends the image to the new ``@@process-image-metadata`` view.
+  The view sends the image to the Omnia ``deduce-metadata`` agent.
+  The button writes the title of the result in the caption field.
+  [boulch]
+
 - Add an upgrade step (1044 to 1045) to register the ``ia_image_metadata.js``
   bundle.
   [boulch]
