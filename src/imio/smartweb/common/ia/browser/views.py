@@ -6,6 +6,13 @@ from zope.component import getMultiAdapter
 from zope.i18n import translate
 
 import json
+def get_image_file(obj):
+    """Return the ``(filename, data, content_type)`` tuple of the image stored
+    on ``obj`` (as expected by ``deduce_metadata``), or None."""
+    image = getattr(obj, "image", None)
+    if image and getattr(image, "data", None):
+        return (image.filename, image.data, image.contentType)
+    return None
 
 
 class BaseIAView(BrowserView):

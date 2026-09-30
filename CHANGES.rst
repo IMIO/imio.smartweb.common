@@ -5,7 +5,9 @@ Changelog
 1.2.61 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Refactor : Add get_image_file function. This function returns the
+  image of an object in the format of deduce_metadata.
+  [boulch]
 
 
 1.2.60 (2026-09-09)
