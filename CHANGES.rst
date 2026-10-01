@@ -5,6 +5,13 @@ Changelog
 1.2.61 (unreleased)
 -------------------
 
+- Security: restrict ``@find`` endpoint. Only read catalog columns
+  or dexterity schema fields: field names given by the client are never called
+  anymore (brains acquire from ``portal_catalog``, so any zero-argument method of
+  the object or of the catalog could be triggered) and private names (``_*``)
+  are ignored or rejected.
+  [boulch]
+
 - @find (type_of_request=catalog): add ``_group_by`` (``ancestor_type`` or
   ``field``) and ``_aggregate`` (``list``, ``count``, ``distinct_count``)
   special parameters to group and aggregate catalog results

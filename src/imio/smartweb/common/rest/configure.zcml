@@ -16,7 +16,7 @@
       accept="application/json"
       for="zope.interface.Interface"
       factory=".endpoint.FindEndpoint"
-      permission="zope2.View"
+      permission="cmf.ManagePortal"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
       />
 

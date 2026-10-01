@@ -4,10 +4,13 @@ from collections import Counter
 from DateTime import DateTime
 from imio.smartweb.common.rest.utils import get_json
 from plone import api
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.utils import iterSchemataForType
 from plone.restapi.search.handler import SearchHandler
 from plone.restapi.search.utils import unflatten_dotted_dict
 from plone.restapi.services import Service
 from Products.CMFCore.utils import getToolByName
+from zope.schema import getFieldNames
 from zExceptions import BadRequest
 from zExceptions import Unauthorized
 
@@ -18,7 +21,7 @@ import Missing
 logger = logging.getLogger("imio.smartweb.common")
 
 AGGREGATE_MODES = ("list", "count", "distinct_count")
-FIELD_ALIASES = {"ICategorization-subjects": "Subject"}
+FIELD_ALIASES = {"ICategorization-subjects": "Subject", "subject": "subjects"}
 EMPTY_VALUES = (None, "", "None")
 
 
@@ -139,19 +142,9 @@ class FindEndpointHandler(SearchHandler):
             return {}
 
         # Retrieve and normalize values
-        catalog_schema = self.catalog.schema()
         values = []
         for brain in brains:
-            # Use brain metadata if the field is a catalog column (fast path),
-            # otherwise fall back to waking up the full object
-            value = (
-                getattr(brain, field_name, None)
-                if field_name in catalog_schema
-                else None
-            )
-            if not value:
-                obj = brain.getObject()
-                value = getattr(obj, field_name, None)
+            value = self._safe_read(brain, field_name)
             if isinstance(value, (list, tuple)):
                 if not value:
                     # liste/tuple vide => on compte 1 None
@@ -247,7 +240,7 @@ class FindEndpointHandler(SearchHandler):
             data.pop("_group_by", None), data.pop("_aggregate", None)
         )
 
-        attrs = [k for k, v in data.items()]
+        attrs = [k for k in data if not k.startswith("_")]
         attrs = attrs + ["Title", "getPath"]
         query_params = self.normalize_catalog_params(data)
         catalog = api.portal.get_tool("portal_catalog")
@@ -277,11 +270,7 @@ class FindEndpointHandler(SearchHandler):
                 continue
             item = {}
             for name in attrs:
-                value = getattr(brain, name, None)
-                if value is None:
-                    value = getattr(brain.getObject(), name, None)
-                if callable(value):
-                    value = value()
+                value = self._safe_read(brain, name)
                 if isinstance(value, DateTime):
                     value = value.ISO8601()
                 item[name] = value
@@ -310,7 +299,7 @@ class FindEndpointHandler(SearchHandler):
             if value not in portal_types:
                 raise BadRequest(f"_group_by: unknown portal_type '{value}'")
         else:
-            value = FIELD_ALIASES.get(value, value)
+            value = self._check_field(FIELD_ALIASES.get(value, value))
         aggregate = aggregate or []
         if not isinstance(aggregate, list):
             raise BadRequest("_aggregate must be a list of {field, mode}")
@@ -325,7 +314,7 @@ class FindEndpointHandler(SearchHandler):
                     f"_aggregate items must be {{field, mode}} with mode in "
                     f"{', '.join(AGGREGATE_MODES)}"
                 )
-            field = FIELD_ALIASES.get(agg["field"], agg["field"])
+            field = self._check_field(FIELD_ALIASES.get(agg["field"], agg["field"]))
             aggregates.append({"field": field, "mode": agg["mode"]})
         fields = Counter(agg["field"] for agg in aggregates)
         for agg in aggregates:
@@ -336,15 +325,59 @@ class FindEndpointHandler(SearchHandler):
             )
         return {kind: value}, aggregates
 
+    def _catalog_columns(self):
+        if not hasattr(self, "_columns_cache"):
+            self._columns_cache = set(self.catalog.schema())
+        return self._columns_cache
+
+    def _schema_fields(self, portal_type):
+        """{field name: schema} of a dexterity type (schema + behaviors), cached."""
+        cache = self.__dict__.setdefault("_schema_fields_cache", {})
+        if portal_type not in cache:
+            cache[portal_type] = {
+                name: schema
+                for schema in iterSchemataForType(portal_type)
+                for name in getFieldNames(schema)
+            }
+        return cache[portal_type]
+
+    def _check_field(self, name):
+        """Only catalog columns and schema fields of installed dexterity types
+        may be read: never private attributes or arbitrary methods."""
+        if name in self._catalog_columns():
+            return name
+        for fti in api.portal.get_tool("portal_types").listTypeInfo():
+            if IDexterityFTI.providedBy(fti) and name in self._schema_fields(
+                fti.getId()
+            ):
+                return name
+        raise BadRequest(f"Unknown or forbidden field '{name}'")
+
+    def _safe_read(self, brain, name):
+        """Read a catalog column (or getPath) on the brain, or a schema field
+        on the object. Anything else returns None, and nothing is ever called:
+        the client must not be able to trigger methods (brains also acquire
+        attributes from portal_catalog)."""
+        if name.startswith("_"):
+            return None
+        name = FIELD_ALIASES.get(name, name)
+        if name == "getPath":
+            return brain.getPath()
+        value = None
+        if name in self._catalog_columns():
+            value = getattr(brain, name, None)
+            if value is Missing.Value:
+                value = None
+        schema = self._schema_fields(brain.portal_type).get(name)
+        if value is None and schema is not None:
+            # read through the behavior adapter (e.g. IDublinCore.subjects)
+            obj = brain.getObject()
+            value = getattr(schema(obj, None) or obj, name, None)
+        return None if callable(value) else value
+
     def _read_values(self, brain, field):
-        """Return the non-empty values of a field as a list (brain metadata
-        when available, otherwise the object attribute)."""
-        if field in self.catalog.schema():
-            value = getattr(brain, field, None)
-        else:
-            value = getattr(brain.getObject(), field, None)
-        if callable(value):
-            value = value()
+        """Return the non-empty values of a field as a list."""
+        value = self._safe_read(brain, field)
         if not isinstance(value, (list, tuple)):
             value = [value]
         return [
