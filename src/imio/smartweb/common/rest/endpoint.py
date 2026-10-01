@@ -13,6 +13,7 @@ from zExceptions import Unauthorized
 
 import json
 import logging
+import Missing
 
 logger = logging.getLogger("imio.smartweb.common")
 
@@ -346,7 +347,11 @@ class FindEndpointHandler(SearchHandler):
             value = value()
         if not isinstance(value, (list, tuple)):
             value = [value]
-        return [v for v in value if v not in EMPTY_VALUES]
+        return [
+            _json_value(v)
+            for v in value
+            if v is not Missing.Value and v not in EMPTY_VALUES
+        ]
 
     def _group_keys(self, brain, group_by, ancestors):
         """Return the group keys of a brain: [(title, path, uid)] for the
@@ -392,7 +397,7 @@ class FindEndpointHandler(SearchHandler):
             row["nb_items"] = group["nb_items"]
             for agg, counter in zip(aggregates, group["counters"]):
                 if agg["mode"] == "list":
-                    row[agg["column"]] = sorted(counter)
+                    row[agg["column"]] = sorted(counter, key=str)
                 elif agg["mode"] == "count":
                     row[agg["column"]] = dict(counter)
                 else:
@@ -407,6 +412,15 @@ class FindEndpoint(Service):
         query = self.request.form.copy()
         query = unflatten_dotted_dict(query)
         return FindEndpointHandler(self.context, self.request).search(query)
+
+
+def _json_value(value):
+    """Make a value hashable and JSON serializable (for grouping/aggregation)."""
+    if isinstance(value, DateTime):
+        return value.ISO8601()
+    if isinstance(value, (str, int, float, bool)):
+        return value
+    return str(value)
 
 
 def normalize_query_param(value):

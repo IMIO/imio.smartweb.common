@@ -617,3 +617,17 @@ class TestFindAggregation(unittest.TestCase):
             _group_by={"field": "portal_type"},
         )
         self.assertEqual([(r["group"], r["nb_items"]) for r in rows], [("Folder", 2)])
+
+    def test_grouped_rows_are_json_serializable(self):
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"field": "effective"},
+            _aggregate=[
+                {"field": "modified", "mode": "list"},
+                {"field": "start", "mode": "count"},
+            ],
+        )
+        json.dumps(rows, sort_keys=True)
+        self.assertEqual(sum(r["nb_items"] for r in rows), 5)
+        self.assertTrue(all(isinstance(r["modified"][0], str) for r in rows))
+        self.assertTrue(all(r["start"] == {} for r in rows))
