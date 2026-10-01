@@ -549,3 +549,49 @@ class TestFindAggregation(unittest.TestCase):
         empty = api.content.find(UID=self.c3.UID())[0]
         self.assertEqual(self.handler._read_values(empty, "Subject"), [])
         self.assertEqual(self.handler._read_values(brain, "portal_type"), ["Document"])
+
+    def test_group_by_ancestor_modes(self):
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"ancestor_type": "Folder"},
+            _aggregate=[{"field": "ICategorization-subjects", "mode": "list"}],
+        )
+        self.assertEqual([r["group"] for r in rows], ["Entité A", "Entité B", None])
+        b = rows[1]
+        self.assertEqual(b["group_path"], "/".join(self.e1.getPhysicalPath()))
+        self.assertEqual(b["group_uid"], self.e1.UID())
+        self.assertEqual(b["nb_items"], 3)
+        self.assertEqual(b["Subject"], ["aide", "social"])
+        self.assertEqual(rows[2]["nb_items"], 1)
+        self.assertEqual(rows[2]["group_path"], None)
+
+    def test_group_by_ancestor_count_and_distinct(self):
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"ancestor_type": "Folder"},
+            _aggregate=[
+                {"field": "Subject", "mode": "count"},
+                {"field": "Subject", "mode": "distinct_count"},
+            ],
+        )
+        b = rows[1]
+        self.assertEqual(b["Subject__count"], {"aide": 2, "social": 1})
+        self.assertEqual(b["Subject__distinct_count"], 2)
+
+    def test_group_by_ancestor_nearest_wins(self):
+        sub = api.content.create(container=self.e1, type="Folder", title="Sous-entité")
+        api.content.create(container=sub, type="Document", title="C5", subject=("x",))
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"ancestor_type": "Folder"},
+            _aggregate=[{"field": "Subject", "mode": "list"}],
+        )
+        by_group = {r["group"]: r for r in rows}
+        self.assertEqual(by_group["Sous-entité"]["Subject"], ["x"])
+        self.assertEqual(by_group["Entité B"]["nb_items"], 3)
+
+    def test_group_by_ancestor_excludes_self(self):
+        rows = self.run_query(
+            portal_type="Folder", _group_by={"ancestor_type": "Folder"}
+        )
+        self.assertEqual([(r["group"], r["nb_items"]) for r in rows], [(None, 2)])

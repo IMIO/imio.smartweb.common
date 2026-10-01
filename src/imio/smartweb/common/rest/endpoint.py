@@ -255,6 +255,7 @@ class FindEndpointHandler(SearchHandler):
             qb = QueryBuilder(portal, request)
             brains = qb(query_params["query"])
         results = []
+        grouped_brains = []
         for brain in brains:
             if has_children_of_type:
                 children = catalog(
@@ -263,6 +264,9 @@ class FindEndpointHandler(SearchHandler):
                 )
                 if not children:
                     continue
+            if group_by:
+                grouped_brains.append(brain)
+                continue
             item = {}
             for name in attrs:
                 value = getattr(brain, name, None)
@@ -274,6 +278,8 @@ class FindEndpointHandler(SearchHandler):
                     value = value.ISO8601()
                 item[name] = value
             results.append(item)
+        if group_by:
+            return self._aggregate_groups(grouped_brains, group_by, aggregates)
         return results
 
     def _parse_grouping(self, group_by, aggregate):
@@ -334,6 +340,55 @@ class FindEndpointHandler(SearchHandler):
         if not isinstance(value, (list, tuple)):
             value = [value]
         return [v for v in value if v not in EMPTY_VALUES]
+
+    def _group_keys(self, brain, group_by, ancestors):
+        """Return the group keys of a brain: [(title, path, uid)] for the
+        nearest ancestor of the requested type, or [None]."""
+        parts = brain.getPath().split("/")
+        # exclude the brain's own path: an item is never its own group
+        for i in range(len(parts) - 1, 0, -1):
+            path = "/".join(parts[:i])
+            hit = ancestors.get(path)
+            if hit:
+                return [(hit[0], path, hit[1])]
+        return [None]
+
+    def _aggregate_groups(self, brains, group_by, aggregates):
+        ancestors = {}
+        if "ancestor_type" in group_by:
+            ancestors = {
+                b.getPath(): (b.Title, b.UID)
+                for b in self.catalog(portal_type=group_by["ancestor_type"])
+            }
+        groups = {}
+        for brain in brains:
+            values = [self._read_values(brain, agg["field"]) for agg in aggregates]
+            for key in self._group_keys(brain, group_by, ancestors):
+                group = groups.setdefault(
+                    key,
+                    {"nb_items": 0, "counters": [Counter() for agg in aggregates]},
+                )
+                group["nb_items"] += 1
+                for counter, field_values in zip(group["counters"], values):
+                    counter.update(field_values)
+        rows = []
+        for key, group in groups.items():
+            key = key or (None, None, None)
+            row = {"group": key[0]}
+            if "ancestor_type" in group_by:
+                row["group_path"] = key[1]
+                row["group_uid"] = key[2]
+            row["nb_items"] = group["nb_items"]
+            for agg, counter in zip(aggregates, group["counters"]):
+                if agg["mode"] == "list":
+                    row[agg["column"]] = sorted(counter)
+                elif agg["mode"] == "count":
+                    row[agg["column"]] = dict(counter)
+                else:
+                    row[agg["column"]] = len(counter)
+            rows.append(row)
+        rows.sort(key=lambda r: (r["group"] is None, str(r["group"])))
+        return rows
 
 
 class FindEndpoint(Service):
