@@ -227,9 +227,16 @@ class FindEndpointHandler(SearchHandler):
         :param json_str: Description
         :example1: {"portal_type":"imio.events.Event","effective": {"query":"2025-12-12","range": "min"},"enableAutopublishing":true}
         :example2: {"portal_type":"imio.directory.Contact","_has_children_of_type":"File"}
+        :example3: {"portal_type":"imio.directory.Contact","_group_by":{"ancestor_type":"imio.directory.Entity"},"_aggregate":[{"field":"ICategorization-subjects","mode":"list"}]}
         Special parameters (prefixed with _) are not passed to the catalog:
           - _has_children_of_type: only return objects that have at least one child
             of the given portal_type
+          - _group_by: {"ancestor_type": <portal_type>} (nearest ancestor) or
+            {"field": <name>} (one group per value). Returns one row per group:
+            group, group_path / group_uid (ancestor_type only), nb_items, and
+            one column per aggregate.
+          - _aggregate: list of {"field": <name>, "mode": list|count|distinct_count}
+            (only used with _group_by)
         """
         data = json.loads(json_str) or {}
 
@@ -343,7 +350,11 @@ class FindEndpointHandler(SearchHandler):
 
     def _group_keys(self, brain, group_by, ancestors):
         """Return the group keys of a brain: [(title, path, uid)] for the
-        nearest ancestor of the requested type, or [None]."""
+        nearest ancestor of the requested type, [(value,), ...] for each value
+        of the requested field, or [None]."""
+        if "field" in group_by:
+            values = self._read_values(brain, group_by["field"])
+            return [(v,) for v in values] or [None]
         parts = brain.getPath().split("/")
         # exclude the brain's own path: an item is never its own group
         for i in range(len(parts) - 1, 0, -1):

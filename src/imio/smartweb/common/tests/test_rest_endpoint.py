@@ -595,3 +595,25 @@ class TestFindAggregation(unittest.TestCase):
             portal_type="Folder", _group_by={"ancestor_type": "Folder"}
         )
         self.assertEqual([(r["group"], r["nb_items"]) for r in rows], [(None, 2)])
+
+    def test_group_by_field_multivalued(self):
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"field": "Subject"},
+            _aggregate=[{"field": "Title", "mode": "list"}],
+        )
+        self.assertEqual(
+            [(r["group"], r["nb_items"]) for r in rows],
+            [("aide", 3), ("social", 1), ("sport", 1), (None, 1)],
+        )
+        self.assertEqual(rows[0]["Title"], ["C1", "C2", "Orphelin"])
+        self.assertNotIn("group_path", rows[0])
+
+    def test_group_by_respects_has_children_filter(self):
+        api.content.create(container=self.portal, type="Folder", title="Vide")
+        rows = self.run_query(
+            portal_type="Folder",
+            _has_children_of_type="Document",
+            _group_by={"field": "portal_type"},
+        )
+        self.assertEqual([(r["group"], r["nb_items"]) for r in rows], [("Folder", 2)])
