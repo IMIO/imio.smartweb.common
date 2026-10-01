@@ -5,6 +5,11 @@ Changelog
 1.2.61 (unreleased)
 -------------------
 
+- @find (type_of_request=catalog): add ``_group_by`` (``ancestor_type`` or
+  ``field``) and ``_aggregate`` (``list``, ``count``, ``distinct_count``)
+  special parameters to group and aggregate catalog results
+  [boulch]
+
 - Add an AI button below the lead image caption field.
   The button shows only when the caption field is visible (text sections).
   The button sends the image to the new ``@@process-image-metadata`` view.
@@ -78,9 +83,6 @@ Changelog
 
 - SUP-53555 : Use schema.TextLine (with validator) instead of schema.Int for zipcode field to avoid an awkward space 
   (ex : 5 300 when editing the field) + upgrade steps
-- @find (type_of_request=catalog): add ``_group_by`` (``ancestor_type`` or
-  ``field``) and ``_aggregate`` (``list``, ``count``, ``distinct_count``)
-  special parameters to group and aggregate catalog results
   [boulch]
 
 
