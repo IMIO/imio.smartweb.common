@@ -8,12 +8,17 @@ from plone.restapi.search.handler import SearchHandler
 from plone.restapi.search.utils import unflatten_dotted_dict
 from plone.restapi.services import Service
 from Products.CMFCore.utils import getToolByName
+from zExceptions import BadRequest
 from zExceptions import Unauthorized
 
 import json
 import logging
 
 logger = logging.getLogger("imio.smartweb.common")
+
+AGGREGATE_MODES = ("list", "count", "distinct_count")
+FIELD_ALIASES = {"ICategorization-subjects": "Subject"}
+EMPTY_VALUES = (None, "", "None")
 
 
 class FindEndpointHandler(SearchHandler):
@@ -230,6 +235,9 @@ class FindEndpointHandler(SearchHandler):
 
         # Extract special parameters before building catalog query
         has_children_of_type = data.pop("_has_children_of_type", None)
+        group_by, aggregates = self._parse_grouping(
+            data.pop("_group_by", None), data.pop("_aggregate", None)
+        )
 
         attrs = [k for k, v in data.items()]
         attrs = attrs + ["Title", "getPath"]
@@ -267,6 +275,65 @@ class FindEndpointHandler(SearchHandler):
                 item[name] = value
             results.append(item)
         return results
+
+    def _parse_grouping(self, group_by, aggregate):
+        """Validate _group_by / _aggregate and resolve field aliases.
+        Return (group_by, aggregates); aggregates are ignored without group_by.
+        """
+        if group_by is None:
+            return None, []
+        if not isinstance(group_by, dict) or len(group_by) != 1:
+            raise BadRequest(
+                "_group_by must be {'ancestor_type': <type>} or {'field': <name>}"
+            )
+        ((kind, value),) = group_by.items()
+        if kind not in ("ancestor_type", "field") or not isinstance(value, str):
+            raise BadRequest(
+                "_group_by must be {'ancestor_type': <type>} or {'field': <name>}"
+            )
+        if kind == "ancestor_type":
+            portal_types = api.portal.get_tool("portal_types").objectIds()
+            if value not in portal_types:
+                raise BadRequest(f"_group_by: unknown portal_type '{value}'")
+        else:
+            value = FIELD_ALIASES.get(value, value)
+        aggregate = aggregate or []
+        if not isinstance(aggregate, list):
+            raise BadRequest("_aggregate must be a list of {field, mode}")
+        aggregates = []
+        for agg in aggregate:
+            if (
+                not isinstance(agg, dict)
+                or not isinstance(agg.get("field"), str)
+                or agg.get("mode") not in AGGREGATE_MODES
+            ):
+                raise BadRequest(
+                    f"_aggregate items must be {{field, mode}} with mode in "
+                    f"{', '.join(AGGREGATE_MODES)}"
+                )
+            field = FIELD_ALIASES.get(agg["field"], agg["field"])
+            aggregates.append({"field": field, "mode": agg["mode"]})
+        fields = Counter(agg["field"] for agg in aggregates)
+        for agg in aggregates:
+            agg["column"] = (
+                f"{agg['field']}__{agg['mode']}"
+                if fields[agg["field"]] > 1
+                else agg["field"]
+            )
+        return {kind: value}, aggregates
+
+    def _read_values(self, brain, field):
+        """Return the non-empty values of a field as a list (brain metadata
+        when available, otherwise the object attribute)."""
+        if field in self.catalog.schema():
+            value = getattr(brain, field, None)
+        else:
+            value = getattr(brain.getObject(), field, None)
+        if callable(value):
+            value = value()
+        if not isinstance(value, (list, tuple)):
+            value = [value]
+        return [v for v in value if v not in EMPTY_VALUES]
 
 
 class FindEndpoint(Service):

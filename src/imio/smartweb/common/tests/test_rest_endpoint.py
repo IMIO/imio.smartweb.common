@@ -10,6 +10,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile, NamedBlobImage
 from unittest.mock import MagicMock
 from unittest.mock import patch
+from zExceptions import BadRequest
 from zExceptions import Unauthorized
 
 import json
@@ -454,3 +455,97 @@ class TestRestEndpoint(unittest.TestCase):
         self.assertEqual(normalize_query_param("hello"), ["hello"])
         # Non str/list -> wrapped
         self.assertEqual(normalize_query_param(123), [123])
+
+
+class TestFindAggregation(unittest.TestCase):
+    layer = IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.e1 = api.content.create(
+            container=self.portal, type="Folder", title="Entité B"
+        )
+        self.e2 = api.content.create(
+            container=self.portal, type="Folder", title="Entité A"
+        )
+        self.c1 = api.content.create(
+            container=self.e1, type="Document", title="C1", subject=("social", "aide")
+        )
+        self.c2 = api.content.create(
+            container=self.e1, type="Document", title="C2", subject=("aide",)
+        )
+        self.c3 = api.content.create(container=self.e1, type="Document", title="C3")
+        self.c4 = api.content.create(
+            container=self.e2, type="Document", title="C4", subject=("sport",)
+        )
+        self.orphan = api.content.create(
+            container=self.portal, type="Document", title="Orphelin", subject=("aide",)
+        )
+        self.handler = FindEndpointHandler(self.portal, self.request)
+
+    def run_query(self, **query):
+        return self.handler.search_from_json(json.dumps(query))
+
+    def test_aggregate_without_group_by_is_ignored(self):
+        base = self.run_query(portal_type="Document", sort_on="id")
+        with_agg = self.run_query(
+            portal_type="Document",
+            sort_on="id",
+            _aggregate=[{"field": "Subject", "mode": "list"}],
+        )
+        self.assertEqual(base, with_agg)
+
+    def test_group_by_invalid_shapes(self):
+        for bad in (
+            "imio.directory.Entity",
+            {},
+            {"ancestor_type": "Folder", "field": "Subject"},
+            {"foo": "bar"},
+        ):
+            with self.assertRaises(BadRequest):
+                self.run_query(portal_type="Document", _group_by=bad)
+
+    def test_aggregate_invalid(self):
+        for bad in (
+            {"field": "Subject", "mode": "list"},
+            [{"field": "Subject", "mode": "sum"}],
+            [{"mode": "list"}],
+        ):
+            with self.assertRaises(BadRequest):
+                self.run_query(
+                    portal_type="Document",
+                    _group_by={"field": "Subject"},
+                    _aggregate=bad,
+                )
+
+    def test_unknown_ancestor_type(self):
+        with self.assertRaises(BadRequest):
+            self.run_query(
+                portal_type="Document", _group_by={"ancestor_type": "Kamoulox"}
+            )
+
+    def test_parse_grouping_aliases_and_columns(self):
+        group_by, aggregates = self.handler._parse_grouping(
+            {"field": "ICategorization-subjects"},
+            [
+                {"field": "ICategorization-subjects", "mode": "list"},
+                {"field": "Subject", "mode": "count"},
+                {"field": "review_state", "mode": "distinct_count"},
+            ],
+        )
+        self.assertEqual(group_by, {"field": "Subject"})
+        self.assertEqual(
+            [a["column"] for a in aggregates],
+            ["Subject__list", "Subject__count", "review_state"],
+        )
+
+    def test_read_values(self):
+        brain = api.content.find(UID=self.c1.UID())[0]
+        self.assertEqual(
+            sorted(self.handler._read_values(brain, "Subject")), ["aide", "social"]
+        )
+        empty = api.content.find(UID=self.c3.UID())[0]
+        self.assertEqual(self.handler._read_values(empty, "Subject"), [])
+        self.assertEqual(self.handler._read_values(brain, "portal_type"), ["Document"])
