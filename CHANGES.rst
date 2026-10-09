@@ -5,6 +5,13 @@ Changelog
 1.2.61 (unreleased)
 -------------------
 
+- Add ``imio.smartweb.common.sso``: ``get_sso_auth_header()`` gives the
+  ``Authorization`` header to call another iMio application. It is a Keycloak
+  (sso-apps) token, kept in cache until it expires, or a basic auth fallback
+  (``SSO_APPS_USER_USERNAME`` / ``SSO_APPS_USER_PASSWORD``) when the SSO config is
+  not complete (local development). Also add ``basic_auth_header()``.
+  [boulch]
+
 - Security: restrict ``@find`` endpoint. Only read catalog columns
   or dexterity schema fields: field names given by the client are never called
   anymore (brains acquire from ``portal_catalog``, so any zero-argument method of
