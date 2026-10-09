@@ -245,6 +245,14 @@
       directory="profiles/1044_to_1045"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1045_to_1046"
+      title="Upgrade common from 1045 to 1046"
+      description="Add the authentication control panel (SSO / basic auth)"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/1045_to_1046"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed registry step"
@@ -734,6 +742,17 @@
         description="Register ia_image_metadata.js, which adds a button to generate the lead image caption via Omnia"
         import_profile="imio.smartweb.common.upgrades:upgrade_1044_to_1045"
         import_steps="plone.app.registry"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1045"
+      destination="1046"
+      profile="imio.smartweb.common:default">
+    <genericsetup:upgradeDepends
+        title="Add the authentication control panel (SSO / basic auth)"
+        import_profile="imio.smartweb.common.upgrades:upgrade_1045_to_1046"
+        import_steps="plone.app.registry controlpanel"
         />
   </genericsetup:upgradeSteps>
 

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<registry>
+
+  <records interface="imio.smartweb.common.browser.controlpanel_sso.ISsoSettings"
+           prefix="imio.smartweb.common.sso" />
+
+</registry>

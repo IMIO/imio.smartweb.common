@@ -5,6 +5,15 @@
 
   <include package=".privacy" />
 
+  <!-- Authentication used to call other iMio applications (see sso.py) -->
+  <browser:page
+      name="sso-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel_sso.SsoControlPanelView"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      />
+
   <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
   <include package="z3c.jbot" file="meta.zcml" />
   <browser:jbot
