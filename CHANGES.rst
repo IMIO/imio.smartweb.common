@@ -10,6 +10,8 @@ Changelog
   (sso-apps) token, kept in cache until it expires, or a basic auth fallback
   (``SSO_APPS_USER_USERNAME`` / ``SSO_APPS_USER_PASSWORD``) when the SSO config is
   not complete (local development). Also add ``basic_auth_header()``.
+- ODWB : add ``odwb_post`` returning ODWB status code and response text
+  (``status_code`` is None when ODWB is unreachable). ``odwb_query`` is unchanged.
   [boulch]
 
 - Security: restrict ``@find`` endpoint. Only read catalog columns

@@ -51,22 +51,28 @@ class OdwbBaseEndpointGet(OdwbService):
         self.__datas__ = []
 
     def odwb_query(self, url, payload, headers=None):
+        return self.odwb_post(url, payload, headers)["response"]
+
+    def odwb_post(self, url, payload, headers=None):
+        """POST payload to ODWB and return {"status_code": ..., "response": ...}.
+        status_code is None when ODWB could not be reached."""
         if headers is None:
             headers = {"Content-Type": "application/json"}
         try:
             response = requests.post(
                 url, headers=headers, data=payload, timeout=(5, 30)
             )
-            return response.text
+            return {"status_code": response.status_code, "response": response.text}
         except requests.exceptions.ConnectionError as e:
             logger.error("ODWB : Connection error: %s", e)
-            return "ODWB : Connection error occurred"
+            error = "ODWB : Connection error occurred"
         except requests.exceptions.Timeout as e:
             logger.error("ODWB : Request timed out: %s", e)
-            return "ODWB : Request timed out"
+            error = "ODWB : Request timed out"
         except requests.exceptions.HTTPError as e:
             logger.error("ODWB : HTTP error occurred: %s", e)
-            return "ODWB : HTTP error occurred"
+            error = "ODWB : HTTP error occurred"
         except Exception as e:
             logger.error("ODWB : An unexpected error occurred: %s", e)
-            return "ODWB : Unexpected error occurred"
+            error = "ODWB : Unexpected error occurred"
+        return {"status_code": None, "response": error}
