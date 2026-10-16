@@ -30,7 +30,7 @@
   </li>
 
   <li>
-    <tal:block i18n:translate="">Site created in collaboration with</tal:block>&nbsp;<a href="https://www.imio.be" target="_blank" i18n:translate="">IMIO</a>&nbsp;<tal:block i18n:translate="">under</tal:block>
+    <tal:block i18n:translate="">Site created in collaboration with</tal:block>&nbsp;<a href="https://www.imio.be" target="_blank" i18n:translate="">iMio</a>&nbsp;<tal:block i18n:translate="">under</tal:block>
     <a href="https://fr.wikipedia.org/wiki/Free_Software_Foundation"
        target="_blank"
        i18n:translate="">free license</a>
