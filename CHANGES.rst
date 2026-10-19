@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.61 (unreleased)
+1.2.61 (2026-10-19)
 -------------------
 
 - ODWB : add ``odwb_send`` to send items by batches (push or delete) and
