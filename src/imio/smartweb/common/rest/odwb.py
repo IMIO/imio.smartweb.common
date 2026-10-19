@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.common.utils import activate_sending_data_to_odwb_for_staging
+from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.common.utils import is_staging_or_local
 from plone import api
 from plone.restapi.services import Service
 from zope.interface import implementer
 from zope.interface import Interface
 
+import itertools
+import json
 import logging
 import requests
 
@@ -49,6 +52,40 @@ class OdwbBaseEndpointGet(OdwbService):
         self.context = context
         self.request = request
         self.__datas__ = []
+
+    def odwb_send(self, items, action="push", batch_size=1000):
+        """Send items (any iterable) to ODWB by batches and return a summary:
+        {"service", "total", "sent", "batches": [{"size", "status_code", "response"}]}.
+        action is "push" (add / update) or "delete".
+        sent counts the items of the batches that ODWB accepted (HTTP 2xx)."""
+        url = f"{self.odwb_api_push_url}/{self.odwb_imio_service}/temps_reel/{action}/?pushkey={self.odwb_pushkey}"
+        if is_log_active():
+            logger.info(f"ODWB {action} url: {url}")
+        batches = []
+        items = iter(items)
+        while batch := list(itertools.islice(items, batch_size)):
+            result = self.odwb_post(url, json.dumps(batch))
+            batches.append({"size": len(batch), **result})
+            success = result["status_code"] in range(200, 300)
+            logger.log(
+                logging.INFO if success else logging.WARNING,
+                "ODWB %s %s: %d item(s), status %s, response: %s",
+                self.odwb_imio_service,
+                action,
+                len(batch),
+                result["status_code"],
+                result["response"],
+            )
+        return {
+            "service": self.odwb_imio_service,
+            "total": sum(batch["size"] for batch in batches),
+            "sent": sum(
+                batch["size"]
+                for batch in batches
+                if batch["status_code"] in range(200, 300)
+            ),
+            "batches": batches,
+        }
 
     def odwb_query(self, url, payload, headers=None):
         return self.odwb_post(url, payload, headers)["response"]

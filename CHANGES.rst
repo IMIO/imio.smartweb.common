@@ -5,6 +5,10 @@ Changelog
 1.2.61 (unreleased)
 -------------------
 
+- ODWB : add ``odwb_send`` to send items by batches (push or delete) and
+  return a sending summary (service, total, sent, batches).
+  [boulch]
+
 - Add ``imio.smartweb.common.sso``: ``get_sso_auth_header()`` gives the
   ``Authorization`` header to call another iMio application. It is a Keycloak
   (sso-apps) token, kept in cache until it expires, or a basic auth fallback

@@ -40,3 +40,37 @@ class TestOdwbPost(unittest.TestCase):
     def test_odwb_query_still_returns_text(self, mock_post):
         mock_post.return_value = MagicMock(status_code=200, text="")
         self.assertEqual(self.endpoint.odwb_query("https://odwb/push", "[]"), "")
+
+    @patch("requests.post")
+    def test_odwb_send_by_batches_returns_summary(self, mock_post):
+        mock_post.side_effect = [
+            MagicMock(status_code=200, text=""),
+            MagicMock(status_code=400, text="bad item"),
+        ]
+        items = (item for item in [{"id": 1}, {"id": 2}, {"id": 3}])
+        summary = self.endpoint.odwb_send(items, action="delete", batch_size=2)
+        self.assertEqual(
+            summary,
+            {
+                "service": "staging-service",
+                "total": 3,
+                "sent": 2,
+                "batches": [
+                    {"size": 2, "status_code": 200, "response": ""},
+                    {"size": 1, "status_code": 400, "response": "bad item"},
+                ],
+            },
+        )
+        self.assertEqual(
+            mock_post.call_args.args[0],
+            "https://www.odwb.be/api/push/1.0/staging-service/temps_reel/delete/?pushkey=pushkey",
+        )
+        self.assertEqual(mock_post.call_args.kwargs["data"], '[{"id": 3}]')
+
+    @patch("requests.post")
+    def test_odwb_send_without_items(self, mock_post):
+        self.assertEqual(
+            self.endpoint.odwb_send([]),
+            {"service": "staging-service", "total": 0, "sent": 0, "batches": []},
+        )
+        mock_post.assert_not_called()
