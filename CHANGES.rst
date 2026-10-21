@@ -5,7 +5,10 @@ Changelog
 1.2.62 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4404 : Send BAN requests to the caching servers after the transaction
+  commit. A page requested between the BAN and the commit was cached again
+  with the old content (e.g. a message not yet (de)activated).
+  [remdub]
 
 
 1.2.61 (2026-10-19)
