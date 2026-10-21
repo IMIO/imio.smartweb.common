@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.caching import BAN_TIMEOUT
 from imio.smartweb.common.caching import ban_physicalpath
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 from unittest.mock import Mock
 from unittest.mock import patch
 
 import os
+import requests
 import transaction
 import unittest
 
@@ -178,3 +180,26 @@ class TestBanPhysicalpath(unittest.TestCase):
         transaction.abort()
         transaction.commit()
         mock_request.assert_not_called()
+
+    @patch("imio.smartweb.common.caching.requests.request")
+    @patch("imio.smartweb.common.caching.api.portal.get")
+    def test_ban_request_has_timeout(self, mock_portal_get, mock_request):
+        mock_portal_get.return_value = self._make_portal()
+        with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
+            ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
+        _, kwargs = mock_request.call_args
+        self.assertEqual(kwargs["timeout"], BAN_TIMEOUT)
+
+    @patch("imio.smartweb.common.caching.requests.request")
+    @patch("imio.smartweb.common.caching.api.portal.get")
+    def test_failing_server_does_not_stop_other_bans(
+        self, mock_portal_get, mock_request
+    ):
+        mock_portal_get.return_value = self._make_portal()
+        mock_request.side_effect = [requests.exceptions.ConnectTimeout(), None]
+        with patch.dict(os.environ, {"CACHING_SERVERS": "10.0.0.1 10.0.0.2"}):
+            ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
+        self.assertEqual(mock_request.call_count, 2)
+        self.assertEqual(mock_request.call_args[0][1], "http://10.0.0.2/en")
