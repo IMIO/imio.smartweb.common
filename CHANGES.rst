@@ -5,6 +5,9 @@ Changelog
 1.2.62 (unreleased)
 -------------------
 
+- ODWB : hide the push key in logs (sent url and connection / timeout errors).
+  [remdub]
+
 - WEB-4404 : Send BAN requests to the caching servers after the transaction
   commit. A page requested between the BAN and the commit was cached again
   with the old content (e.g. a message not yet (de)activated).

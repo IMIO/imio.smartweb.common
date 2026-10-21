@@ -16,7 +16,7 @@ class TestOdwbPost(unittest.TestCase):
         self.portal = self.layer["portal"]
         with patch(
             "imio.smartweb.common.rest.odwb.api.portal.get_registry_record",
-            return_value="pushkey",
+            return_value="secret-key",
         ):
             self.endpoint = OdwbBaseEndpointGet(
                 self.portal, self.layer["request"], "staging-service", "key"
@@ -63,9 +63,28 @@ class TestOdwbPost(unittest.TestCase):
         )
         self.assertEqual(
             mock_post.call_args.args[0],
-            "https://www.odwb.be/api/push/1.0/staging-service/temps_reel/delete/?pushkey=pushkey",
+            "https://www.odwb.be/api/push/1.0/staging-service/temps_reel/delete/?pushkey=secret-key",
         )
         self.assertEqual(mock_post.call_args.kwargs["data"], '[{"id": 3}]')
+
+    @patch("imio.smartweb.common.rest.odwb.is_log_active", return_value=True)
+    @patch("requests.post")
+    def test_odwb_send_hides_pushkey_in_logs(self, mock_post, mock_log_active):
+        mock_post.return_value = MagicMock(status_code=200, text="")
+        with self.assertLogs("imio.smartweb.common", level="INFO") as logs:
+            self.endpoint.odwb_send([{"id": 1}])
+        self.assertNotIn("secret-key", "\n".join(logs.output))
+        self.assertTrue(any("?pushkey=***" in line for line in logs.output))
+
+    @patch("requests.post")
+    def test_odwb_post_hides_pushkey_in_error_logs(self, mock_post):
+        mock_post.side_effect = requests.exceptions.ConnectionError(
+            "Max retries exceeded with url: /api/push/1.0/?pushkey=secret-key"
+        )
+        with self.assertLogs("imio.smartweb.common", level="ERROR") as logs:
+            self.endpoint.odwb_post("https://odwb/push?pushkey=secret-key", "[]")
+        self.assertNotIn("secret-key", "\n".join(logs.output))
+        self.assertIn("?pushkey=***", logs.output[0])
 
     @patch("requests.post")
     def test_odwb_send_without_items(self, mock_post):

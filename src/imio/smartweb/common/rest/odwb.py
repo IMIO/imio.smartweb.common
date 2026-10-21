@@ -53,6 +53,13 @@ class OdwbBaseEndpointGet(OdwbService):
         self.request = request
         self.__datas__ = []
 
+    def hide_pushkey(self, text):
+        """Return text (an url, an error...) with the ODWB pushkey masked, for logs."""
+        text = str(text)
+        if not self.odwb_pushkey:
+            return text
+        return text.replace(self.odwb_pushkey, "***")
+
     def odwb_send(self, items, action="push", batch_size=1000):
         """Send items (any iterable) to ODWB by batches and return a summary:
         {"service", "total", "sent", "batches": [{"size", "status_code", "response"}]}.
@@ -60,7 +67,7 @@ class OdwbBaseEndpointGet(OdwbService):
         sent counts the items of the batches that ODWB accepted (HTTP 2xx)."""
         url = f"{self.odwb_api_push_url}/{self.odwb_imio_service}/temps_reel/{action}/?pushkey={self.odwb_pushkey}"
         if is_log_active():
-            logger.info(f"ODWB {action} url: {url}")
+            logger.info(f"ODWB {action} url: {self.hide_pushkey(url)}")
         batches = []
         items = iter(items)
         while batch := list(itertools.islice(items, batch_size)):
@@ -101,15 +108,17 @@ class OdwbBaseEndpointGet(OdwbService):
             )
             return {"status_code": response.status_code, "response": response.text}
         except requests.exceptions.ConnectionError as e:
-            logger.error("ODWB : Connection error: %s", e)
+            logger.error("ODWB : Connection error: %s", self.hide_pushkey(e))
             error = "ODWB : Connection error occurred"
         except requests.exceptions.Timeout as e:
-            logger.error("ODWB : Request timed out: %s", e)
+            logger.error("ODWB : Request timed out: %s", self.hide_pushkey(e))
             error = "ODWB : Request timed out"
         except requests.exceptions.HTTPError as e:
-            logger.error("ODWB : HTTP error occurred: %s", e)
+            logger.error("ODWB : HTTP error occurred: %s", self.hide_pushkey(e))
             error = "ODWB : HTTP error occurred"
         except Exception as e:
-            logger.error("ODWB : An unexpected error occurred: %s", e)
+            logger.error(
+                "ODWB : An unexpected error occurred: %s", self.hide_pushkey(e)
+            )
             error = "ODWB : Unexpected error occurred"
         return {"status_code": None, "response": error}
