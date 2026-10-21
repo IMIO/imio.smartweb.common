@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.62 (unreleased)
+1.2.62 (2026-10-21)
 -------------------
 
 - ODWB : hide the push key in logs (sent url and connection / timeout errors).
