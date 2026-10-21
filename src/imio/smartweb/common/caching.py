@@ -6,8 +6,11 @@ from urllib.parse import urlparse
 import logging
 import os
 import requests
+import transaction
 
 logger = logging.getLogger("imio.smartweb.common")
+
+BAN_TIMEOUT = 5
 
 
 def ban_physicalpath(request, physical_path):
@@ -19,6 +22,16 @@ def ban_physicalpath(request, physical_path):
     headers = {"Host": website_hostname}
     len_portal_path = len(portal.getPhysicalPath())
     path = "/".join(physical_path[len_portal_path:])
+    # Ban once the change is committed: a request served before the commit
+    # would put the old content back in the cache
+    transaction.get().addAfterCommitHook(
+        _send_bans, args=(caching_servers, website_hostname, headers, path)
+    )
+
+
+def _send_bans(committed, caching_servers, website_hostname, headers, path):
+    if not committed:
+        return
     for caching_server in caching_servers:
         if not caching_server:
             continue
@@ -29,4 +42,7 @@ def ban_physicalpath(request, physical_path):
         logger.info(
             f"## BAN ## website_hostname : {website_hostname} ## ban_url : {ban_url}"
         )
-        requests.request("BAN", ban_url, headers=headers)
+        try:
+            requests.request("BAN", ban_url, headers=headers, timeout=BAN_TIMEOUT)
+        except requests.exceptions.RequestException:
+            logger.exception(f"## BAN ## failed for ban_url : {ban_url}")

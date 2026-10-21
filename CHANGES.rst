@@ -5,7 +5,15 @@ Changelog
 1.2.62 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4404 : Send BAN requests to the caching servers after the transaction
+  commit. A page requested between the BAN and the commit was cached again
+  with the old content (e.g. a message not yet (de)activated).
+  [remdub]
+
+- WEB-4404 : Add a timeout on BAN requests (``BAN_TIMEOUT``, 5 s) so an
+  unreachable caching server can't block the save. A failing server is logged
+  and the next ones are still banned.
+  [remdub]
 
 
 1.2.61 (2026-10-19)
