@@ -3,8 +3,10 @@
 from imio.smartweb.common.caching import BAN_TIMEOUT
 from imio.smartweb.common.caching import ban_physicalpath
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
+from plone.app.caching.interfaces import IETagValue
 from unittest.mock import Mock
 from unittest.mock import patch
+from zope.component import getMultiAdapter
 
 import os
 import requests
@@ -203,3 +205,21 @@ class TestBanPhysicalpath(unittest.TestCase):
         transaction.commit()
         self.assertEqual(mock_request.call_count, 2)
         self.assertEqual(mock_request.call_args[0][1], "http://10.0.0.2/en")
+
+    def _last_ban_etag(self):
+        return getMultiAdapter(
+            (self.layer["portal"], self.layer["request"]), IETagValue, name="lastBan"
+        )()
+
+    def test_last_ban_etag_is_empty_before_any_ban(self):
+        self.assertIsNone(self._last_ban_etag())
+
+    @patch("imio.smartweb.common.caching.requests.request")
+    @patch("imio.smartweb.common.caching.api.portal.get")
+    def test_ban_changes_last_ban_etag(self, mock_portal_get, mock_request):
+        mock_portal_get.return_value = self._make_portal()
+        ban_physicalpath(None, ("", "Plone", "en"))
+        first_ban = self._last_ban_etag()
+        self.assertIsNotNone(first_ban)
+        ban_physicalpath(None, ("", "Plone", "en"))
+        self.assertNotEqual(self._last_ban_etag(), first_ban)
