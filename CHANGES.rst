@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.63 (unreleased)
+1.2.63 (2026-10-22)
 -------------------
 
 - WEB-4404 : Add a ``lastBan`` ETag component, the time of the site's last
