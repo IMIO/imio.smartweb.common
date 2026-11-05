@@ -10,34 +10,51 @@ from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import iterSchemata
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.resources.browser.resource import update_resource_registry_mtime
+from ZODB.POSException import ConflictError
 from zope.component import queryUtility
 from zope.component.hooks import setSite
 from zope.lifecycleevent.interfaces import IAttributes
 from zope.schema import getFields
 
 import DateTime
+import logging
 import os
+import transaction
 import Zope2
+
+logger = logging.getLogger("imio.smartweb.common")
 
 
 def started_zope(event):
-    db = Zope2.DB
-    connection = db.open()
-    zope_app = connection.root().get("Application", None)
-    site_id = os.getenv("SITE_ID", "Plone")
+    connection = Zope2.DB.open()
     try:
-        site = zope_app.unrestrictedTraverse(site_id)
-    except KeyError:
-        # This happens when there is no site (ex: tests setups)
-        return
-    setSite(site)
-    registry = queryUtility(IRegistry)
-    if registry is None:
-        # This happens for example during site creation
-        return
-    # update resource registry time to invalidate its cache at startup
-    # this information is also used as ETag
-    update_resource_registry_mtime()
+        zope_app = connection.root().get("Application", None)
+        site_id = os.getenv("SITE_ID", "Plone")
+        try:
+            site = zope_app.unrestrictedTraverse(site_id)
+        except KeyError:
+            # This happens when there is no site (ex: tests setups)
+            return
+        setSite(site)
+        registry = queryUtility(IRegistry)
+        if registry is None:
+            # This happens for example during site creation
+            return
+        # update resource registry time to invalidate its cache at startup
+        # this information is also used as ETag
+        update_resource_registry_mtime()
+        try:
+            transaction.commit()
+        except ConflictError:
+            # Another process of the same site started at the same time and
+            # already updated it
+            logger.info("Resource registry mtime already updated by another process")
+    finally:
+        # Startup subscriber: the connection must be closed, a leaked one keeps
+        # its storage read snapshot open (idle in transaction).
+        transaction.abort()
+        setSite(None)
+        connection.close()
 
 
 def reindex_breadcrumb(obj, event):

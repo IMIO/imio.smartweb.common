@@ -5,7 +5,11 @@ Changelog
 1.2.64 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4507 : Fix the ``started_zope`` startup subscriber: commit the resource
+  registry mtime update, which was never saved, so the ``resourceRegistries``
+  ETag changes at each instance restart. Close the ZODB connection it opened,
+  which stayed idle in transaction on PostgreSQL for the whole process lifetime.
+  [remdub]
 
 
 1.2.63 (2026-10-22)
