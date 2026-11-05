@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.64 (unreleased)
+1.2.64 (2026-11-05)
 -------------------
 
 - WEB-4507 : Fix the ``started_zope`` startup subscriber: commit the resource
