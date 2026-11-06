@@ -5,7 +5,9 @@ Changelog
 1.2.65 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add ``@vocabulary-translations/<vocabulary_name>`` endpoint.
+  It gives the token and the title in fr, nl, de and en of each term of a vocabulary.
+  [boulch]
 
 
 1.2.64 (2026-11-05)
