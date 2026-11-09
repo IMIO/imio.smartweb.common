@@ -34,6 +34,14 @@
       />
 
   <browser:viewlet
+      name="plone.analytics.head"
+      manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+      layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"
+      template="analytics_head.pt"
+      permission="zope.Public"
+      />
+
+  <browser:viewlet
       name="smartweb.privacy_consent"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       layer="imio.smartweb.common.interfaces.IImioSmartwebCommonLayer"

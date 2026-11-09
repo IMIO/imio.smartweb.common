@@ -2,6 +2,7 @@
 
 from email.utils import formatdate
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
+from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.testing.z2 import Browser
@@ -10,6 +11,7 @@ from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 
 import time
+import transaction
 import unittest
 
 
@@ -62,6 +64,29 @@ class TestPrivacy(unittest.TestCase):
             "dataprotection", "show_genetic_embed|1", path="/", expires=expires
         )
         self.assertEqual(view(), "true")
+
+    def test_get_analytics(self):
+        api.portal.set_registry_record(
+            "plone.webstats_head_js", "<script>head</script>"
+        )
+        api.portal.set_registry_record("plone.webstats_js", "<script>footer</script>")
+        view = queryMultiAdapter((self.portal, self.request), name="get_analytics")
+        self.assertEqual(view(), "")
+        expiration_seconds = time.time() + (60 * 60 * 24 * 365)
+        expires = formatdate(expiration_seconds, usegmt=True)
+        self.request.response.setCookie(
+            "dataprotection", "basic_analytics|1", path="/", expires=expires
+        )
+        self.assertEqual(view(), "<script>head</script>\n<script>footer</script>")
+
+    def test_head_analytics_not_rendered(self):
+        api.portal.set_registry_record(
+            "plone.webstats_head_js", "<script>/* head-analytics-marker */</script>"
+        )
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.open(self.portal.absolute_url())
+        self.assertNotIn("head-analytics-marker", browser.contents)
 
     def test_form(self):
         browser = Browser(self.layer["app"])
