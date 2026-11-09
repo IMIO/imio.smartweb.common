@@ -9,6 +9,11 @@ Changelog
   It gives the token and the title in fr, nl, de and en of each term of a vocabulary.
   [boulch]
 
+- WEB-4530 : Load the "JavaScript integration (head)" snippet through
+  ``@@get_analytics``, after cookie consent, like the footer one. It was
+  rendered in the page head, so trackers pasted there ran before consent.
+  [remdub]
+
 
 1.2.64 (2026-11-05)
 -------------------
@@ -141,11 +146,11 @@ Changelog
 1.2.57 (2026-07-08)
 -------------------
 
-- Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common 
+- Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common
   (usefull for linked contact in auth sources)
   [boulch]
 
-- SUP-53555 : Use schema.TextLine (with validator) instead of schema.Int for zipcode field to avoid an awkward space 
+- SUP-53555 : Use schema.TextLine (with validator) instead of schema.Int for zipcode field to avoid an awkward space
   (ex : 5 300 when editing the field) + upgrade steps
   [boulch]
 
