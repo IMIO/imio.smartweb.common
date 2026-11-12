@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.65 (unreleased)
+1.2.65 (2026-11-12)
 -------------------
 
 - Add ``@vocabulary-translations/<vocabulary_name>`` endpoint.
