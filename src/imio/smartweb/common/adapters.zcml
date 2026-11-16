@@ -13,4 +13,9 @@
       name="smartweb_image_contenttype"
       />
 
+  <adapter
+      factory=".caching.LastBan"
+      name="lastBan"
+      />
+
 </configure>

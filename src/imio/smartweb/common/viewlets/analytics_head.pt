@@ -1,0 +1,4 @@
+<tal:comment replace="nothing">
+  The "JavaScript integration (head)" snippet is not rendered here: it is
+  loaded with the footer one by @@get_analytics, after cookie consent.
+</tal:comment>

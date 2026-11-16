@@ -23,10 +23,11 @@ class PrivacyView(BrowserView):
             return ""
         registry = getUtility(IRegistry)
         site_settings = registry.forInterface(ISiteSchema, prefix="plone", check=False)
-        try:
-            return site_settings.webstats_js or ""
-        except AttributeError:
-            return ""
+        snippets = [
+            getattr(site_settings, "webstats_head_js", ""),
+            getattr(site_settings, "webstats_js", ""),
+        ]
+        return "\n".join(snippet for snippet in snippets if snippet)
 
     def allow_iframes(self):
         self.request.response.setHeader("Content-type", "application/json")

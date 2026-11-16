@@ -4,16 +4,25 @@ from collections import Counter
 from DateTime import DateTime
 from imio.smartweb.common.rest.utils import get_json
 from plone import api
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.utils import iterSchemataForType
 from plone.restapi.search.handler import SearchHandler
 from plone.restapi.search.utils import unflatten_dotted_dict
 from plone.restapi.services import Service
 from Products.CMFCore.utils import getToolByName
+from zope.schema import getFieldNames
+from zExceptions import BadRequest
 from zExceptions import Unauthorized
 
 import json
 import logging
+import Missing
 
 logger = logging.getLogger("imio.smartweb.common")
+
+AGGREGATE_MODES = ("list", "count", "distinct_count")
+FIELD_ALIASES = {"ICategorization-subjects": "Subject", "subject": "subjects"}
+EMPTY_VALUES = (None, "", "None")
 
 
 class FindEndpointHandler(SearchHandler):
@@ -133,19 +142,9 @@ class FindEndpointHandler(SearchHandler):
             return {}
 
         # Retrieve and normalize values
-        catalog_schema = self.catalog.schema()
         values = []
         for brain in brains:
-            # Use brain metadata if the field is a catalog column (fast path),
-            # otherwise fall back to waking up the full object
-            value = (
-                getattr(brain, field_name, None)
-                if field_name in catalog_schema
-                else None
-            )
-            if not value:
-                obj = brain.getObject()
-                value = getattr(obj, field_name, None)
+            value = self._safe_read(brain, field_name)
             if isinstance(value, (list, tuple)):
                 if not value:
                     # liste/tuple vide => on compte 1 None
@@ -222,16 +221,26 @@ class FindEndpointHandler(SearchHandler):
         :param json_str: Description
         :example1: {"portal_type":"imio.events.Event","effective": {"query":"2025-12-12","range": "min"},"enableAutopublishing":true}
         :example2: {"portal_type":"imio.directory.Contact","_has_children_of_type":"File"}
+        :example3: {"portal_type":"imio.directory.Contact","_group_by":{"ancestor_type":"imio.directory.Entity"},"_aggregate":[{"field":"ICategorization-subjects","mode":"list"}]}
         Special parameters (prefixed with _) are not passed to the catalog:
           - _has_children_of_type: only return objects that have at least one child
             of the given portal_type
+          - _group_by: {"ancestor_type": <portal_type>} (nearest ancestor) or
+            {"field": <name>} (one group per value). Returns one row per group:
+            group, group_path / group_uid (ancestor_type only), nb_items, and
+            one column per aggregate.
+          - _aggregate: list of {"field": <name>, "mode": list|count|distinct_count}
+            (only used with _group_by)
         """
         data = json.loads(json_str) or {}
 
         # Extract special parameters before building catalog query
         has_children_of_type = data.pop("_has_children_of_type", None)
+        group_by, aggregates = self._parse_grouping(
+            data.pop("_group_by", None), data.pop("_aggregate", None)
+        )
 
-        attrs = [k for k, v in data.items()]
+        attrs = [k for k in data if not k.startswith("_")]
         attrs = attrs + ["Title", "getPath"]
         query_params = self.normalize_catalog_params(data)
         catalog = api.portal.get_tool("portal_catalog")
@@ -247,6 +256,7 @@ class FindEndpointHandler(SearchHandler):
             qb = QueryBuilder(portal, request)
             brains = qb(query_params["query"])
         results = []
+        grouped_brains = []
         for brain in brains:
             if has_children_of_type:
                 children = catalog(
@@ -255,18 +265,179 @@ class FindEndpointHandler(SearchHandler):
                 )
                 if not children:
                     continue
+            if group_by:
+                grouped_brains.append(brain)
+                continue
             item = {}
             for name in attrs:
-                value = getattr(brain, name, None)
-                if value is None:
-                    value = getattr(brain.getObject(), name, None)
-                if callable(value):
-                    value = value()
+                value = self._safe_read(brain, name)
                 if isinstance(value, DateTime):
                     value = value.ISO8601()
                 item[name] = value
             results.append(item)
+        if group_by:
+            return self._aggregate_groups(grouped_brains, group_by, aggregates)
         return results
+
+    def _parse_grouping(self, group_by, aggregate):
+        """Validate _group_by / _aggregate and resolve field aliases.
+        Return (group_by, aggregates); aggregates are ignored without group_by.
+        """
+        if group_by is None:
+            return None, []
+        if not isinstance(group_by, dict) or len(group_by) != 1:
+            raise BadRequest(
+                "_group_by must be {'ancestor_type': <type>} or {'field': <name>}"
+            )
+        ((kind, value),) = group_by.items()
+        if kind not in ("ancestor_type", "field") or not isinstance(value, str):
+            raise BadRequest(
+                "_group_by must be {'ancestor_type': <type>} or {'field': <name>}"
+            )
+        if kind == "ancestor_type":
+            portal_types = api.portal.get_tool("portal_types").objectIds()
+            if value not in portal_types:
+                raise BadRequest(f"_group_by: unknown portal_type '{value}'")
+        else:
+            value = self._check_field(FIELD_ALIASES.get(value, value))
+        aggregate = aggregate or []
+        if not isinstance(aggregate, list):
+            raise BadRequest("_aggregate must be a list of {field, mode}")
+        aggregates = []
+        for agg in aggregate:
+            if (
+                not isinstance(agg, dict)
+                or not isinstance(agg.get("field"), str)
+                or agg.get("mode") not in AGGREGATE_MODES
+            ):
+                raise BadRequest(
+                    f"_aggregate items must be {{field, mode}} with mode in "
+                    f"{', '.join(AGGREGATE_MODES)}"
+                )
+            field = self._check_field(FIELD_ALIASES.get(agg["field"], agg["field"]))
+            aggregates.append({"field": field, "mode": agg["mode"]})
+        fields = Counter(agg["field"] for agg in aggregates)
+        for agg in aggregates:
+            agg["column"] = (
+                f"{agg['field']}__{agg['mode']}"
+                if fields[agg["field"]] > 1
+                else agg["field"]
+            )
+        return {kind: value}, aggregates
+
+    def _catalog_columns(self):
+        if not hasattr(self, "_columns_cache"):
+            self._columns_cache = set(self.catalog.schema())
+        return self._columns_cache
+
+    def _schema_fields(self, portal_type):
+        """{field name: schema} of a dexterity type (schema + behaviors), cached."""
+        cache = self.__dict__.setdefault("_schema_fields_cache", {})
+        if portal_type not in cache:
+            cache[portal_type] = {
+                name: schema
+                for schema in iterSchemataForType(portal_type)
+                for name in getFieldNames(schema)
+            }
+        return cache[portal_type]
+
+    def _check_field(self, name):
+        """Only catalog columns and schema fields of installed dexterity types
+        may be read: never private attributes or arbitrary methods."""
+        if name in self._catalog_columns():
+            return name
+        for fti in api.portal.get_tool("portal_types").listTypeInfo():
+            if IDexterityFTI.providedBy(fti) and name in self._schema_fields(
+                fti.getId()
+            ):
+                return name
+        raise BadRequest(f"Unknown or forbidden field '{name}'")
+
+    def _safe_read(self, brain, name):
+        """Read a catalog column (or getPath) on the brain, or a schema field
+        on the object. Anything else returns None, and nothing is ever called:
+        the client must not be able to trigger methods (brains also acquire
+        attributes from portal_catalog)."""
+        if name.startswith("_"):
+            return None
+        name = FIELD_ALIASES.get(name, name)
+        if name == "getPath":
+            return brain.getPath()
+        value = None
+        if name in self._catalog_columns():
+            value = getattr(brain, name, None)
+            if value is Missing.Value:
+                value = None
+        schema = self._schema_fields(brain.portal_type).get(name)
+        if value is None and schema is not None:
+            # read through the behavior adapter (e.g. IDublinCore.subjects)
+            obj = brain.getObject()
+            value = getattr(schema(obj, None) or obj, name, None)
+        return None if callable(value) else value
+
+    def _read_values(self, brain, field):
+        """Return the non-empty values of a field as a list."""
+        value = self._safe_read(brain, field)
+        if not isinstance(value, (list, tuple)):
+            value = [value]
+        return [
+            _json_value(v)
+            for v in value
+            if v is not Missing.Value and v not in EMPTY_VALUES
+        ]
+
+    def _group_keys(self, brain, group_by, ancestors):
+        """Return the group keys of a brain: [(title, path, uid)] for the
+        nearest ancestor of the requested type, [(value,), ...] for each value
+        of the requested field, or [None]."""
+        if "field" in group_by:
+            values = self._read_values(brain, group_by["field"])
+            return [(v,) for v in values] or [None]
+        parts = brain.getPath().split("/")
+        # exclude the brain's own path: an item is never its own group
+        for i in range(len(parts) - 1, 0, -1):
+            path = "/".join(parts[:i])
+            hit = ancestors.get(path)
+            if hit:
+                return [(hit[0], path, hit[1])]
+        return [None]
+
+    def _aggregate_groups(self, brains, group_by, aggregates):
+        ancestors = {}
+        if "ancestor_type" in group_by:
+            ancestors = {
+                b.getPath(): (b.Title, b.UID)
+                for b in self.catalog(portal_type=group_by["ancestor_type"])
+            }
+        groups = {}
+        for brain in brains:
+            values = [self._read_values(brain, agg["field"]) for agg in aggregates]
+            for key in self._group_keys(brain, group_by, ancestors):
+                group = groups.setdefault(
+                    key,
+                    {"nb_items": 0, "counters": [Counter() for agg in aggregates]},
+                )
+                group["nb_items"] += 1
+                for counter, field_values in zip(group["counters"], values):
+                    counter.update(field_values)
+        rows = []
+        for key, group in groups.items():
+            key = key or (None, None, None)
+            row = {"group": key[0]}
+            if "ancestor_type" in group_by:
+                row["group_path"] = key[1]
+                row["group_uid"] = key[2]
+            row["nb_items"] = group["nb_items"]
+            for agg, counter in zip(aggregates, group["counters"]):
+                if agg["mode"] == "list":
+                    row[agg["column"]] = sorted(counter, key=str)
+                elif agg["mode"] == "count":
+                    row[agg["column"]] = dict(counter)
+                else:
+                    row[agg["column"]] = len(counter)
+            rows.append(row)
+        rows.sort(key=lambda r: (r["group"] is None, str(r["group"])))
+        return rows
 
 
 class FindEndpoint(Service):
@@ -274,6 +445,15 @@ class FindEndpoint(Service):
         query = self.request.form.copy()
         query = unflatten_dotted_dict(query)
         return FindEndpointHandler(self.context, self.request).search(query)
+
+
+def _json_value(value):
+    """Make a value hashable and JSON serializable (for grouping/aggregation)."""
+    if isinstance(value, DateTime):
+        return value.ISO8601()
+    if isinstance(value, (str, int, float, bool)):
+        return value
+    return str(value)
 
 
 def normalize_query_param(value):

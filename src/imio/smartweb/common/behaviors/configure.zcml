@@ -19,4 +19,11 @@
       provides=".iam.IAm"
       />
 
+  <plone:behavior
+      name="imio.smartweb.save_and_publish"
+      title="Save and publish"
+      description="Add a 'Save and publish' button on add and edit forms."
+      provides=".publish.ISaveAndPublish"
+      />
+
 </configure>

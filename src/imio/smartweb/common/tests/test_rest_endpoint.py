@@ -1,18 +1,27 @@
 # -*- coding: utf-8 -*-
+from Acquisition import aq_base
 from DateTime import DateTime
 from imio.smartweb.common.rest.endpoint import FindEndpoint
 from imio.smartweb.common.rest.endpoint import FindEndpointHandler
 from imio.smartweb.common.rest.endpoint import normalize_query_param
+from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_ACCEPTANCE_TESTING
 from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
 from plone import api
 from plone.app.testing import setRoles
+from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import SITE_OWNER_PASSWORD
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile, NamedBlobImage
+from plone.restapi.testing import RelativeSession
 from unittest.mock import MagicMock
 from unittest.mock import patch
+from zExceptions import BadRequest
 from zExceptions import Unauthorized
 
 import json
+import transaction
 import unittest
 
 # Minimal truthy @types payload: the endpoint only checks it is non-empty.
@@ -456,18 +465,262 @@ class TestRestEndpoint(unittest.TestCase):
         self.assertEqual(normalize_query_param(123), [123])
 
 
-# <audit>
-#   <file>test_rest_endpoint.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>
-#     Extended the existing test file rather than creating a new one (R5/R6:
-#     this is the single test file for endpoint.py). Real Plone content and
-#     catalog are used throughout (R1); only the external @types HTTP call
-#     (get_json) is mocked, matching the pre-existing tests. The QueryBuilder
-#     fallback test additionally mocks the catalog tool to force the except
-#     branch, and normalize_query_param (a module-level function) is tested as a
-#     method on the existing TestRestEndpoint class to stay consistent with the
-#     file's single-class layout.
-#   </deviations>
-#   <questions>None</questions>
-# </audit>
+class TestFindAggregation(unittest.TestCase):
+    layer = IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.e1 = api.content.create(
+            container=self.portal, type="Folder", title="Entité B"
+        )
+        self.e2 = api.content.create(
+            container=self.portal, type="Folder", title="Entité A"
+        )
+        self.c1 = api.content.create(
+            container=self.e1, type="Document", title="C1", subject=("social", "aide")
+        )
+        self.c2 = api.content.create(
+            container=self.e1, type="Document", title="C2", subject=("aide",)
+        )
+        self.c3 = api.content.create(container=self.e1, type="Document", title="C3")
+        self.c4 = api.content.create(
+            container=self.e2, type="Document", title="C4", subject=("sport",)
+        )
+        self.orphan = api.content.create(
+            container=self.portal, type="Document", title="Orphelin", subject=("aide",)
+        )
+        self.handler = FindEndpointHandler(self.portal, self.request)
+
+    def run_query(self, **query):
+        return self.handler.search_from_json(json.dumps(query))
+
+    def test_aggregate_without_group_by_is_ignored(self):
+        base = self.run_query(portal_type="Document", sort_on="id")
+        with_agg = self.run_query(
+            portal_type="Document",
+            sort_on="id",
+            _aggregate=[{"field": "Subject", "mode": "list"}],
+        )
+        self.assertEqual(base, with_agg)
+
+    def test_group_by_invalid_shapes(self):
+        for bad in (
+            "imio.directory.Entity",
+            {},
+            {"ancestor_type": "Folder", "field": "Subject"},
+            {"foo": "bar"},
+        ):
+            with self.assertRaises(BadRequest):
+                self.run_query(portal_type="Document", _group_by=bad)
+
+    def test_aggregate_invalid(self):
+        for bad in (
+            {"field": "Subject", "mode": "list"},
+            [{"field": "Subject", "mode": "sum"}],
+            [{"mode": "list"}],
+        ):
+            with self.assertRaises(BadRequest):
+                self.run_query(
+                    portal_type="Document",
+                    _group_by={"field": "Subject"},
+                    _aggregate=bad,
+                )
+
+    def test_unknown_ancestor_type(self):
+        with self.assertRaises(BadRequest):
+            self.run_query(
+                portal_type="Document", _group_by={"ancestor_type": "Kamoulox"}
+            )
+
+    def test_parse_grouping_aliases_and_columns(self):
+        group_by, aggregates = self.handler._parse_grouping(
+            {"field": "ICategorization-subjects"},
+            [
+                {"field": "ICategorization-subjects", "mode": "list"},
+                {"field": "Subject", "mode": "count"},
+                {"field": "review_state", "mode": "distinct_count"},
+            ],
+        )
+        self.assertEqual(group_by, {"field": "Subject"})
+        self.assertEqual(
+            [a["column"] for a in aggregates],
+            ["Subject__list", "Subject__count", "review_state"],
+        )
+
+    def test_read_values(self):
+        brain = api.content.find(UID=self.c1.UID())[0]
+        self.assertEqual(
+            sorted(self.handler._read_values(brain, "Subject")), ["aide", "social"]
+        )
+        empty = api.content.find(UID=self.c3.UID())[0]
+        self.assertEqual(self.handler._read_values(empty, "Subject"), [])
+        self.assertEqual(self.handler._read_values(brain, "portal_type"), ["Document"])
+
+    def test_group_by_ancestor_modes(self):
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"ancestor_type": "Folder"},
+            _aggregate=[{"field": "ICategorization-subjects", "mode": "list"}],
+        )
+        self.assertEqual([r["group"] for r in rows], ["Entité A", "Entité B", None])
+        b = rows[1]
+        self.assertEqual(b["group_path"], "/".join(self.e1.getPhysicalPath()))
+        self.assertEqual(b["group_uid"], self.e1.UID())
+        self.assertEqual(b["nb_items"], 3)
+        self.assertEqual(b["Subject"], ["aide", "social"])
+        self.assertEqual(rows[2]["nb_items"], 1)
+        self.assertEqual(rows[2]["group_path"], None)
+
+    def test_group_by_ancestor_count_and_distinct(self):
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"ancestor_type": "Folder"},
+            _aggregate=[
+                {"field": "Subject", "mode": "count"},
+                {"field": "Subject", "mode": "distinct_count"},
+            ],
+        )
+        b = rows[1]
+        self.assertEqual(b["Subject__count"], {"aide": 2, "social": 1})
+        self.assertEqual(b["Subject__distinct_count"], 2)
+
+    def test_group_by_ancestor_nearest_wins(self):
+        sub = api.content.create(container=self.e1, type="Folder", title="Sous-entité")
+        api.content.create(container=sub, type="Document", title="C5", subject=("x",))
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"ancestor_type": "Folder"},
+            _aggregate=[{"field": "Subject", "mode": "list"}],
+        )
+        by_group = {r["group"]: r for r in rows}
+        self.assertEqual(by_group["Sous-entité"]["Subject"], ["x"])
+        self.assertEqual(by_group["Entité B"]["nb_items"], 3)
+
+    def test_group_by_ancestor_excludes_self(self):
+        rows = self.run_query(
+            portal_type="Folder", _group_by={"ancestor_type": "Folder"}
+        )
+        self.assertEqual([(r["group"], r["nb_items"]) for r in rows], [(None, 2)])
+
+    def test_group_by_field_multivalued(self):
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"field": "Subject"},
+            _aggregate=[{"field": "Title", "mode": "list"}],
+        )
+        self.assertEqual(
+            [(r["group"], r["nb_items"]) for r in rows],
+            [("aide", 3), ("social", 1), ("sport", 1), (None, 1)],
+        )
+        self.assertEqual(rows[0]["Title"], ["C1", "C2", "Orphelin"])
+        self.assertNotIn("group_path", rows[0])
+
+    def test_group_by_respects_has_children_filter(self):
+        api.content.create(container=self.portal, type="Folder", title="Vide")
+        rows = self.run_query(
+            portal_type="Folder",
+            _has_children_of_type="Document",
+            _group_by={"field": "portal_type"},
+        )
+        self.assertEqual([(r["group"], r["nb_items"]) for r in rows], [("Folder", 2)])
+
+    def test_grouped_rows_are_json_serializable(self):
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"field": "effective"},
+            _aggregate=[
+                {"field": "modified", "mode": "list"},
+                {"field": "start", "mode": "count"},
+            ],
+        )
+        json.dumps(rows, sort_keys=True)
+        self.assertEqual(sum(r["nb_items"] for r in rows), 5)
+        self.assertTrue(all(isinstance(r["modified"][0], str) for r in rows))
+        self.assertTrue(all(r["start"] == {} for r in rows))
+
+
+class TestFindSafeFields(unittest.TestCase):
+    """@find must only read catalog columns and schema fields, never call
+    arbitrary methods named by the client."""
+
+    layer = IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.folder = api.content.create(
+            container=self.portal, type="Folder", title="Entité"
+        )
+        self.doc = api.content.create(
+            container=self.folder, type="Document", title="Doc", subject=("a",)
+        )
+        self.doc.table_of_contents = True
+        self.handler = FindEndpointHandler(self.portal, self.request)
+
+    def run_query(self, **query):
+        return self.handler.search_from_json(json.dumps(query))
+
+    def test_query_key_naming_a_method_is_not_called(self):
+        with patch.object(type(aq_base(self.doc)), "reindexObject") as reindex:
+            items = self.run_query(portal_type="Document", reindexObject=1)
+        reindex.assert_not_called()
+        self.assertIsNone(items[0]["reindexObject"])
+        self.assertEqual(items[0]["Title"], "Doc")
+        self.assertEqual(items[0]["getPath"], "/".join(self.doc.getPhysicalPath()))
+
+    def test_private_attribute_query_key_is_not_read(self):
+        items = self.run_query(portal_type="Document", _p_jar=1, __class__=1)
+        self.assertNotIn("_p_jar", items[0])
+        self.assertNotIn("__class__", items[0])
+
+    def test_schema_field_outside_catalog_is_read(self):
+        items = self.run_query(portal_type="Document", table_of_contents=True)
+        self.assertIs(items[0]["table_of_contents"], True)
+        rows = self.run_query(
+            portal_type="Document",
+            _group_by={"ancestor_type": "Folder"},
+            _aggregate=[{"field": "table_of_contents", "mode": "count"}],
+        )
+        self.assertEqual(rows[0]["table_of_contents"], {True: 1})
+
+    def test_aggregate_rejects_methods_and_private_names(self):
+        for field in ("reindexObject", "_p_jar", "manage_delObjects", "kamoulox"):
+            with self.assertRaises(BadRequest):
+                self.run_query(
+                    portal_type="Document",
+                    _group_by={"ancestor_type": "Folder"},
+                    _aggregate=[{"field": field, "mode": "list"}],
+                )
+            with self.assertRaises(BadRequest):
+                self.run_query(portal_type="Document", _group_by={"field": field})
+
+    def test_check_value_of_field_does_not_expose_methods(self):
+        res = self.handler.check_value_of_field("Document", "reindexObject", ["None"])
+        self.assertEqual(res["None"]["count"], 1)
+
+
+class TestFindPermission(unittest.TestCase):
+    layer = IMIO_SMARTWEB_COMMON_ACCEPTANCE_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Editor"])
+        transaction.commit()
+        self.api_session = RelativeSession(self.portal.absolute_url())
+        self.api_session.headers.update({"Accept": "application/json"})
+
+    def tearDown(self):
+        self.api_session.close()
+
+    @patch("imio.smartweb.common.rest.endpoint.get_json")
+    def test_find_requires_manager(self, mjson):
+        mjson.return_value = FAKE_TYPES
+        url = "/@find?type_of_request=get_max_depth"
+        self.assertEqual(self.api_session.get(url).status_code, 401)
+        self.api_session.auth = (TEST_USER_NAME, TEST_USER_PASSWORD)
+        self.assertEqual(self.api_session.get(url).status_code, 401)
+        self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
+        self.assertEqual(self.api_session.get(url).status_code, 200)

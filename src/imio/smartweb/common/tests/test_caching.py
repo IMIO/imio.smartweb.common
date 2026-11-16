@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.caching import BAN_TIMEOUT
 from imio.smartweb.common.caching import ban_physicalpath
-from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
+from imio.smartweb.common.testing import IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
+from plone.app.caching.interfaces import IETagValue
 from unittest.mock import Mock
 from unittest.mock import patch
+from zope.component import getMultiAdapter
 
 import os
+import requests
+import transaction
 import unittest
 
 
 class TestBanPhysicalpath(unittest.TestCase):
-    layer = IMIO_SMARTWEB_COMMON_INTEGRATION_TESTING
+    layer = IMIO_SMARTWEB_COMMON_FUNCTIONAL_TESTING
 
     def _make_portal(self, path=("", "Plone"), absolute_url="http://www.kamoulox.be"):
         portal = Mock()
@@ -25,6 +30,7 @@ class TestBanPhysicalpath(unittest.TestCase):
         env = {k: v for k, v in os.environ.items() if k != "CACHING_SERVERS"}
         with patch.dict(os.environ, env, clear=True):
             ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
         mock_request.assert_not_called()
 
     @patch("imio.smartweb.common.caching.requests.request")
@@ -35,6 +41,7 @@ class TestBanPhysicalpath(unittest.TestCase):
         mock_portal_get.return_value = self._make_portal()
         with patch.dict(os.environ, {"CACHING_SERVERS": ""}):
             ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
         mock_request.assert_not_called()
 
     @patch("imio.smartweb.common.caching.requests.request")
@@ -50,6 +57,7 @@ class TestBanPhysicalpath(unittest.TestCase):
             {"CACHING_SERVERS": "192.168.1.10", "WEBSITE_HOSTNAME": "www.kamoulox.be"},
         ):
             ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
         _, kwargs = mock_request.call_args
         self.assertEqual(kwargs["headers"]["Host"], "www.kamoulox.be")
 
@@ -66,6 +74,7 @@ class TestBanPhysicalpath(unittest.TestCase):
             os.environ, {**env, "CACHING_SERVERS": "192.168.1.10"}, clear=True
         ):
             ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
         _, kwargs = mock_request.call_args
         self.assertEqual(kwargs["headers"]["Host"], "fallback.kamoulox.be")
 
@@ -85,6 +94,7 @@ class TestBanPhysicalpath(unittest.TestCase):
             },
         ):
             ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
         _, kwargs = mock_request.call_args
         self.assertEqual(kwargs["headers"]["Host"], "override.kamoulox.be")
 
@@ -94,6 +104,7 @@ class TestBanPhysicalpath(unittest.TestCase):
         mock_portal_get.return_value = self._make_portal()
         with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
             ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
         args, _ = mock_request.call_args
         self.assertEqual(args[0], "BAN")
 
@@ -108,6 +119,7 @@ class TestBanPhysicalpath(unittest.TestCase):
                 None,
                 ("", "Plone", "en", "home", "footer"),
             )
+        transaction.commit()
         args, _ = mock_request.call_args
         self.assertEqual(args[1], "http://192.168.1.10/en/home/footer")
 
@@ -119,6 +131,7 @@ class TestBanPhysicalpath(unittest.TestCase):
         mock_portal_get.return_value = self._make_portal(path=("", "Plone"))
         with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
             ban_physicalpath(None, ("", "Plone"))
+        transaction.commit()
         args, _ = mock_request.call_args
         self.assertEqual(args[1], "http://192.168.1.10")
 
@@ -128,6 +141,7 @@ class TestBanPhysicalpath(unittest.TestCase):
         mock_portal_get.return_value = self._make_portal()
         with patch.dict(os.environ, {"CACHING_SERVERS": "10.0.0.1 10.0.0.2"}):
             ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
         self.assertEqual(mock_request.call_count, 2)
         urls = [c[0][1] for c in mock_request.call_args_list]
         self.assertIn("http://10.0.0.1/en", urls)
@@ -145,5 +159,67 @@ class TestBanPhysicalpath(unittest.TestCase):
             },
         ):
             ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
         for c in mock_request.call_args_list:
             self.assertEqual(c[1]["headers"]["Host"], "www.kamoulox.be")
+
+    @patch("imio.smartweb.common.caching.requests.request")
+    @patch("imio.smartweb.common.caching.api.portal.get")
+    def test_ban_sent_only_after_commit(self, mock_portal_get, mock_request):
+        mock_portal_get.return_value = self._make_portal()
+        with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
+            ban_physicalpath(None, ("", "Plone", "en"))
+        mock_request.assert_not_called()
+        transaction.commit()
+        mock_request.assert_called_once()
+
+    @patch("imio.smartweb.common.caching.requests.request")
+    @patch("imio.smartweb.common.caching.api.portal.get")
+    def test_no_ban_when_transaction_aborted(self, mock_portal_get, mock_request):
+        mock_portal_get.return_value = self._make_portal()
+        with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
+            ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.abort()
+        transaction.commit()
+        mock_request.assert_not_called()
+
+    @patch("imio.smartweb.common.caching.requests.request")
+    @patch("imio.smartweb.common.caching.api.portal.get")
+    def test_ban_request_has_timeout(self, mock_portal_get, mock_request):
+        mock_portal_get.return_value = self._make_portal()
+        with patch.dict(os.environ, {"CACHING_SERVERS": "192.168.1.10"}):
+            ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
+        _, kwargs = mock_request.call_args
+        self.assertEqual(kwargs["timeout"], BAN_TIMEOUT)
+
+    @patch("imio.smartweb.common.caching.requests.request")
+    @patch("imio.smartweb.common.caching.api.portal.get")
+    def test_failing_server_does_not_stop_other_bans(
+        self, mock_portal_get, mock_request
+    ):
+        mock_portal_get.return_value = self._make_portal()
+        mock_request.side_effect = [requests.exceptions.ConnectTimeout(), None]
+        with patch.dict(os.environ, {"CACHING_SERVERS": "10.0.0.1 10.0.0.2"}):
+            ban_physicalpath(None, ("", "Plone", "en"))
+        transaction.commit()
+        self.assertEqual(mock_request.call_count, 2)
+        self.assertEqual(mock_request.call_args[0][1], "http://10.0.0.2/en")
+
+    def _last_ban_etag(self):
+        return getMultiAdapter(
+            (self.layer["portal"], self.layer["request"]), IETagValue, name="lastBan"
+        )()
+
+    def test_last_ban_etag_is_empty_before_any_ban(self):
+        self.assertIsNone(self._last_ban_etag())
+
+    @patch("imio.smartweb.common.caching.requests.request")
+    @patch("imio.smartweb.common.caching.api.portal.get")
+    def test_ban_changes_last_ban_etag(self, mock_portal_get, mock_request):
+        mock_portal_get.return_value = self._make_portal()
+        ban_physicalpath(None, ("", "Plone", "en"))
+        first_ban = self._last_ban_etag()
+        self.assertIsNotNone(first_ban)
+        ban_physicalpath(None, ("", "Plone", "en"))
+        self.assertNotEqual(self._last_ban_etag(), first_ban)

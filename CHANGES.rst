@@ -2,21 +2,162 @@ Changelog
 =========
 
 
-1.2.58 (unreleased)
+1.2.66 (unreleased)
 -------------------
 
 - Migrate to PEP 420 native namespaces (setuptools 81 / Plone 6.2)
   [bsuttor]
 
 
+1.2.65 (2026-11-12)
+-------------------
+
+- Add ``@vocabulary-translations/<vocabulary_name>`` endpoint.
+  It gives the token and the title in fr, nl, de and en of each term of a vocabulary.
+  [boulch]
+
+- WEB-4530 : Load the "JavaScript integration (head)" snippet through
+  ``@@get_analytics``, after cookie consent, like the footer one. It was
+  rendered in the page head, so trackers pasted there ran before consent.
+  [remdub]
+
+
+1.2.64 (2026-11-05)
+-------------------
+
+- WEB-4507 : Fix the ``started_zope`` startup subscriber: commit the resource
+  registry mtime update, which was never saved, so the ``resourceRegistries``
+  ETag changes at each instance restart. Close the ZODB connection it opened,
+  which stayed idle in transaction on PostgreSQL for the whole process lifetime.
+  [remdub]
+
+
+1.2.63 (2026-10-22)
+-------------------
+
+- WEB-4404 : Add a ``lastBan`` ETag component, the time of the site's last
+  BAN. A BAN (message, footer, hero banner) now changes the pages ETag, so
+  browsers get the new page instead of a 304.
+  [remdub]
+
+
+1.2.62 (2026-10-21)
+-------------------
+
+- ODWB : hide the push key in logs (sent url and connection / timeout errors).
+  [remdub]
+
+- WEB-4404 : Send BAN requests to the caching servers after the transaction
+  commit. A page requested between the BAN and the commit was cached again
+  with the old content (e.g. a message not yet (de)activated).
+  [remdub]
+
+- WEB-4404 : Add a timeout on BAN requests (``BAN_TIMEOUT``, 5 s) so an
+  unreachable caching server can't block the save. A failing server is logged
+  and the next ones are still banned.
+  [remdub]
+
+
+1.2.61 (2026-10-19)
+-------------------
+
+- ODWB : add ``odwb_send`` to send items by batches (push or delete) and
+  return a sending summary (service, total, sent, batches).
+  [boulch]
+
+- Add ``imio.smartweb.common.sso``: ``get_sso_auth_header()`` gives the
+  ``Authorization`` header to call another iMio application. It is a Keycloak
+  (sso-apps) token, kept in cache until it expires, or a basic auth fallback
+  (``SSO_APPS_USER_USERNAME`` / ``SSO_APPS_USER_PASSWORD``) when the SSO config is
+  not complete (local development). Also add ``basic_auth_header()``.
+- ODWB : add ``odwb_post`` returning ODWB status code and response text
+  (``status_code`` is None when ODWB is unreachable). ``odwb_query`` is unchanged.
+  [boulch]
+
+- Security: restrict ``@find`` endpoint. Only read catalog columns
+  or dexterity schema fields: field names given by the client are never called
+  anymore (brains acquire from ``portal_catalog``, so any zero-argument method of
+  the object or of the catalog could be triggered) and private names (``_*``)
+  are ignored or rejected.
+  [boulch]
+
+- @find (type_of_request=catalog): add ``_group_by`` (``ancestor_type`` or
+  ``field``) and ``_aggregate`` (``list``, ``count``, ``distinct_count``)
+  special parameters to group and aggregate catalog results
+  [boulch]
+
+- Add an AI button below the lead image caption field.
+  The button shows only when the caption field is visible (text sections).
+  The button sends the image to the new ``@@process-image-metadata`` view.
+  The view sends the image to the Omnia ``deduce-metadata`` agent.
+  The button writes the title of the result in the caption field.
+  [boulch]
+
+- Add an upgrade step (1044 to 1045) to register the ``ia_image_metadata.js``
+  bundle.
+  [boulch]
+
+- Refactor : Add get_image_file function. This function returns the
+  image of an object in the format of deduce_metadata.
+  [boulch]
+
+
+1.2.60 (2026-09-09)
+-------------------
+
+- WEBBDC-2790 : Move the remote directory contact vocabulary, the ``Choice``/ajax-select
+  converter, the two proxy views (``@@directory_contact_info`` and
+  ``@@directory_entities_info``) and the contact autofill script here from
+  ``imio.events.core``, so both ``imio.events.core`` and ``imio.news.core`` can share
+  them. ``get_directory_url()`` is now used by every caller, so the
+  ``imio.smartweb.common.directory_url`` registry override is honoured consistently.
+  [boulch]
+
+- WEB-4485 : Restore the ``plone.content_css`` purge lost in 1.2.29, which let the
+  TinyMCE ``importcss`` plugin re-add the barceloneta ``.highlight-inline`` and
+  ``p.highlight-paragraph`` styles to the Formats menu.
+  [boulch]
+
+
+1.2.59 (2026-08-24)
+-------------------
+
+- WEB-4461 : Add a "Save and publish" button on the add and edit forms, enabled per content
+  type through the new ``imio.smartweb.save_and_publish`` behavior. The button is
+  only offered to users who may actually publish: on the add form the workflow
+  guard is checked against the container, so an editor without the publication
+  permission never sees the button
+  [boulch]
+
+
+1.2.58 (2026-08-11)
+-------------------
+
+- Remove the ``TokenAuthCoreAPIService`` adapter (WEB-4373 workaround): since
+  imio.omnia.core 1.0 (OIA-241) the Omnia Core API authenticates itself with a
+  Keycloak SSO-Apps token, and authlib overwrites the ``Authorization`` header
+  we injected, so the adapter only spent an extra ``imio.helpers.ws``
+  token round-trip per request. Drops the ``imio.helpers`` dependency and
+  requires ``imio.omnia.core >= 1.0``.
+  [boulch]
+
+- Cache (per language) the remote directory entities vocabulary for 300s
+  Memoize the German topics and iam vocabularies
+  [boulch]
+
+- Fix registry export (control panel / GenericSetup) crashing with
+  ``TypeError: Argument must be bytes or unicode, got 'NoneType'`` on
+  interface-aware records without a fieldName (e.g. ``smartweb.icon.*``)
+  [boulch]
+
 1.2.57 (2026-07-08)
 -------------------
 
-- Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common 
+- Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common
   (usefull for linked contact in auth sources)
   [boulch]
 
-- SUP-53555 : Use schema.TextLine (with validator) instead of schema.Int for zipcode field to avoid an awkward space 
+- SUP-53555 : Use schema.TextLine (with validator) instead of schema.Int for zipcode field to avoid an awkward space
   (ex : 5 300 when editing the field) + upgrade steps
   [boulch]
 

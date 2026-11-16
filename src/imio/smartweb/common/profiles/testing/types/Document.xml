@@ -7,6 +7,7 @@
     <property name="behaviors" purge="false">
       <element value="collective.taxonomy.generated.test"/>
       <element value="imio.smartweb.iam"/>
+      <element value="imio.smartweb.save_and_publish"/>
       <element value="imio.smartweb.topics"/>
       <element value="plone.leadimage"/>
     </property>
