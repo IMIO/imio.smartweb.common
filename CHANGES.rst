@@ -5,6 +5,11 @@ Changelog
 1.2.66 (unreleased)
 -------------------
 
+- Fix ``@search-filters``: it always gave an empty result on Plone 6.2. Since
+  plone.restapi 10, the catalog query adapter removes ``metadata_fields`` from
+  the query. Read ``metadata_fields`` before the query is parsed.
+  [boulch]
+
 - Fix ``test_iframe_transform``: use closed ``<iframe>`` tags. With libxml2
   2.14 (HTML5 parsing), the content of an ``<iframe>`` without an end tag is
   text, as in browsers.

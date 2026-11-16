@@ -54,15 +54,17 @@ class SearchFiltersHandler(SearchHandler):
         if use_site_search_settings:
             query = self.filter_query(query)
 
+        if "metadata_fields" not in query:
+            return {}
+        # Take it out before _parse_query: since plone.restapi 10, the
+        # catalog query adapter removes metadata_fields from the query
+        metadatas = query.pop("metadata_fields")
+
         self._constrain_query_by_path(query)
         query = self._parse_query(query)
 
-        if "metadata_fields" not in query:
-            return {}
-
         brains = self.catalog.searchResults(**query)
 
-        metadatas = query["metadata_fields"]
         if not isinstance(metadatas, list):
             metadatas = [metadatas]
 
