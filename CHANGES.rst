@@ -5,7 +5,8 @@ Changelog
 1.2.58 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Migrate to PEP 420 native namespaces (setuptools 81 / Plone 6.2)
+  [bsuttor]
 
 
 1.2.57 (2026-07-08)
