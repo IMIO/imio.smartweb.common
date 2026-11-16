@@ -51,7 +51,7 @@ class TestPrivacy(unittest.TestCase):
         result = privacy_handler.transformUnicode(html, "utf-8")
         self.assertIn('class="myclass gdpr-iframe"', result)
 
-        html = '<iframe src="http://host.com"><iframe src="http://host2.com">'
+        html = '<iframe src="http://host.com"></iframe><iframe src="http://host2.com"></iframe>'
         result = privacy_handler.transformUnicode(html, "utf-8")
         self.assertEqual(result.count("This feature requires cookies acceptation"), 2)
 

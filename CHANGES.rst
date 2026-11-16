@@ -5,6 +5,11 @@ Changelog
 1.2.66 (unreleased)
 -------------------
 
+- Fix ``test_iframe_transform``: use closed ``<iframe>`` tags. With libxml2
+  2.14 (HTML5 parsing), the content of an ``<iframe>`` without an end tag is
+  text, as in browsers.
+  [boulch]
+
 - Migrate to PEP 420 native namespaces (setuptools 81 / Plone 6.2)
   [bsuttor]
 
