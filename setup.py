@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Installer for the imio.smartweb.common package."""
 
-from setuptools import find_packages
+from setuptools import find_namespace_packages
 from setuptools import setup
 
 long_description = "\n\n".join(
@@ -24,11 +24,12 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
-        "Framework :: Plone :: 6.1",
+        "Framework :: Plone :: 6.2",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
@@ -43,8 +44,7 @@ setup(
         # 'Documentation': 'https://imio.smartweb.common.readthedocs.io/en/latest/',
     },
     license="GPL version 2",
-    packages=find_packages("src", exclude=["ez_setup"]),
-    namespace_packages=["imio", "imio.smartweb"],
+    packages=find_namespace_packages("src", exclude=["ez_setup"]),
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
