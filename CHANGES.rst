@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.2.66 (unreleased)
--------------------
+2.0.0 (2026-11-19)
+------------------
 
 - Fix ``@search-filters``: it always gave an empty result on Plone 6.2. Since
   plone.restapi 10, the catalog query adapter removes ``metadata_fields`` from
